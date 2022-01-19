@@ -1,1 +1,0 @@
-<view bindtap="{{b}}"><uni-search-bar u-i="bf67ae74-0" bind:__l="__l"></uni-search-bar> {{a}}</view>
