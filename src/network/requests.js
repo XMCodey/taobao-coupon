@@ -1,5 +1,16 @@
 const apiUrl = 'https://api.maim.shop/taobao/'
 
+// 下拉搜索数据接口
+export function getPullDown(q) {
+  return uni.request({
+    url: apiUrl + 'search',
+	timeout: 5000,
+    data: {
+      code: 'utf-8',
+      q: q
+    }
+  })
+}
 // // 创建axios实例,并配置初始参数
 // const instance = uni.request({
 // 	url: apiUrl + 'search/',
@@ -20,7 +31,7 @@ const apiUrl = 'https://api.maim.shop/taobao/'
 //   return instance.get(url, { params })
 // }
 
-import {TopClient} from "./taobaoApi/lib/api/topClient";
+import { TopClient } from "./taobaoApi/lib/api/topClient";
 const client = new TopClient({
   appkey: '26001843',
   appsecret: '50adc4710ac62951d0b917c19630fd9f',
