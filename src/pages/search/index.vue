@@ -7,83 +7,87 @@
                     @confirm="search"
                     :focus="true"
                     @blur="blur"
+                    @focus="input"
     >
     </uni-search-bar>
     <view class="search__button" @click="search">搜索</view>
   </view>
   <view class="popupList container">
-    <navigator :url="'detail/index?key=' + item[0]" class="popupList__item" v-for="item in pullDownData" :key="item[0]">{{ item[0] }}</navigator>
+    <navigator @click="addHistorySearch(item[0])" :url="'detail/index?key=' + item[0]" class="popupList__item" v-for="item in pullDownData" :key="item[0]">{{ item[0] }}</navigator>
   </view>
-  <view class="containerSpace"></view>
-  <view class="stepContainer container">
-    <view class="container__title">三步轻松获得优惠券</view>
-    <view class="stepContainer__detail">
-      <view class="stepContainer__detail__content">
-        <image class="stepContainer__detail__content__icon" src="data:image/png;base64,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"></image>
-        <text class="stepContainer__detail__content__text">1.进入淘宝</text>
-      </view>
-      <view class="stepContainer__detail__content">
-        <image class="stepContainer__detail__content__icon" src="data:image/png;base64,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"></image>
-        <text class="stepContainer__detail__content__text">2.复制商品标题</text>
-      </view>
-      <view class="stepContainer__detail__content">
-        <image class="stepContainer__detail__content__icon" src="data:image/png;base64,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"></image>
-        <text class="stepContainer__detail__content__text">3.点击搜索查询</text>
+  <view v-show="!pullDownData">
+    <view class="containerSpace"></view>
+    <view class="stepContainer container">
+      <view class="container__title">三步轻松获得优惠券</view>
+      <view class="stepContainer__detail">
+        <view class="stepContainer__detail__content">
+          <image class="stepContainer__detail__content__icon" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAAAXNSR0IArs4c6QAACp1JREFUWEetmQ1wFdUVx3939yUhCYhAkWoVimRAEBUB69haQFFSKVJrDYo4Tv0gBESwdhRoMDyEyCCgTqkWKVgCASqp2I5WBRzNQEdqKy2DimWAWr6CKKIUEyDJ29s59+y+tw9CdBzDMA/23Xv2f/7n+8TwFX5sMunJMZNMBvJpi+/pSA6XY+2VeHYA0AuPb2NsOyfOcAz4CNiBH2wB8zYm8S9Ts/SIu3+KvNYgmC/D54Qlk9aAtTeV9qDRlmKCYrB98MhRQFbFiDT3bwvGgHH6yPMmYDu+WYdhsXm+arecIJk0kdJnwnFGgE5ASYlnampS9rrSruTYhyC4G0OBAsBiSIH1MPLHPZM/AlC+0zMQYKyfPgMNeOY5cu08s2LFXltS4lNTEwgBLYFsEWAWuOFjRxHYJzGc515obYDnZHkYa5SpiEF3M5tN/c5ibBB+pwp5tg7j/8KsrlrTGsjTAIpJhXY7JJkgt65cPAbPWrApDCET+s6QrdC0oXmVufB7ARcqkDZ/mnk/lJakrqjS1Cabo3fHmcwCGHqOtTeWFtBolxAwGuNMpIwJcxGACIQAdSEU98WWmIwpoGeVUWM9PFZTWHivWby4IcIQgUwDzIhMGoYdXI4NxoBtxpiEA+hARABDMc5t4s9iQNOKnBpAMYZ9J7MZQwLMSnoW3SkBGcZb9KlC06a9rjQJzHAXPXysNWmGVGDLpo0zmFYmZmJ5Jp4SmVo+lXnxTwm2BJ4301RXJ+OmVkOVlPguWoeW3YaxqyFQyXHWfAOplGqTkC+CjLnlvyLJhmkli+0o/cSYi+5mu4aVsMPY0WbFqj9EmEyMua4EbMTQTdOHuHCMreYmaNtG81vDccj1M77X2KjgC/IyruB5IEoFKZC7QpLnQ25CJEMqVFAzgiiYCtPRHow/yKUgCdh0YFw37tdYe79c1YOOEn1hUxMMHgATxkCOD7//I7y2CVJNMOBiGPoD2LAJ9u6Dk40KRkCdOAEF+dClE7TJg+ZmOHQImhuhoAB8SQ5ZKSrMFGahWbFyUuTp2OIJRTSltmJsYegTGjzObwLIz4ElldC5o2pb3wDjH4H9B+GBu2Dk9XD8BEyphG3bFVDvIrjicujdE7p8C3Jz4dgx2HcANv0V3qwFP6EKp93FWpeEPFuPbe5nqmt2qQ8OLZtLYB92zqq5LsOemKhdAVTPg4I2CrA5BfdOgaZGeKYS2reDg4egag189wIYNgQ6nq2u8PEncPiIAulZBPn5KqN2Iyx9Tq0jPi1EaOCoe3n2cVO1eoqxN9x/Fica38AwQAEaP61RxGJTM9xzM9w+QoW/WguPPQ1TJ8CPr1EzRX99H/67D/6yHt7fAXV18MUXkJeAXkUw9ufQ+yKVs34DPLsY8kXxdMqKfHELKe9aYwePux6P9Vo3s+qpapQwIEHQ0AAD+0J+HmzeAsOuhl9N1OAQIMJY1+9A3SEonw17DyjjuTlh1APHjsKF3WHWdOjQQe8+Ohu2vw95eZGptY5jBdEwY68tmwp2Dtam8IQ9ARlGr2fg+HHo2Q2u6gcrX4Lj9TD4CqiYpJo//xKsXAvzp0PPHrDqBVi+Bjq2B2He5T4xn1GgDfXw6CNwaV9lcU0NrFoFZ7UNA8a9X13NY5qx14x7AcPNCt81AApQwAWBmubR+6F/H9j8T1iwVAXPnAxHPoeZT0HFZBh0pabPTw5Dfb3ez8lVYAJSmNx/ACofh4ppGYAv/gmWVakfy/tcWQ0CjPEwZq2xQ8rexVhRx+JJ2xcmVMlhwt73+kLlA/oC+flgJ5Q/oflNct2o4XDbSI3o1zfB4Kug+wUKauduOPo/SPiQSMBHH8OiJTDjFIBVVcqgAxi1aa6CvScAD2Nsp+ymM4riMNH2OB8m3g59eyrId7bBjCc1mudPg86doGIBvPV3mHwPjL1DI3jKTNj6LhTma5SK0pKoZ1XAJRerrCwGU5nq5HKw+dTYa8pOgs3NdMOx0uTyUxgkkgsn3Qk/+qEKnvcsbPs33F2imu+tA4lgUaL/Jep/r6zX9CMB4EydglfXQ/lDcNklGYCOQTFxDKAGSmM2wHRnonfTwSKRLPlK/OqZGXBhV3jxNXhzMzxcpmelYggICRypGvIjwKV6yF35lGzw4FT45WTod2nrDMYAHgYxcRxUrO+Tx5LsxZwd2sLCCjinEyyqhrXr4JwOejEnoSWs5EYYWazPfrcctr6nNVp8TPxx106YNaNlEwvD7id6v5h4yPh3MUFfnTGiIIn1cAlhwqr25eNg6Pe1rD3yBAwfAud1gc+PwuKV8OEeGDsGbv+pvic5F15eB1MmQclNsLQKal6EBY/BxX1aYdAV6DBI4mlGutu4acWkclaK/sTRUHKDCn17KzyxBOaXwwXnamdSPgc2vwP33QWjRuq5ijmw8S1IToEhV8OevfDAwzBzenaaER9s10591FkySjN2rSZqa+eEE5rv/EyCQz7FrNKV3HerphPJ/BIIcxfBy2/Ab2dB315apTb+DX7zHNw6Em4ZoWdf2QBF3aF3r9B0QOVcKL4eBvYPGfwzLFsW5sEoSJytxbGmaanzWS/zWjithaNjAG1ylbniqzPgdu2BqXO1Abh1BIy/I6wWBj7+VH2xQ/vMs7374fVa+FnI6oKn4CcjYEB/PfP009rZSJC5WhErua7URc0CdgCekdZbSoymiYu6aRXpHNZNYW/hMnhhA5xdqH55y3AoHqSlTToVyX/76+CDHbBpM2zZpjnwistg94cwsB9MngCFhXDgAEyvUJ8WX9ceNOpHt5Ay12a3W67VkWY1LHUC4NzOMHkMXHkZ/GcfPDhbwYsLyLn646rA+V20YgjAuoPw+WfQ/iyYeC+cPKHlr3s39T2pKiJ7/pPwzj+gsEBTks4tCtBH2y3HqWtYm7diCBvWcFMgIESQsD5+FOzeB+s2QduwMsht31M/bZTtRkpB5uWoAnKucroClbIo56U/3LdfW633t4etlpg2va0QF6vHev1MdfWuWMtftpAgmKgNo3XzmzaQYdBIKy9NZ074ovh0J2ciRt29IDPBSbPRrlBZk2j/4igc+QzyczWhu24n3faf3vKfcWiSdicqdSJA6mi0GMoaH2PPo1k4XpHEdG6qDOcbYVgCScqaq7fpohC6F3swTYPMihodmpyJs8bOYLUuf1zxzJS7+AYhGitFuEup4SYrGrTi06Azbbwy6T7J3fHCMVVzr8Uzp4+dUYLKHtztDAwy8YupdXMVgZILblRsgbnIVKduISJ3ia/pRDN1pGjvk8AzLQ/useqH7Ox46+BygmAMHtISJ9JDlJg52pLFWWl1PxhbHp22OnGRq6sPz6ykqJXVRwTSFbf08siOxhhdHsmKp6W1x6m7mWgibMkfsxnU5ZH3FZdHp5k6Wr8Zm3T+4Sb/aFcTH7a/0n4w5svx9ZvzuSR1+ytNbe2Xr9/SIOPb1WiBae15eE54uIgMN6vxiD01GBxjToHwXrT4lIe2Dv9rLDBbBDmitCsp+xAmuFta0zAq5W26Apalj0Zi9BmOjpFCsRWwCVfAKTvP1HzNFXCm9Qg38vEl+klbiidLdPpgbE7r+8H01vGbX6KfBlIIOtOvIQy9MC39GiLYQQ5b8MzbpL7eryH+D5+jJ8oHO2z3AAAAAElFTkSuQmCC"></image>
+          <text class="stepContainer__detail__content__text">1.进入淘宝</text>
+        </view>
+        <view class="stepContainer__detail__content">
+          <image class="stepContainer__detail__content__icon" src="data:image/png;base64,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"></image>
+          <text class="stepContainer__detail__content__text">2.复制商品标题</text>
+        </view>
+        <view class="stepContainer__detail__content">
+          <image class="stepContainer__detail__content__icon" src="data:image/png;base64,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"></image>
+          <text class="stepContainer__detail__content__text">3.点击搜索查询</text>
+        </view>
       </view>
     </view>
-  </view>
-  <view class="containerSpace"></view>
-  <view class="history container" v-if="(searchHistoryData.length !== 0)">
-    <view class="history__titleContainer">
-      <view class="container__title">历史记录</view>
-      <uni-icons type="trash" size="20" color="#9697" @click="clearHistorySearch"></uni-icons>
+    <view class="containerSpace"></view>
+    <view class="history container" v-if="(searchHistoryData.length !== 0)">
+      <view class="history__titleContainer">
+        <view class="container__title">历史记录</view>
+        <uni-icons type="trash" size="20" color="#9697" @click="clearHistorySearch"></uni-icons>
+      </view>
+      <view class="history__tagContainer">
+        <navigator @click="addHistorySearch(key)" :url="'detail/index?key=' + key" v-for="key in searchHistoryData" class="history__tag" hover-class="none" :key="key">
+          {{ key }}
+        </navigator>
+      </view>
+      <view class="history__space"></view>
     </view>
-    <view class="history__tagContainer">
-      <navigator :url="'detail/index?key=' + key" v-for="key in searchHistoryData" class="history__tag" hover-class="none" :key="key">
-        {{ key }}
-      </navigator>
-    </view>
-    <view class="history__space"></view>
-  </view>
-  <view class="history container">
+    <view class="history container">
       <view class="container__title">搜索发现</view>
-    <view class="history__tagContainer">
-      <navigator :url="'detail/index?key=' + i" v-for='i in ["口罩","口红","面膜","充电宝","羽绒服","螺蛳粉","零食","手机壳","洗脸巾","半身裙",
+      <view class="history__tagContainer">
+        <navigator @click="addHistorySearch(i)" :url="'detail/index?key=' + i" v-for='i in ["口罩","口红","面膜","充电宝","羽绒服","螺蛳粉","零食","手机壳","洗脸巾","半身裙",
       "洗发水","袜子","衣服","洗衣液","抽纸","坚果","避孕套","热水袋","电热毯","牛奶","洗面奶","眼影","台灯","保暖内衣",
       "手套","面包","吹风机","内裤","沐浴露","电动牙刷","女袜","电饭煲","卫生巾","身体乳","猫粮","牙膏","护手霜","安全套",
       "粉底液","垃圾袋","数据线","加湿器","鼠标","猫砂","蚊香液","毛巾","茶叶","裤子","雨伞","白酒","连衣裙","帽子","粽子",
       "唇釉","卫衣","拖把","围巾","巧克力","手机","鞋子","暖风机","眉笔","四件套","女装","狗粮","啤酒","烧水壶","水乳","腮红",
       "马丁靴","漱口水","眼线笔","唇膏","纯牛奶","散粉","雪地靴","奶酪棒","电火锅","鞋架","键盘","尿不湿","润唇膏","染发剂","酒",
       "眼霜","项链","养生壶", "睫毛膏","榨汁机","卫生纸","卸妆水","凉席","螺狮粉","面霜","眼影盘","剃须刀","奶瓶","月饼","被套","耳饰"].slice(0,10)'
-                 class="history__tag" hover-class="none" :key="i">{{ i }}</navigator>
+                   class="history__tag" hover-class="none" :key="i" >{{ i }}</navigator>
 
+      </view>
     </view>
-  </view>
-  <view class="containerSpace"></view>
-  <view class="history container">
-    <view class="container__title">热搜榜</view>
-    <view class="hotSearch">
-      <navigator :url="'detail/index?key=' + data.words" v-for='(data, i) in hotSearch.data.splice(0, 9)' class="hotSearch__item" hover-class="none" :key="i">
-        <image class="hotSearch__item__hotNumber" :src="rankNumberImg[i]" mode="widthFix"></image>
-        <view class="hotSearch__item__infoContainer">
-          <image class="hotSearch__item__infoContainer__img" :src="data.pic" mode="widthFix"></image>
-          <view class="hotSearch__item__infoContainer__title">
-            <text class="hotSearch__item__infoContainer__title__content">{{ data.theme }}</text>
-            <view class="hotSearch__item__infoContainer__title__hotValue">
-              <uni-icons type="pulldown" size="12" color="red" style="transform: rotate(150deg)"></uni-icons>
-              <text class="hotSearch__item__infoContainer__title__hotValue__value">{{ data.hotValue }}</text>
+    <view class="containerSpace"></view>
+    <view class="history container">
+      <view class="container__title">热搜榜</view>
+      <view class="hotSearch">
+        <navigator @click="addHistorySearch(data.words)" :url="'detail/index?key=' + data.words" v-for='(data, i) in hotSearch.data' class="hotSearch__item" hover-class="none" :key="i">
+          <image class="hotSearch__item__hotNumber" :src="rankNumberImg[i]" mode="widthFix"></image>
+          <view class="hotSearch__item__infoContainer">
+            <image class="hotSearch__item__infoContainer__img" :src="data.pic" mode="widthFix"></image>
+            <view class="hotSearch__item__infoContainer__title">
+              <text class="hotSearch__item__infoContainer__title__content">{{ data.theme }}</text>
+              <view class="hotSearch__item__infoContainer__title__hotValue">
+                <uni-icons type="pulldown" size="12" color="red" style="transform: rotate(150deg)"></uni-icons>
+                <text class="hotSearch__item__infoContainer__title__hotValue__value">{{ data.hotValue }}</text>
+              </view>
             </view>
           </view>
-        </view>
-        <text v-if="data.label" class="hotSearch__item__tagIcons">{{ data.label }}</text>
-      </navigator>
+          <text v-if="data.label" class="hotSearch__item__tagIcons">{{ data.label }}</text>
+        </navigator>
+      </view>
     </view>
   </view>
+
 </template>
 
 <script>
-import { onMounted, reactive, ref, onBeforeUnmount } from "vue";
-import { setSearchBox, setPullDown } from "./index";
+import { reactive} from "vue";
+import { setSearchBox, setPullDown, setHistorySearch } from "./index";
 
 export default {
   name: "index",
@@ -105,26 +109,14 @@ export default {
   },
   setup(props, context) {
 
-    const searchHistoryData = ref([])
-    onMounted(() => {
-      uni.getStorage({
-        key: "historySearchData",
-        success: function (result) {
-          searchHistoryData.value = result.data
-        }
-      })
-    })
+    const { searchHistoryData, addHistorySearch, clearHistorySearch } = setHistorySearch()
 
-    const { search, clearHistorySearch, searchValue } = setSearchBox(searchHistoryData)
+    const { search, searchValue } = setSearchBox(addHistorySearch)
+
     const { pullDownData, input, blur } = setPullDown()
 
-
-
-
-    const hotSearch = reactive({"requestId":"61175d7cf3e28f9bd3235907b5c454d9","time":1641053517409,"code":0,"msg":"成功","data":[{"theme":"这辣条绝了！","words":"辣条","pic":"https://img.alicdn.com/imgextra/i2/2053469401/O1CN01z1QwiY2JJi5kfG5wD_!!2053469401.jpg","wordDesc":"精选优质黄豆，好材料做出好味道，鲜辣爽口，原汁原味的儿时记忆，是吃一口就忘不了的情感！好吃停不下来。","label":"","hotValue":33310,"rankNum":1},{"theme":"戴着口罩怎么美？","words":"眼妆","pic":"https://img.alicdn.com/imgextra/i2/2053469401/O1CN01iLSSYy2JJi06xjuu9_!!2053469401.gif","wordDesc":"一个美美的眼妆，能够让你在人前更有自信~即使现在每天戴着口罩，想在人群中脱颖而出，美美的眼妆可少不了哦！","label":"","hotValue":41928,"rankNum":2},{"theme":"柳州螺蛳粉，一口上瘾","words":"螺蛳粉","pic":"https://img.alicdn.com/imgextra/i3/2053469401/O1CN019Mza4w2JJi0jnY3s3_!!2053469401.png","wordDesc":"超好吃的螺蛳粉，配料齐全，具有酸、辣、鲜、爽的独特风味，汤底鲜美，吃货必撸！","label":"","hotValue":25077,"rankNum":3},{"theme":"秋冬疫情加重，口罩不能少！","words":"口罩","pic":"https://img.alicdn.com/imgextra/i4/2053469401/O1CN01hlS7Vf2JJi0O251nj_!!2053469401.png","wordDesc":"疫情得到了良好的控制，但是防护工作每个人都不能掉以轻心！口罩全面补货啦，速速抢购吧~","label":"荐","hotValue":37070,"rankNum":4},{"theme":"自己在家染这些发色更有高级感！","words":"染发剂2021流行色自己染 网红","pic":"https://img.alicdn.com/imgextra/i2/2053469401/O1CN01P6FTMv2JJi0GuI4P9_!!2053469401.png","wordDesc":"美眉们，答应我买它，网红潮色，色彩亮泽，用发色标记你的生活，用张扬标记的青春~","label":"","hotValue":39399,"rankNum":5},{"theme":"女孩子冬季暖身必备神器~","words":"暖宝宝","pic":"https://img.alicdn.com/imgextra/i4/2053469401/O1CN01PRZcEz2JJi2fbCmCl_!!2053469401.png","wordDesc":"快速加热，保温更持久，安全无毒，热敷身体、暖宫暖胃、缓解痛经、驱寒保暖一步到位；家家户户冬季必备神器！","label":"","hotValue":22687,"rankNum":6},{"theme":"补充维生素就要新鲜水果！","words":"新鲜水果","pic":"https://img.alicdn.com/imgextra/i2/2053469401/O1CN01FtPayM2JJi3U3gsxv_!!2053469401.png","wordDesc":"超多新鲜水果，香甜爽口，果汁充沛，多种营养，补充各种维生素，减脂瘦身，尽情享用哦！","label":"","hotValue":26959,"rankNum":7},{"theme":"零差评秋冬身体乳","words":"身体乳","pic":"https://img.alicdn.com/imgextra/i3/2053469401/O1CN01lDplWV2JJi40Nq6n0_!!2053469401.png","wordDesc":"美白提亮肤色，润而不油腻，滋润加倍不起皮，一瓶解决多种肌肤问题，让您焕活柔滑少女肌！","label":"","hotValue":30774,"rankNum":8},{"theme":"过年送礼送什么？","words":"新年礼物","pic":"https://img.alicdn.com/imgextra/i1/2053469401/O1CN01u3UdQE2JJi3odNPms_!!2053469401.png","wordDesc":"新年新气象，新年贴心的为爱的人准备礼物也是一件开心的事儿，为家人，为爱人，为孩子，为自己爱TA就要说出来！！","label":"爆","hotValue":47825,"rankNum":9},{"theme":"冬日里的小太阳，给你温暖~","words":"小太阳","pic":"https://img.alicdn.com/imgextra/i2/2053469401/O1CN016TeoOK2JJi4GomCli_!!2053469401.png","wordDesc":"冬季取暖，新潮给家人多点温暖，档位可调温暖随心，让冬天不在寒冷，给您春天般的温暖！","label":"火","hotValue":40193,"rankNum":10}]})
-
-
-
+    const hotSearch = reactive({"requestId":"61175d7cf3e28f9bd3235907b5c454d9","time":1641053517409,"code":0,"msg":"成功","data":[
+        {"theme":"这辣条绝了！","words":"辣条","pic":"https://img.alicdn.com/imgextra/i2/2053469401/O1CN01z1QwiY2JJi5kfG5wD_!!2053469401.jpg","wordDesc":"精选优质黄豆，好材料做出好味道，鲜辣爽口，原汁原味的儿时记忆，是吃一口就忘不了的情感！好吃停不下来。","label":"","hotValue":33310,"rankNum":1},{"theme":"戴着口罩怎么美？","words":"眼妆","pic":"https://img.alicdn.com/imgextra/i2/2053469401/O1CN01iLSSYy2JJi06xjuu9_!!2053469401.gif","wordDesc":"一个美美的眼妆，能够让你在人前更有自信~即使现在每天戴着口罩，想在人群中脱颖而出，美美的眼妆可少不了哦！","label":"","hotValue":41928,"rankNum":2},{"theme":"柳州螺蛳粉，一口上瘾","words":"螺蛳粉","pic":"https://img.alicdn.com/imgextra/i3/2053469401/O1CN019Mza4w2JJi0jnY3s3_!!2053469401.png","wordDesc":"超好吃的螺蛳粉，配料齐全，具有酸、辣、鲜、爽的独特风味，汤底鲜美，吃货必撸！","label":"","hotValue":25077,"rankNum":3},{"theme":"秋冬疫情加重，口罩不能少！","words":"口罩","pic":"https://img.alicdn.com/imgextra/i4/2053469401/O1CN01hlS7Vf2JJi0O251nj_!!2053469401.png","wordDesc":"疫情得到了良好的控制，但是防护工作每个人都不能掉以轻心！口罩全面补货啦，速速抢购吧~","label":"荐","hotValue":37070,"rankNum":4},{"theme":"自己在家染这些发色更有高级感！","words":"染发剂2021流行色自己染 网红","pic":"https://img.alicdn.com/imgextra/i2/2053469401/O1CN01P6FTMv2JJi0GuI4P9_!!2053469401.png","wordDesc":"美眉们，答应我买它，网红潮色，色彩亮泽，用发色标记你的生活，用张扬标记的青春~","label":"","hotValue":39399,"rankNum":5},{"theme":"女孩子冬季暖身必备神器~","words":"暖宝宝","pic":"https://img.alicdn.com/imgextra/i4/2053469401/O1CN01PRZcEz2JJi2fbCmCl_!!2053469401.png","wordDesc":"快速加热，保温更持久，安全无毒，热敷身体、暖宫暖胃、缓解痛经、驱寒保暖一步到位；家家户户冬季必备神器！","label":"","hotValue":22687,"rankNum":6},{"theme":"补充维生素就要新鲜水果！","words":"新鲜水果","pic":"https://img.alicdn.com/imgextra/i2/2053469401/O1CN01FtPayM2JJi3U3gsxv_!!2053469401.png","wordDesc":"超多新鲜水果，香甜爽口，果汁充沛，多种营养，补充各种维生素，减脂瘦身，尽情享用哦！","label":"","hotValue":26959,"rankNum":7},{"theme":"零差评秋冬身体乳","words":"身体乳","pic":"https://img.alicdn.com/imgextra/i3/2053469401/O1CN01lDplWV2JJi40Nq6n0_!!2053469401.png","wordDesc":"美白提亮肤色，润而不油腻，滋润加倍不起皮，一瓶解决多种肌肤问题，让您焕活柔滑少女肌！","label":"","hotValue":30774,"rankNum":8},{"theme":"过年送礼送什么？","words":"新年礼物","pic":"https://img.alicdn.com/imgextra/i1/2053469401/O1CN01u3UdQE2JJi3odNPms_!!2053469401.png","wordDesc":"新年新气象，新年贴心的为爱的人准备礼物也是一件开心的事儿，为家人，为爱人，为孩子，为自己爱TA就要说出来！！","label":"爆","hotValue":47825,"rankNum":9}]})
 
     return {
       searchValue,
@@ -134,7 +126,8 @@ export default {
       hotSearch,
       searchHistoryData,
       clearHistorySearch,
-      blur
+      blur,
+      addHistorySearch
     }
   }
 }

@@ -1,37 +1,38 @@
-import {ref} from "vue";
-import {getPullDown} from "../../network/requests";
-
+import { ref, onMounted } from "vue";
+import { getPullDown } from "../../network/requests";
 
 // 搜索框逻辑
-
-export function setSearchBox(searchHistoryData) {
+export function setSearchBox(addHistorySearch) {
     let searchValue = ref()
 
     const search = function () {
         uni.navigateTo({ url: "detail/index?key=" + searchValue.value })
-        searchHistoryData.value.push(searchValue.value)
-        uni.setStorageSync('historySearchData', searchHistoryData.value)
+        addHistorySearch(searchValue.value)
     }
 
-    const clearHistorySearch = function () {
-        uni.removeStorage({
-            key: "historySearchData",
-            success: function (result) {
-                console.log(result);
-                searchHistoryData.value = []
-            }
-        })
-    }
-
-    return { search, clearHistorySearch, searchValue }
+    return { search, searchValue }
 }
 
-
-// 下拉搜索框逻辑
-
+// 下拉搜索逻辑
 export function setPullDown() {
     const pullDownData = ref(false)
-    const input = (value) => {
+    const throttle = function (callback) {
+        let id
+        return function (value) {
+            clearTimeout(id)
+            id = setTimeout(() => {
+                callback(value)
+            }, 300)
+        }
+    }
+    const input = throttle((value) => {
+        if (value.value) {
+            value = value.value
+        }
+        if (value.length === 0) {
+            pullDownData.value = false
+            return null
+        }
         getPullDown(value).then((r, e) => {
             if (r.data.result.length !== 0) {
                 pullDownData.value = r.data.result
@@ -39,11 +40,45 @@ export function setPullDown() {
                 pullDownData.value = false
             }
         })
-    }
+    })
     const blur = function () {
         pullDownData.value = false
     }
     return {
         pullDownData, input, blur
+    }
+}
+
+// 历史记录逻辑
+export function setHistorySearch() {
+    const searchHistoryData = ref([])
+    onMounted(() => {
+        uni.getStorage({
+            key: "historySearchData",
+            success: function (result) {
+                searchHistoryData.value = result.data
+            }
+        })
+    })
+    const addHistorySearch = (value) => {
+        if (!value) return;
+        if (searchHistoryData.value.indexOf(value) !== -1) {
+            searchHistoryData.value.splice(searchHistoryData.value.indexOf(value),1)
+        }
+        searchHistoryData.value.unshift(value)
+        uni.setStorageSync('historySearchData', searchHistoryData.value)
+    }
+    const clearHistorySearch = function () {
+        uni.removeStorage({
+            key: "historySearchData",
+            success: function (result) {
+                searchHistoryData.value = []
+            }
+        })
+    }
+    return {
+        searchHistoryData,
+        addHistorySearch,
+        clearHistorySearch
     }
 }
