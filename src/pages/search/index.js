@@ -6,6 +6,7 @@ export function setSearchBox(addHistorySearch) {
     let searchValue = ref()
 
     const search = function () {
+        if (!searchValue.value) return;
         uni.navigateTo({ url: "detail/index?key=" + searchValue.value })
         addHistorySearch(searchValue.value)
     }
@@ -41,11 +42,14 @@ export function setPullDown() {
             }
         })
     })
-    const blur = function () {
-        pullDownData.value = false
+    const clearPullDownData = function () {
+        // 搜索候选词，要能正常跳转需要使赋值操作异步，否则在点击navigtion时已经把下拉组件隐藏了，使点击无效，不会跳转
+        setTimeout(() => {
+            pullDownData.value = false
+        })
     }
     return {
-        pullDownData, input, blur
+        pullDownData, input, clearPullDownData
     }
 }
 
