@@ -1,6 +1,8 @@
 import { ref, onMounted } from "vue";
 import { getPullDown } from "../../network/requests";
 
+console.log(getPullDown);
+
 // 搜索框逻辑
 export function setSearchBox(addHistorySearch) {
     let searchValue = ref()

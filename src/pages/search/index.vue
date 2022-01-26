@@ -8,6 +8,7 @@
                     :focus="true"
                     @focus="input"
                     @blur="clearPullDownData"
+                    @input="input"
     >
     </uni-search-bar>
     <view class="search__button" @click="search">搜索</view>

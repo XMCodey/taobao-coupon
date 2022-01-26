@@ -147,12 +147,16 @@
 				}
 			},
 			searchVal(newVal, oldVal) {
-        // #ifndef VUE3
+        console.log(333);
+        // // #ifndef VUE3
+        // this.$emit("input", newVal)
+				// // #endif
+				// // #ifdef VUE3
+        // this.$emit("update:modelValue", newVal)
+				// // #endif
+        // 在微信无法触发事件，所以注释编译判断
+        // this.$emit("update:modelValue", newVal)
         this.$emit("input", newVal)
-				// #endif
-				// #ifdef VUE3
-        this.$emit("update:modelValue", newVal)
-				// #endif
 			}
 		},
 		methods: {
