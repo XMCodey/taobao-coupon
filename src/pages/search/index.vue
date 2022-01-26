@@ -1,22 +1,23 @@
-<template>
-  <view class="search">
-    <uni-icons type="left" size="20" class="search__back" @click="clearPullDownData"></uni-icons>
-    <uni-search-bar class="search__input" placeholder="支持搜索淘宝优惠" cancelButton="none"
-                    @update:modelValue="input"
-                    v-model="searchValue"
-                    @confirm="search"
-                    :focus="true"
-                    @focus="input"
-                    @blur="clearPullDownData"
-                    @input="input"
-    >
-    </uni-search-bar>
-    <view class="search__button" @click="search">搜索</view>
-  </view>
-  <view class="popupList container" @click="clearPullDownData">
-    <navigator @click="addHistorySearch(item[0])" :url="'detail/index?key=' + item[0]" class="popupList__item" v-for="item in pullDownData" :key="item[0]">{{ item[0] }}</navigator>
-  </view>
-  <view v-show="!pullDownData">
+<template >
+  <view :class="{changeHeight: pullDownData, overflow: 'hidden'}" @click="clearPullDownData">
+    <view class="search">
+      <uni-icons type="left" size="20" class="search__back" @click="clearPullDownData"></uni-icons>
+      <uni-search-bar class="search__input" placeholder="支持搜索淘宝优惠" cancelButton="none"
+                      v-model="searchValue"
+                      @clear="clearPullDownData"
+                      @confirm="search"
+                      :focus="false"
+                      @focus="focusInput(input)"
+                      @blur=""
+                      @input="input"
+      >
+      </uni-search-bar>
+      <view class="search__button" @click="search">搜索</view>
+    </view>
+    <view class="popupList container">
+      <navigator @click="addHistorySearch(pullData[0])"  :url="'detail/index?q=' + pullData[0]" :hover-stop-propagation="true" class="popupList__item" v-for="pullData in pullDownData" :key="pullData[0]">{{ pullData[0] }}</navigator>
+    </view>
+   <view v-show="!pullDownData">
     <view class="containerSpace"></view>
     <view class="stepContainer container">
       <view class="container__title">三步轻松获得优惠券</view>
@@ -42,7 +43,7 @@
         <uni-icons type="trash" size="20" color="#9697" @click="clearHistorySearch"></uni-icons>
       </view>
       <view class="history__tagContainer">
-        <navigator @click="addHistorySearch(key)" :url="'detail/index?key=' + key" v-for="key in searchHistoryData" class="history__tag" hover-class="none" :key="key">
+        <navigator @click="addHistorySearch(key)" :url="'detail/index?q=' + key" v-for="key in searchHistoryData" class="history__tag" hover-class="none" :key="key">
           {{ key }}
         </navigator>
       </view>
@@ -51,7 +52,7 @@
     <view class="history container">
       <view class="container__title">搜索发现</view>
       <view class="history__tagContainer">
-        <navigator @click="addHistorySearch(i)" :url="'detail/index?key=' + i" v-for='i in ["口罩","口红","面膜","充电宝","羽绒服","螺蛳粉","零食","手机壳","洗脸巾","半身裙",
+        <navigator @click="addHistorySearch(i)" :url="'detail/index?q=' + i" v-for='i in ["口罩","口红","面膜","充电宝","羽绒服","螺蛳粉","零食","手机壳","洗脸巾","半身裙",
       "洗发水","袜子","衣服","洗衣液","抽纸","坚果","避孕套","热水袋","电热毯","牛奶","洗面奶","眼影","台灯","保暖内衣",
       "手套","面包","吹风机","内裤","沐浴露","电动牙刷","女袜","电饭煲","卫生巾","身体乳","猫粮","牙膏","护手霜","安全套",
       "粉底液","垃圾袋","数据线","加湿器","鼠标","猫砂","蚊香液","毛巾","茶叶","裤子","雨伞","白酒","连衣裙","帽子","粽子",
@@ -66,7 +67,7 @@
     <view class="history container">
       <view class="container__title">热搜榜</view>
       <view class="hotSearch">
-        <navigator @click="addHistorySearch(data.words)" :url="'detail/index?key=' + data.words" v-for='(data, i) in hotSearch.data' class="hotSearch__item" hover-class="none" :key="i">
+        <navigator @click="addHistorySearch(data.words)" :url="'detail/index?q=' + data.words" v-for='(data, i) in hotSearch.data' class="hotSearch__item" hover-class="none" :key="i">
           <image class="hotSearch__item__hotNumber" :src="rankNumberImg[i]" mode="widthFix"></image>
           <view class="hotSearch__item__infoContainer">
             <image class="hotSearch__item__infoContainer__img" :src="data.pic" mode="widthFix"></image>
@@ -83,7 +84,7 @@
       </view>
     </view>
   </view>
-
+  </view>
 </template>
 
 <script>
@@ -112,13 +113,14 @@ export default {
 
     const { searchHistoryData, addHistorySearch, clearHistorySearch } = setHistorySearch()
 
-    const { search, searchValue } = setSearchBox(addHistorySearch)
+    const { search, searchValue, focusInput } = setSearchBox(addHistorySearch)
 
     const { pullDownData, input, clearPullDownData } = setPullDown()
 
+
+
     const hotSearch = reactive({"requestId":"61175d7cf3e28f9bd3235907b5c454d9","time":1641053517409,"code":0,"msg":"成功","data":[
         {"theme":"这辣条绝了！","words":"辣条","pic":"https://img.alicdn.com/imgextra/i2/2053469401/O1CN01z1QwiY2JJi5kfG5wD_!!2053469401.jpg","wordDesc":"精选优质黄豆，好材料做出好味道，鲜辣爽口，原汁原味的儿时记忆，是吃一口就忘不了的情感！好吃停不下来。","label":"","hotValue":33310,"rankNum":1},{"theme":"戴着口罩怎么美？","words":"眼妆","pic":"https://img.alicdn.com/imgextra/i2/2053469401/O1CN01iLSSYy2JJi06xjuu9_!!2053469401.gif","wordDesc":"一个美美的眼妆，能够让你在人前更有自信~即使现在每天戴着口罩，想在人群中脱颖而出，美美的眼妆可少不了哦！","label":"","hotValue":41928,"rankNum":2},{"theme":"柳州螺蛳粉，一口上瘾","words":"螺蛳粉","pic":"https://img.alicdn.com/imgextra/i3/2053469401/O1CN019Mza4w2JJi0jnY3s3_!!2053469401.png","wordDesc":"超好吃的螺蛳粉，配料齐全，具有酸、辣、鲜、爽的独特风味，汤底鲜美，吃货必撸！","label":"","hotValue":25077,"rankNum":3},{"theme":"秋冬疫情加重，口罩不能少！","words":"口罩","pic":"https://img.alicdn.com/imgextra/i4/2053469401/O1CN01hlS7Vf2JJi0O251nj_!!2053469401.png","wordDesc":"疫情得到了良好的控制，但是防护工作每个人都不能掉以轻心！口罩全面补货啦，速速抢购吧~","label":"荐","hotValue":37070,"rankNum":4},{"theme":"自己在家染这些发色更有高级感！","words":"染发剂2021流行色自己染 网红","pic":"https://img.alicdn.com/imgextra/i2/2053469401/O1CN01P6FTMv2JJi0GuI4P9_!!2053469401.png","wordDesc":"美眉们，答应我买它，网红潮色，色彩亮泽，用发色标记你的生活，用张扬标记的青春~","label":"","hotValue":39399,"rankNum":5},{"theme":"女孩子冬季暖身必备神器~","words":"暖宝宝","pic":"https://img.alicdn.com/imgextra/i4/2053469401/O1CN01PRZcEz2JJi2fbCmCl_!!2053469401.png","wordDesc":"快速加热，保温更持久，安全无毒，热敷身体、暖宫暖胃、缓解痛经、驱寒保暖一步到位；家家户户冬季必备神器！","label":"","hotValue":22687,"rankNum":6},{"theme":"补充维生素就要新鲜水果！","words":"新鲜水果","pic":"https://img.alicdn.com/imgextra/i2/2053469401/O1CN01FtPayM2JJi3U3gsxv_!!2053469401.png","wordDesc":"超多新鲜水果，香甜爽口，果汁充沛，多种营养，补充各种维生素，减脂瘦身，尽情享用哦！","label":"","hotValue":26959,"rankNum":7},{"theme":"零差评秋冬身体乳","words":"身体乳","pic":"https://img.alicdn.com/imgextra/i3/2053469401/O1CN01lDplWV2JJi40Nq6n0_!!2053469401.png","wordDesc":"美白提亮肤色，润而不油腻，滋润加倍不起皮，一瓶解决多种肌肤问题，让您焕活柔滑少女肌！","label":"","hotValue":30774,"rankNum":8},{"theme":"过年送礼送什么？","words":"新年礼物","pic":"https://img.alicdn.com/imgextra/i1/2053469401/O1CN01u3UdQE2JJi3odNPms_!!2053469401.png","wordDesc":"新年新气象，新年贴心的为爱的人准备礼物也是一件开心的事儿，为家人，为爱人，为孩子，为自己爱TA就要说出来！！","label":"爆","hotValue":47825,"rankNum":9}]})
-
     return {
       searchValue,
       search,
@@ -128,13 +130,17 @@ export default {
       searchHistoryData,
       clearHistorySearch,
       clearPullDownData,
-      addHistorySearch
+      addHistorySearch,
+      focusInput
     }
   }
 }
 </script>
 
 <style scoped lang="scss">
+  .changeHeight {
+    height: 100vh;
+  }
   .search {
     display: flex;
     position: fixed;
@@ -179,7 +185,7 @@ export default {
   .popupList {
     padding-top: 112rpx;
     background-color: #ffffff;
-    overflow: hidden;
+    //height: clac(100vh - 112rpx);
     &__item {
       font-size: 28rpx;
       line-height: 84rpx;
