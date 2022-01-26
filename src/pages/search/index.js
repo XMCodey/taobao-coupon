@@ -46,7 +46,7 @@ export function setPullDown() {
         // 搜索候选词，要能正常跳转需要使赋值操作异步，否则在点击navigtion时已经把下拉组件隐藏了，使点击无效，不会跳转
         setTimeout(() => {
             pullDownData.value = false
-        })
+        },0)
     }
     return {
         pullDownData, input, clearPullDownData
