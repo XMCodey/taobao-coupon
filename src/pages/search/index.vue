@@ -9,13 +9,18 @@
                       :focus="false"
                       @focus="focusInput(input)"
                       @blur=""
+                      @tap.stop=""
                       @input="input"
       >
       </uni-search-bar>
       <view class="search__button" @click="search">搜索</view>
     </view>
     <view class="popupList container">
-      <navigator @click="addHistorySearch(pullData[0])"  :url="'detail/index?q=' + pullData[0]" :hover-stop-propagation="true" class="popupList__item" v-for="pullData in pullDownData" :key="pullData[0]">{{ pullData[0] }}</navigator>
+      <view @tap.stop="addHistorySearch(pullData[0])" v-for="pullData in pullDownData" :key="pullData[0]">
+        <navigator :url="'detail/index?q=' + pullData[0]" :hover-stop-propagation="true" class="popupList__item" >
+          {{ pullData[0] }}
+        </navigator>
+      </view>
     </view>
    <view v-show="!pullDownData">
     <view class="containerSpace"></view>

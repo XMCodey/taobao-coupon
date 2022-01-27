@@ -33,12 +33,15 @@ export function setPullDown() {
             if (typeof value === 'object') {
                 value = value.value
             }
+            if (!value) {
+                return
+            }
             if (oldVal === value) {
                 pullDownData.value = oldData
                 return
             }
-            if (value && value.length === 0) {
-                // clearPullDownData()
+            if (value.length === 0) {
+                clearPullDownData()
                 return null
             }
 
@@ -46,11 +49,10 @@ export function setPullDown() {
             id = setTimeout(() => {
                 oldVal = value
                 callback(value)
-            }, 100)
+            }, 400)
         }
     }
     const input = throttle((value) => {
-
         console.log(value);
         getPullDown(value).then((r, e) => {
             if (r.data.result.length !== 0) {
@@ -67,7 +69,7 @@ export function setPullDown() {
         }
         // 搜索候选词，要能正常跳转需要使赋值操作异步，否则在点击navigtion时已经把下拉组件隐藏了，使点击无效，不会跳转
         // setTimeout(() => {
-            pullDownData.value = false
+        pullDownData.value = false
         // },0)
     }
     return {
