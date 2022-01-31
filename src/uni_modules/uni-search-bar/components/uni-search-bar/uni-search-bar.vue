@@ -6,9 +6,9 @@
 					<uni-icons color="#c0c4cc" size="18" type="search" />
 				</slot>
 			</view>
-			<input v-if="show || searchVal" :focus="showSync" :placeholder="placeholderText" :maxlength="maxlength" class="uni-searchbar__box-search-input"
+			<input :focus="showSync" :placeholder="placeholderText" :maxlength="maxlength" class="uni-searchbar__box-search-input"
 			 confirm-type="search" type="text" v-model="searchVal" @confirm="confirm" @blur="blur" @focus="emitFocus" />
-			<text v-else class="uni-searchbar__text-placeholder">{{ placeholder }}</text>
+<!--			<text v-else class="uni-searchbar__text-placeholder">{{ placeholder }}</text>-->
 			<view v-if="show && (clearButton==='always'||clearButton==='auto'&&searchVal!=='')" class="uni-searchbar__box-icon-clear"
 			 @click="clear">
 				<slot name="clearIcon">
