@@ -154,7 +154,6 @@
         // this.$emit("update:modelValue", newVal)
 				// // #endif
         // 在微信无法触发事件，所以注释编译判断
-        console.log("发送input事件");
         this.$emit("update:modelValue", newVal)
         this.$emit("input", newVal)
 			}

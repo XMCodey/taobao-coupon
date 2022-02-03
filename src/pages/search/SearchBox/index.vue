@@ -38,9 +38,6 @@ export default {
   emits: ['search'],
   methods: {
     emitSearch (value) {
-
-      console.log('emitSearch');
-      console.log(value);
       this.$emit('search', value)
     }
   },
@@ -123,14 +120,14 @@ export default {
 
   //不知道为什么这个样式不编译出来，导致我直接写了个行内样式
   //这样也不行
-  .popupList__item {
-    font-size: 28rpx;
-    line-height: 84rpx;
-    height: 84rpx;
-    width: 100%;
-    display: inline-block;
-    color: #323233;
-    border-bottom: 1px solid #ffefef;
-  }
+  //.popupList__item {
+  //  font-size: 28rpx;
+  //  line-height: 84rpx;
+  //  height: 84rpx;
+  //  width: 100%;
+  //  display: inline-block;
+  //  color: #323233;
+  //  border-bottom: 1px solid #ffefef;
+  //}
 
 </style>

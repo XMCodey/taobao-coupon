@@ -6,7 +6,6 @@ export function setSearchBox() {
     let searchValue = ref()
 
     const search = function () {
-        console.log(searchValue);
         if (!searchValue.value) return;
         uni.navigateTo({ url: "detail/index?q=" + searchValue.value })
     }
@@ -52,7 +51,6 @@ export function setPullDown() {
         }
     }
     const input = throttle((value) => {
-        console.log(value);
         getPullDown(value).then((r, e) => {
             if (r.data.result.length !== 0) {
                 pullDownData.value = r.data.result
