@@ -1,7 +1,7 @@
 import { topClient } from './requests.js'
 
 // 淘宝客-推广者-物料搜索 api 封装
-export function postSearch (callback, params = { }) {
+export function getSearchItem (params = { }) {
   // {
   //   // start_dsr: '10', // 店铺评分
   //   page_size: '20',
@@ -46,8 +46,7 @@ export function postSearch (callback, params = { }) {
   // console.log(params)
   return topClient(
     'taobao.tbk.dg.material.optional',
-    params,
-    callback
+    params
   )
 }
 

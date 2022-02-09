@@ -25,7 +25,7 @@
         <uni-icons type="trash" size="20" color="#9697" @click="clearHistorySearch"></uni-icons>
       </view>
       <view class="history__tagContainer">
-        <navigator @click="addHistorySearch(key)" :url="'detail/index?q=' + key" v-for="key in searchHistoryData" class="history__tag" hover-class="none" :key="key">
+        <navigator @click="addHistorySearch(key)" :url="'detail?q=' + key" v-for="key in searchHistoryData" class="history__tag" hover-class="none" :key="key">
           {{ key }}
         </navigator>
       </view>
@@ -34,7 +34,7 @@
     <view class="history container">
       <view class="container__title">搜索发现</view>
       <view class="history__tagContainer">
-        <navigator @click="addHistorySearch(i)" :url="'detail/index?q=' + i" v-for='i in ["口罩","口红","面膜","充电宝","羽绒服","螺蛳粉","零食","手机壳","洗脸巾","半身裙",
+        <navigator @click="addHistorySearch(i)" :url="'detail?q=' + i" v-for='i in ["口罩","口红","面膜","充电宝","羽绒服","螺蛳粉","零食","手机壳","洗脸巾","半身裙",
       "洗发水","袜子","衣服","洗衣液","抽纸","坚果","避孕套","热水袋","电热毯","牛奶","洗面奶","眼影","台灯","保暖内衣",
       "手套","面包","吹风机","内裤","沐浴露","电动牙刷","女袜","电饭煲","卫生巾","身体乳","猫粮","牙膏","护手霜","安全套",
       "粉底液","垃圾袋","数据线","加湿器","鼠标","猫砂","蚊香液","毛巾","茶叶","裤子","雨伞","白酒","连衣裙","帽子","粽子",
@@ -49,7 +49,7 @@
     <view class="history container">
       <view class="container__title">热搜榜</view>
       <view class="hotSearch">
-        <navigator @click="addHistorySearch(data.words)" :url="'detail/index?q=' + data.words" v-for='(data, i) in hotSearch.data' class="hotSearch__item" hover-class="none" :key="i">
+        <navigator @click="addHistorySearch(data.words)" :url="'detail?q=' + data.words" v-for='(data, i) in hotSearch.data' class="hotSearch__item" hover-class="none" :key="i">
           <image class="hotSearch__item__hotNumber" :src="rankNumberImg[i]" mode="widthFix"></image>
           <view class="hotSearch__item__infoContainer">
             <image class="hotSearch__item__infoContainer__img" :src="data.pic" mode="widthFix"></image>
@@ -69,7 +69,7 @@
 </template>
 
 <script>
-import SearchBox from './SearchBox/index.vue'
+import SearchBox from './search-box/search-box.vue'
 import { reactive } from "vue";
 import { setHistorySearch } from "./index";
 

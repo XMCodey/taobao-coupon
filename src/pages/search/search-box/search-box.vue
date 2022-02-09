@@ -17,7 +17,7 @@
     </view>
     <view class="popupList container">
       <view @tap.stop="emitSearch(pullData[0])" v-for="pullData in pullDownData" :key="pullData[0]">
-        <navigator :url="'detail/index?q=' + pullData[0]" :hover-stop-propagation="true" class="popupList__item"
+        <navigator :url="'detail?q=' + pullData[0]" :hover-stop-propagation="true" class="popupList__item"
         style="font-size: 28rpx;line-height: 84rpx;width: 100%;height: 84rpx;display: inline-block;color: #323233;border-bottom: 1px solid #ffefef;"
         >
           {{ pullData[0] }}
@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import { setSearchBox, setPullDown } from "./index";
+import { setSearchBox, setPullDown } from "./search-box";
 
 export default {
   name: "SearchBox",
@@ -59,7 +59,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
   .changeHeight {
     height: 100vh;
   }

@@ -6,7 +6,7 @@
 
 #### Rest API Demo
 ```js
-ApiClient = require('../index.js').ApiClient;
+ApiClient = require('../search-box.js').ApiClient;
 
 var client = new ApiClient({
                              'appkey':'****',
@@ -31,7 +31,7 @@ client.execute('taobao.user.get',
 
 ```js
 
-var TmcClient = require('../index.js').TmcClient;
+var TmcClient = require('../search-box.js').TmcClient;
 
 var tmcClient = new TmcClient('*******','************************','default');
 
@@ -46,7 +46,7 @@ tmcClient.connect('ws://mc.api.daily.taobao.net/',
 
 ```js
 
-DingtalkClient = require('../index.js').DingtalkClient;
+DingtalkClient = require('../search-box.js').DingtalkClient;
 
 var client = new DingtalkClient({
                             'appkey':'*****',

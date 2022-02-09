@@ -7,7 +7,7 @@ export function setSearchBox() {
 
     const search = function () {
         if (!searchValue.value) return;
-        uni.navigateTo({ url: "detail/index?q=" + searchValue.value })
+        uni.navigateTo({ url: "detail?q=" + searchValue.value })
     }
 
     // 奇怪的逻辑，因为search框的blur事件在微信小程序，点击navigator下拉下拉菜单时会触发，所以在最外层view写了一个click事件用来替代blur事件的作用
