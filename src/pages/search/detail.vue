@@ -59,9 +59,15 @@ export default {
 
     const changeSort = function (index) {
       if (index === 2) {
-        presentPriceClass.value = 'sort__price__down'
-        console.log(presentPriceClass);
-        return
+        if (presentPriceClass.value === null) {
+          presentPriceClass.value = 'sort__price__down'
+        }
+        if (presentPriceClass.value === 'sort__price__down') {
+          presentPriceClass.value = 'sort__price__up'
+        }
+        if (presentPriceClass.value === 'sort__price__up') {
+          presentPriceClass.value = 'sort__price__down'
+        }
       }
       if (presentSort.value === index) {
         return;
