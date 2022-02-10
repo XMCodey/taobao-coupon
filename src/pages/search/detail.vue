@@ -5,13 +5,16 @@
             @click="changeSort(index)"
             :class="{ active: presentSort === index, sort__price: item === '价格'}"
       >
+        {{ item }}
         <template v-if="item === '价格'">
-          <view class="sort__price__upIcon"></view>
-          <view class="sort__price__downIcon"></view>
-          <view></view>
+          <view class="sort__price__container" :class="presentPriceClass">
+            <view class="sort__price__upIcon"></view>
+            <view class="sort__price__downIcon"></view>
+          </view>
         </template>
-        {{ item }}</view>
+      </view>
     </view>
+    <view style="height: 16rpx;background-color: rgb(246, 246, 246);"></view>
   </search-box>
 </template>
 
@@ -50,21 +53,27 @@ export default {
       // console.log("search-detail----" + q);
     })
 
-    const changeSort = function (index) {
-      if (presentSort.value === index) {
-        if (presentSort.value === 3) {
 
-          return
-        }
+    const presentSort = ref(null)
+    const presentPriceClass = ref(null)
+
+    const changeSort = function (index) {
+      if (index === 2) {
+        presentPriceClass.value = 'sort__price__down'
+        console.log(presentPriceClass);
+        return
+      }
+      if (presentSort.value === index) {
         return;
       }
       console.log(index);
       presentSort.value = index
     }
-    const presentSort = ref(null)
+
     return {
       changeSort,
-      presentSort
+      presentSort,
+      presentPriceClass
     }
   }
 }
@@ -75,19 +84,35 @@ export default {
     display: flex;
     flex-wrap: nowrap;
     justify-content: space-around;
+    align-items: center;
+    font-size: 24rpx;
+    color: #646566;
+    height: 80rpx;
     .active {
-      color: red;
+      color: rgb(254, 55, 56);
     }
     &__price {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      &__container {
+        margin-left: 10rpx;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        align-items: center;
+        height: 30rpx;
+
+      }
       &__upIcon{
-        border-bottom: 1rem solid red;
-        border-left: 1rem solid transparent;
-        border-right: 1rem solid transparent;
+        border-bottom: 12rpx solid #d8d8d8;
+        border-left: 10rpx solid transparent;
+        border-right: 10rpx solid transparent;
       }
       &__downIcon{
-        border-top: 1rem solid red;
-        border-left: 1rem solid transparent;
-        border-right: 1rem solid transparent;
+        border-top: 12rpx solid #d8d8d8;
+        border-left: 10rpx solid transparent;
+        border-right: 10rpx solid transparent;
       }
     }
   }

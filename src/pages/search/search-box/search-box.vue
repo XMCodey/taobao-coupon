@@ -75,6 +75,7 @@ export default {
     justify-content: space-around;
     flex-wrap: nowrap;
     align-items: center;
+    height: 112rpx;
     &__back {
       padding: 0 16rpx;
     }
