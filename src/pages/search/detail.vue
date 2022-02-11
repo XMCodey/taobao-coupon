@@ -60,6 +60,7 @@ export default {
     const changeSort = function (index) {
       if (index === 2) {
         if (presentPriceClass.value === null) {
+          presentSort.value = index
           presentPriceClass.value = 'sort__price__up'
         } else if (presentPriceClass.value === 'sort__price__down') {
           presentPriceClass.value = 'sort__price__up'
@@ -95,6 +96,7 @@ export default {
     height: 80rpx;
     .active {
       color: rgb(254, 55, 56);
+      transition: all 1s ease-out;
     }
     &__price {
       display: flex;
@@ -119,11 +121,15 @@ export default {
         border-bottom: 12rpx solid #d8d8d8;
         border-left: 10rpx solid transparent;
         border-right: 10rpx solid transparent;
+        transition: all .6s ease-out;
+
       }
       &__downIcon{
         border-top: 12rpx solid #d8d8d8;
         border-left: 10rpx solid transparent;
         border-right: 10rpx solid transparent;
+        transition: all .6s ease-out;
+
       }
     }
   }
