@@ -60,20 +60,19 @@ export default {
     const changeSort = function (index) {
       if (index === 2) {
         if (presentPriceClass.value === null) {
-          presentPriceClass.value = 'sort__price__down'
-        }
-        if (presentPriceClass.value === 'sort__price__down') {
           presentPriceClass.value = 'sort__price__up'
-        }
-        if (presentPriceClass.value === 'sort__price__up') {
+        } else if (presentPriceClass.value === 'sort__price__down') {
+          presentPriceClass.value = 'sort__price__up'
+        } else if (presentPriceClass.value === 'sort__price__up') {
           presentPriceClass.value = 'sort__price__down'
         }
-      }
-      if (presentSort.value === index) {
-        return;
+      } else if (presentSort.value === index) {
+          return;
+      } else {
+        presentSort.value = index
+        presentPriceClass.value = null
       }
       console.log(index);
-      presentSort.value = index
     }
 
     return {
@@ -109,6 +108,12 @@ export default {
         align-items: center;
         height: 30rpx;
 
+      }
+      &__down &__downIcon{
+        border-top-color: black;
+      }
+      &__up &__upIcon {
+        border-bottom-color: black;
       }
       &__upIcon{
         border-bottom: 12rpx solid #d8d8d8;
