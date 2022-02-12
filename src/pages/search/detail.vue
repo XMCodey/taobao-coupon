@@ -204,10 +204,25 @@ export default {
       }
 
       &__right {
-
+        color: #ffffff;
+        background: linear-gradient(
+                90deg
+            ,#ff8873,#ff4f4f);
+        border: 4rpx solid red;
       }
       &__coupon {
 
+      }
+    }
+    &__volume {
+      &__left {
+        background: #f4f4f4;
+        font-size: 24rpx;
+        color: #888;
+      }
+      &__right {
+        font-size: 24rpx;
+        color: #888;
       }
     }
   }
