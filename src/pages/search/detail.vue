@@ -15,6 +15,25 @@
       </view>
     </view>
     <view style="height: 16rpx;background-color: rgb(246, 246, 246);"></view>
+    <view class="goods">
+      <view class="goods__item">
+        <view class="goods__item__img"></view>
+        <view class="goods__item__contentContainer">
+          <view class="goods__titleContainer">
+            <view class="goods__titleContainer__icon">
+
+            </view>
+            <view class="goods__titleContainer__title">
+              32寸144hz40寸2k高清曲面屏显示器
+            </view>
+          </view>
+          <view class="goods__price">
+
+          </view>
+          <view class="goods__volume"></view>
+        </view>
+      </view>
+    </view>
   </search-box>
 </template>
 
