@@ -15,8 +15,8 @@
       </view>
     </view>
     <view style="height: 80rpx;"></view>
-    <view style="height: 16rpx;background-color: rgb(246, 246, 246);"></view>
-    <scroll-view scroll-y="true" show-scrollbar="true" class="goods">
+    <scroll-view scroll-y="true" show-scrollbar="true" class="goods" lower-threshold="50" @scrolltolower="scrollToLower">
+      <view style="height: 16rpx;background-color: rgb(246, 246, 246);"></view>
       <view class="goods__item" v-for="i in [,,,,,,,,,]">
         <image mode="widthFix" lazy-load="true" src="https://img.alicdn.com/bao/uploaded/i1/522723912/O1CN01xA9Y8H1elk7xHi77u_!!522723912.jpg_310x310.jpg" class="goods__item__img"></image>
         <view class="goods__item__contentContainer">
@@ -111,10 +111,16 @@ export default {
       console.log(index);
     }
 
+    const scrollToLower = function (e) {
+      console.log(e);
+      console.log(32323232323);
+    }
+
     return {
       changeSort,
       presentSort,
-      presentPriceClass
+      presentPriceClass,
+      scrollToLower,
     }
   }
 }
@@ -173,6 +179,7 @@ export default {
     }
   }
   .goods {
+    height: calc(100vh - 192rpx);
     &__item {
       display: flex;
       justify-content: space-around;
@@ -236,6 +243,8 @@ export default {
         border: 1px solid red;
         border-radius: 2px;
         padding: 0 5rpx 0 0;
+        line-height: 34rpx;
+
       }
       &__coupon {
         color: #fe3a33;
