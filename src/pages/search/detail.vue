@@ -49,6 +49,9 @@
           </view>
         </view>
       </view>
+      <view class="noMore" v-if="noMore">
+        没有更多商品了
+      </view>
     </scroll-view>
   </search-box>
 </template>
@@ -85,9 +88,16 @@ export default {
     // 获取当前实例，实例可以读到data里到数据
     const internalInstance = getCurrentInstance()
     const itemData = ref([])
+    const noMore = ref(false)
     const getItemData = function () {
       getSearchItem(params).then((r,e) => {
         console.log(e);
+        console.log(r);
+        console.log(r.data.error_response);
+        if (r.data.error_response && r.data.error_response.code === 15) {
+          noMore.value = true
+          return
+        }
         itemData.value = itemData.value.concat(r.data.tbk_dg_material_optional_response.result_list.map_data)
         console.log(itemData.value);
       })
@@ -101,7 +111,7 @@ export default {
 
     const currentSort = ref("人气")
     const presentPriceClass = ref(null)
-    // 又要改样式，又要改排序的方式，还要重置页码，乱乱乱
+    // 又要改样式，又要改排序的方式，还要重置页码，乱乱乱1
     const changeSort = function (sortStr) {
       if (sortStr === '价格') {
         if (presentPriceClass.value === null) {
@@ -144,7 +154,8 @@ export default {
       currentSort,
       presentPriceClass,
       scrollToLower,
-      itemData
+      itemData,
+      noMore
     }
   }
 }
@@ -303,5 +314,12 @@ export default {
         color: #888;
       }
     }
+  }
+  .noMore {
+    color: #969799;
+    font-size: 28rpx;
+    line-height: 100rpx;
+    text-align: center;
+    background: #f6f6f6;
   }
 </style>
