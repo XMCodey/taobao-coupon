@@ -1,5 +1,5 @@
 <template>
-  <search-box>
+  <search-box :keywords="q">
     <view class="sort">
       <view v-for="item in ['人气', '销量', '价格']" :key="item"
             @click="changeSort(item)"
@@ -91,10 +91,9 @@ export default {
     const noMore = ref(false)
     const getItemData = function () {
       getSearchItem(params).then((r,e) => {
-        console.log(e);
         console.log(r);
-        console.log(r.data.error_response);
-        if (r.data.error_response && r.data.error_response.code === 15) {
+        console.log(e);
+        if (r.data && r.data.error_response && r.data.error_response.code === 15) {
           noMore.value = true
           return
         }

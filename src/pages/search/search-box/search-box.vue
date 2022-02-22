@@ -1,7 +1,9 @@
 <template >
   <view :class="{changeHeight: pullDownData, overflow: 'hidden'}" @click="clearPullDownData">
     <view class="search">
-      <uni-icons type="left" size="20" class="search__back" @click=""></uni-icons>
+      <navigator open-type="navigateBack">
+        <uni-icons type="left" size="20" class="search__back" @click=""></uni-icons>
+      </navigator>
       <uni-search-bar class="search__input" placeholder="支持搜索淘宝优惠" cancelButton="none"
                       v-model="searchValue"
                       @clear="clearPullDownData"
@@ -36,6 +38,9 @@ import { setSearchBox, setPullDown } from "./search-box";
 export default {
   name: "SearchBox",
   emits: ['search'],
+  props: [
+    'keywords'
+  ],
   methods: {
     emitSearch (value) {
       this.$emit('search', value)
@@ -43,10 +48,13 @@ export default {
   },
   setup(props, context) {
 
+
     const { search, searchValue, focusInput } = setSearchBox()
 
     const { pullDownData, input, clearPullDownData } = setPullDown()
-
+    if (props.keywords) {
+      searchValue.value = props.keywords
+    }
     return {
       searchValue,
       search,

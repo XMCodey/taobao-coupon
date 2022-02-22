@@ -1,3 +1,7 @@
+
+<template>
+  dfds
+</template>
 <script>
 export default {
   onLaunch: function () {
