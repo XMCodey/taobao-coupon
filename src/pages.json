@@ -3,13 +3,13 @@
 		{
 			"path": "pages/search/index",
 			"style": {
-				"navigationBarTitleText": "搜索·"
+				"navigationBarTitleText": "搜索"
 			}
 		},
 		{
 			"path": "pages/index/index",
 			"style": {
-				"navigationBarTitleText": "uni-app"
+				"navigationBarTitleText": "首页"
 			}
 		},
 
