@@ -3,13 +3,15 @@
     <view class="menu__back">
       <uni-icons class="menu__back__icon"></uni-icons>
     </view>
-    <view class="menu__text"></view>
+    <view class="menu__text">
+      text
+    </view>
     <view class="menu__childMenu">
       <uni-icons class="menu__childMenu__icon"></uni-icons>
       <view class="menu__popups">
         <navigation class="menu__popups__item" v-for="i in [['首页', 323], ['搜索', 3232], ['客服', 3232]]">
           <uni-icons :type="i[1]" class="menu__popups__item__icon"></uni-icons>
-    <text class="menu__popups__item__text">{{ i[0] }}</text>
+          <text class="menu__popups__item__text">{{ i[0] }}</text>
         </navigation>
       </view>
     </view>
