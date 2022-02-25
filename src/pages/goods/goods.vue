@@ -4,7 +4,8 @@
       <uni-icons class="menu__back__icon"></uni-icons>
     </view>
     <view class="menu__text">
-      text
+      <text class="menu__text__item">商品1</text>
+      <text class="menu__text__item">推荐</text>
     </view>
     <view class="menu__childMenu">
       <uni-icons class="menu__childMenu__icon"></uni-icons>
