@@ -1,14 +1,14 @@
 <template>
   <view class="topMenuContainer" style="position: fixed">
-    <view class="menu__back">
-      <uni-icons class="menu__back__icon" type="back"></uni-icons>
+    <view class="menu__back icon_bgc">
+      <uni-icons class="menu__back__icon" type="back" size="20" color="#fff"></uni-icons>
     </view>
     <view class="menu__text">
       <text class="menu__text__item" @click="() => { scrollTo }">商品</text>
       <text class="menu__text__item">推荐</text>
     </view>
-    <view class="menu__childMenu">
-      <uni-icons class="menu__childMenu__icon" type="more"></uni-icons>
+    <view class="menu__childMenu  icon_bgc">
+      <uni-icons class="menu__childMenu__icon" type="more" size="20" color="#fff"></uni-icons>
       <view class="menu__popups">
         <navigator class="menu__popups__item" v-for="i in [['首页', 'home'], ['搜索', 'search'], ['客服', 'chatbubble']]">
           <uni-icons :type="i[1]" class="menu__popups__item__icon"></uni-icons>
@@ -58,21 +58,41 @@ export default {
 
 <style lang="scss" scoped>
 .topMenuContainer {
+  .icon_bgc {
+    width: 60rpx;
+    height: 60rpx;
+    background: rgba(0,0,0,.3);
+    border-radius: 50%;
+    text-align: center;
+  }
   height: 90rpx;
   padding: 0 20rpx;
   display: flex;
-
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
   .menu__back {
 
-    &__icom {
-
+    &__icon {
+      line-height: 60rpx;
     }
   }
 
   .menu__text {
-
+    font-size: 28rpx;
     &__item {
 
+    }
+  }
+
+  .menu__childMenu {
+    &__icon {
+
+    }
+
+    .menu__popups {
+      position: absolute;
+      right: 10rpx;
     }
   }
 }
