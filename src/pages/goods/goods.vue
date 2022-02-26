@@ -61,5 +61,19 @@ export default {
   height: 90rpx;
   padding: 0 20rpx;
   display: flex;
+
+  .menu__back {
+
+    &__icom {
+
+    }
+  }
+
+  .menu__text {
+
+    &__item {
+
+    }
+  }
 }
 </style>
