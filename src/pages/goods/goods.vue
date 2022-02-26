@@ -60,5 +60,6 @@ export default {
 .topMenuContainer {
   height: 90rpx;
   padding: 0 20rpx;
+  display: flex;
 }
 </style>
