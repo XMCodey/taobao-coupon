@@ -1,23 +1,23 @@
 <template>
   <view class="topMenuContainer" style="position: fixed">
     <view class="menu__back">
-      <uni-icons class="menu__back__icon"></uni-icons>
+      <uni-icons class="menu__back__icon" type="back"></uni-icons>
     </view>
     <view class="menu__text">
-      <text class="menu__text__item">商品1</text>
+      <text class="menu__text__item" @click="() => { scrollTo }">商品</text>
       <text class="menu__text__item">推荐</text>
     </view>
     <view class="menu__childMenu">
-      <uni-icons class="menu__childMenu__icon"></uni-icons>
+      <uni-icons class="menu__childMenu__icon" type="more"></uni-icons>
       <view class="menu__popups">
-        <navigation class="menu__popups__item" v-for="i in [['首页', 323], ['搜索', 3232], ['客服', 3232]]">
+        <navigator class="menu__popups__item" v-for="i in [['首页', 'home'], ['搜索', 'search'], ['客服', 'chatbubble']]">
           <uni-icons :type="i[1]" class="menu__popups__item__icon"></uni-icons>
           <text class="menu__popups__item__text">{{ i[0] }}</text>
-        </navigation>
+        </navigator>
       </view>
     </view>
   </view>
-  <scroll-top-container heightCss="100px" @scroll="scroll" >
+  <scroll-top-container heightCss="1002px" @scroll="scroll" >
     <view class="topMenuContainer"></view>
     32323
   </scroll-top-container>
