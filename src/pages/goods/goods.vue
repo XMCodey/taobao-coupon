@@ -1,17 +1,17 @@
 <template>
   <view class="topMenuContainer" style="position: fixed">
     <view class="menu__back icon_bgc">
-      <uni-icons class="menu__back__icon" type="back" size="20" color="#fff"></uni-icons>
+      <uni-icons class="menu__back__icon" type="back" size="20" :color="topMenuIconColor"></uni-icons>
     </view>
     <view class="menu__text">
       <text class="menu__text__item" @click="() => { scrollTo }">商品</text>
       <text class="menu__text__item">推荐</text>
     </view>
     <view class="menu__childMenu  icon_bgc">
-      <uni-icons class="menu__childMenu__icon" type="more" size="20" color="#fff"></uni-icons>
+      <uni-icons class="menu__childMenu__icon" type="more" size="20" :color="topMenuIconColor"></uni-icons>
       <view class="menu__popups">
         <navigator class="menu__popups__item" v-for="i in [['首页', 'home'], ['搜索', 'search'], ['客服', 'chatbubble']]">
-          <uni-icons :type="i[1]" class="menu__popups__item__icon"></uni-icons>
+          <uni-icons :type="i[1]" :color="topMenuIconColor" class="menu__popups__item__icon"></uni-icons>
           <text class="menu__popups__item__text">{{ i[0] }}</text>
         </navigator>
       </view>
@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import {getCurrentInstance} from "vue";
+import {getCurrentInstance, ref} from "vue";
 import ScrollTopContainer from "../basic/scrollTopContainer";
 
 export default {
@@ -49,8 +49,12 @@ export default {
     const scroll = function () {
       console.log('scroll');
     }
+
+    const topMenuIconColor = ref('#fff')
+
     return {
-      scroll
+      scroll,
+      topMenuIconColor
     }
   }
 }
@@ -64,13 +68,15 @@ export default {
     background: rgba(0,0,0,.3);
     border-radius: 50%;
     text-align: center;
+    line-height: 60rpx;
   }
   height: 90rpx;
   padding: 0 20rpx;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 100%;
+  width: 100vw;
+  box-sizing: border-box;
   .menu__back {
 
     &__icon {
@@ -86,13 +92,28 @@ export default {
   }
 
   .menu__childMenu {
+    position: relative;
     &__icon {
 
     }
 
     .menu__popups {
+      width: 240rpx;
+      background-color: rgba(51,51,51,.9);
+      border-radius: 10rpx;
       position: absolute;
-      right: 10rpx;
+      right: 0;
+      top: 90rpx;
+
+      &__item {
+        &__icon {
+          margin-right: 20rpx;
+        }
+        &__text {
+          color: #ffffff;
+          font-size: 32rpx;
+        }
+      }
     }
   }
 }
