@@ -1,18 +1,18 @@
 <template>
-  <view class="topMenuContainer" style="position: fixed">
-    <view class="menu__back icon_bgc">
-      <uni-icons class="menu__back__icon" type="back" size="20" :color="topMenuIconColor"></uni-icons>
-    </view>
+  <view class="topMenuContainer" style="position: fixed" :style="{'background-color': topMenuContainerCss.backgroundColor}">
+    <navigator hover-class="none" open-type="navigateBack" class="menu__back icon_bgc" :style="{ backgroundColor: topMenuContainerCss.iconBackgroundColor }">
+      <uni-icons class="menu__back__icon" type="back" size="20" :color="topMenuContainerCss.iconColor"></uni-icons>
+    </navigator>
     <view class="menu__text">
-      <text class="menu__text__item" @click="() => { scrollTo }">商品</text>
-      <text class="menu__text__item">推荐</text>
+      <view class="menu__text__item" :class="{ active: true }" @click="() => { scrollTo }">商品</view>
+      <view class="menu__text__item">推荐</view>
     </view>
-    <view class="menu__childMenu  icon_bgc">
-      <uni-icons class="menu__childMenu__icon" type="more" size="20" :color="topMenuIconColor"></uni-icons>
-      <view class="menu__popups">
-        <navigator class="menu__popups__item" v-for="i in [['首页', 'home'], ['搜索', 'search'], ['客服', 'chatbubble']]">
-          <uni-icons :type="i[1]" :color="topMenuIconColor" class="menu__popups__item__icon"></uni-icons>
-          <text class="menu__popups__item__text">{{ i[0] }}</text>
+    <view class="menu__childMenu  icon_bgc" :style="{ backgroundColor: topMenuContainerCss.iconBackgroundColor }">
+      <uni-icons class="menu__childMenu__icon" type="more-filled" size="20" :color="topMenuContainerCss.iconColor"></uni-icons>
+      <view class="menu__popups" :style="{ 'background-color': topMenuContainerCss.backgroundColor }">
+        <navigator class="menu__popups__item" v-for="i in [['首页', 'home'], ['搜索', 'search'], ['客服', 'chatbubble']]" hover-class="none">
+          <uni-icons :type="i[1]" :color="topMenuContainerCss.iconColor" class="menu__popups__item__icon"></uni-icons>
+          <text class="menu__popups__item__text" :style="{ color: topMenuContainerCss.iconColor}">{{ i[0] }}</text>
         </navigator>
       </view>
     </view>
@@ -27,12 +27,12 @@
 </template>
 
 <script>
-import {getCurrentInstance, ref} from "vue";
+import {getCurrentInstance, reactive, ref} from "vue";
 import ScrollTopContainer from "../basic/scrollTopContainer";
 
 export default {
   name: "goods",
-  components: {ScrollTopContainer},
+  components: { ScrollTopContainer },
   data() {
 
     return {
@@ -50,11 +50,15 @@ export default {
       console.log('scroll');
     }
 
-    const topMenuIconColor = ref('#fff')
+    const topMenuContainerCss = reactive({
+      iconColor: 'rgb(51 51 51)',
+      backgroundColor: 'rgb(255,255,255)',
+      iconBackgroundColor: 'rgba(0,0,0,0)'
+    })
 
     return {
       scroll,
-      topMenuIconColor
+      topMenuContainerCss
     }
   }
 }
@@ -62,6 +66,7 @@ export default {
 
 <style lang="scss" scoped>
 .topMenuContainer {
+  z-index: 999;
   .icon_bgc {
     width: 60rpx;
     height: 60rpx;
@@ -87,7 +92,21 @@ export default {
   .menu__text {
     font-size: 28rpx;
     &__item {
-
+      margin: 0 59.5rpx;
+      height: 90rpx;
+      line-height: 90rpx;
+      display: inline-block;
+      position: relative;
+    }
+    .active:after {
+      content: '';
+      display: inline-block;
+      width: 100%;
+      height: 2px;
+      background-color: #fd4546;
+      position: absolute;
+      bottom: 12rpx;
+      left: 0;
     }
   }
 
@@ -98,20 +117,37 @@ export default {
     }
 
     .menu__popups {
+      &:before {
+        content: '';
+        position: absolute;
+        border-bottom: 14rpx #ffeeee solid;
+        border-left: 14rpx transparent solid;
+        border-right: 14rpx transparent solid;
+        border-top: none;
+        top: -14rpx;
+        right: 20rpx;
+        transform: translateX(5rpx);
+      }
       width: 240rpx;
       background-color: rgba(51,51,51,.9);
       border-radius: 10rpx;
       position: absolute;
       right: 0;
-      top: 90rpx;
-
+      top: 76rpx;
+      box-sizing: border-box;
+      border: 1px solid #ffeeee;
       &__item {
+        height: 90rpx;
+        width: 220rpx;
+        line-height: 90rpx;
+        border-bottom: 1rpx solid #ffeeee;
+        margin: 0 auto;
         &__icon {
           margin-right: 20rpx;
         }
         &__text {
           color: #ffffff;
-          font-size: 32rpx;
+          font-size: 28rpx;
         }
       }
     }
