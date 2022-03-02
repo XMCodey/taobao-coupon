@@ -34,9 +34,7 @@ export default {
   name: "goods",
   components: { ScrollTopContainer },
   data() {
-
     return {
-
     }
   },
   onLoad(option) {
@@ -45,7 +43,6 @@ export default {
   setup(props, context) {
     const internalInstance = getCurrentInstance()
     console.log(internalInstance);
-
     const scroll = function () {
       console.log('scroll');
     }
