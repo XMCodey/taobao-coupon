@@ -8,8 +8,8 @@
       <view class="menu__text__item">推荐</view>
     </view>
     <view class="menu__childMenu  icon_bgc" :style="{ backgroundColor: topMenuContainerCss.iconBackgroundColor }">
-      <uni-icons class="menu__childMenu__icon" type="more-filled" size="20" :color="topMenuContainerCss.iconColor"></uni-icons>
-      <view class="menu__popups" :style="{ 'background-color': topMenuContainerCss.backgroundColor }">
+      <uni-icons class="menu__childMenu__icon" @click="changeShowChildMenu" type="more-filled" size="20" :color="topMenuContainerCss.iconColor"></uni-icons>
+      <view v-show="showChildMenu" class="menu__popups" :style="{ 'background-color': topMenuContainerCss.backgroundColor }">
         <navigator class="menu__popups__item" v-for="i in [['首页', 'home'], ['搜索', 'search'], ['客服', 'chatbubble']]" hover-class="none">
           <uni-icons :type="i[1]" :color="topMenuContainerCss.iconColor" class="menu__popups__item__icon"></uni-icons>
           <text class="menu__popups__item__text" :style="{ color: topMenuContainerCss.iconColor}">{{ i[0] }}</text>
@@ -53,9 +53,16 @@ export default {
       iconBackgroundColor: 'rgba(0,0,0,0)'
     })
 
+    const showChildMenu = ref(false)
+
+    const changeShowChildMenu = function () {
+      showChildMenu.value = !showChildMenu.value
+    }
     return {
       scroll,
-      topMenuContainerCss
+      topMenuContainerCss,
+      changeShowChildMenu,
+      showChildMenu
     }
   }
 }
