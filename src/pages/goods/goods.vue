@@ -6,7 +6,7 @@
     <view class="menu__text">
       <view class="menu__text__item" :class="{ active: true }" @click="() => { scrollTo }">商品</view>
       <view class="menu__text__item">推荐</view>
-    </view>www
+    </view>
     <view class="menu__childMenu  icon_bgc" :style="{ backgroundColor: topMenuContainerCss.iconBackgroundColor }">
       <uni-icons class="menu__childMenu__icon" @click="changeShowChildMenu" type="more-filled" size="20" :color="topMenuContainerCss.iconColor"></uni-icons>
       <view v-show="showChildMenu" class="menu__popups" :style="{ 'background-color': topMenuContainerCss.backgroundColor }">
@@ -105,7 +105,7 @@
       </view>
     </view>
   </scroll-top-container>
-  <view class="bottomMenu"> <bb>  </bb>
+  <view class="bottomMenu">
     <view class="bottomMenu__share">
       <uni-icons type="redo" size="20" color="rgb(136, 136, 136)"></uni-icons>
       分享
