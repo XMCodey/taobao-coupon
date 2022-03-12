@@ -17,7 +17,7 @@
     <view style="height: 80rpx;"></view>
     <scroll-view scroll-y="true" show-scrollbar="true" class="goods" lower-threshold="150" @scrolltolower="scrollToLower">
       <view style="height: 16rpx;background-color: rgb(246, 246, 246);"></view>
-      <view class="goods__item" v-for="item in itemData">
+      <view class="goods__item" v-for="item in itemData" @click="goToGoodsPage">
         <image mode="widthFix" lazy-load="true" :src="item.pict_url" class="goods__item__img"></image>
         <view class="goods__item__contentContainer">
           <view class="goods__titleContainer">
@@ -148,13 +148,19 @@ export default {
       getItemData()
     }
 
+    const goToGoodsPage = function () {
+      uni.navigateTo({
+        url: '/pages/goods/goods?titele=323'
+      })
+    }
     return {
       changeSort,
       currentSort,
       presentPriceClass,
       scrollToLower,
       itemData,
-      noMore
+      noMore,
+      goToGoodsPage
     }
   }
 }
