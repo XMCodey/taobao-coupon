@@ -291,6 +291,8 @@ export default {
         background: #ffffff;
         padding: 0 5rpx;
         margin-right: 5rpx;
+        display: inline-block;
+
       }
     }
     &__volume {

@@ -46,7 +46,7 @@
     "@dcloudio/uni-quickapp-webview": "^3.0.0-alpha-3030820220114004",
     "buffer": "^6.0.3",
     "js-md5": "^0.7.3",
-    "sass": "^1.49.0",
+    "sass": "^1.49.9",
     "vue": "^3.2.27",
     "vue-i18n": "^9.1.9",
     "vuex": "^4.0.2"
