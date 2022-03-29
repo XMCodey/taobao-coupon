@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import { getGoodsList } from '../../network/home'
+import { getGoodsList } from '../../network/requests'
 export default {
   data() {
     return {
@@ -31,7 +31,6 @@ export default {
   setup(props, context) {
     console.log(props);
     console.log(context);
-
   }
 }
 </script>

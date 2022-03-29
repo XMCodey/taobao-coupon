@@ -17,7 +17,7 @@
     <view style="height: 80rpx;"></view>
     <scroll-view scroll-y="true" show-scrollbar="true" class="goods" lower-threshold="150" @scrolltolower="scrollToLower">
       <view style="height: 16rpx;background-color: rgb(246, 246, 246);"></view>
-      <view class="goods__item" v-for="item in itemData" @click="goToGoodsPage">
+      <view class="goods__item" v-for="item in itemData" @click="goToGoodsPage(item)">
         <image mode="widthFix" lazy-load="true" :src="item.pict_url" class="goods__item__img"></image>
         <view class="goods__item__contentContainer">
           <view class="goods__titleContainer">
@@ -58,7 +58,8 @@
 
 <script>
 import { getCurrentInstance, onMounted, ref } from "vue";
-import { getSearchItem } from "../../network/search";
+import { getSearchItem } from "../../network/requests";
+import { goToGoodsPage } from "../../static/common";
 import searchBox from "./search-box/search-box.vue";
 
 export default {
@@ -148,11 +149,6 @@ export default {
       getItemData()
     }
 
-    const goToGoodsPage = function () {
-      uni.navigateTo({
-        url: '/pages/goods/goods?titele=323'
-      })
-    }
     return {
       changeSort,
       currentSort,

@@ -1,7 +1,8 @@
+<!--父组件必须有onPageScroll生命周期-->
 <template>
-  <scroll-view :style="style" :scroll-top="scrollTop" @scroll="scroll" scroll-y="true">
+  <view >
     <slot></slot>
-  </scroll-view>
+  </view>
   <view class="scrollTop" @tap="goTop" :class="{ show: showGoTopButton }">
     <uni-icons type="top" size="22"></uni-icons>
       顶部
@@ -10,40 +11,25 @@
 
 <script>
 export default {
-  name: "scrollTopContainer",
-  props: {
-    style: {
-      type: Object,
-      default: ''
+  name: "scrollTop",
+  onPageScroll(object) {
+    if (object.scrollTop > 500) {
+      this.showGoTopButton = true
+    } else {
+      this.showGoTopButton = false
     }
   },
-  emits: [
-   "scroll"
-  ],
   data () {
     return {
       showGoTopButton: false,
-      scrollTop: 0,
-      old: {
-        scrollTop: 0
-      }
     }
   },
   methods: {
-    scroll (e) {
-      if (e.detail.scrollTop > 500) {
-        this.showGoTopButton = true
-      } else {
-        this.showGoTopButton = false
-      }
-      this.old.scrollTop = e.detail.scrollTop
-      this.$emit('scroll', e)
-    },
-    goTop (e) {
-      this.scrollTop = this.old.scrollTop
-      this.$nextTick(() => {
-        this.scrollTop = 0
-      });
+    goTop () {
+      uni.pageScrollTo({
+        scrollTop: 0,
+        duration: 300
+      })
     }
   }
 }
@@ -58,7 +44,7 @@ export default {
     height: 80rpx;
     background-color: #ffffff;
     border-radius: 50%;
-    position: absolute;
+    position: fixed;
     right: 30rpx;
     bottom: -150rpx;
     z-index: 99;
