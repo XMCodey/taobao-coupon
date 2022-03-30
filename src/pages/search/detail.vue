@@ -17,7 +17,7 @@
     <view style="height: 80rpx;"></view>
     <scroll-view scroll-y="true" show-scrollbar="true" class="goods" lower-threshold="150" @scrolltolower="scrollToLower">
       <view style="height: 16rpx;background-color: rgb(246, 246, 246);"></view>
-      <view class="goods__item" v-for="item in itemData" @click="goToGoodsPage(item)">
+      <view class="goods__item" v-for="item in itemData" :key="item.item_id" @click="goToGoodsPage(item)">
         <image mode="widthFix" lazy-load="true" :src="item.pict_url" class="goods__item__img"></image>
         <view class="goods__item__contentContainer">
           <view class="goods__titleContainer">

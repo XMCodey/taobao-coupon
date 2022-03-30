@@ -4,7 +4,7 @@
     <slot></slot>
   </view>
   <view class="scrollTop" @tap="goTop" :class="{ show: showGoTopButton }">
-    <uni-icons type="top" size="22"></uni-icons>
+    <uni-icons type="top" size="22" class="scrollTop__icon"></uni-icons>
       顶部
   </view>
 </template>
@@ -53,7 +53,7 @@ export default {
     align-items: center;
     justify-content: center;
     opacity: 0;
-    :last-child {
+    &__icon {
       line-height: 22rpx;
     }
   }

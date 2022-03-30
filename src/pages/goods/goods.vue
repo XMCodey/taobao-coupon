@@ -10,7 +10,9 @@
     <view class="menu__childMenu  icon_bgc">
       <uni-icons class="menu__childMenu__icon" @click="changeShowChildMenu" type="more-filled" size="20"></uni-icons>
       <view v-show="showChildMenu" class="menu__popups">
-        <navigator class="menu__popups__item" v-for="i in [['首页', 'home'], ['搜索', 'search'], ['客服', 'chatbubble']]" hover-class="none">
+        <navigator class="menu__popups__item"
+                   v-for="i in [['首页', 'home'], ['搜索', 'search'], ['客服', 'chatbubble']]"
+                   :key="i" hover-class="none">
           <uni-icons :type="i[1]" class="menu__popups__item__icon"></uni-icons>
           <text class="menu__popups__item__text">{{ i[0] }}</text>
         </navigator>
@@ -50,7 +52,7 @@
       </view>
       <view class="couponInfoContainer__des">
         <view>优惠券使用期限</view>
-        {{ goodsData.coupon_start_time }} 到 {{ goodsData.coupon_end_time }}
+        {{ handelCouponTimeLimit }}
       </view>
       <navigator url="/" class="couponInfoContainer__get">
         立即领券
@@ -82,7 +84,7 @@
     &nbsp;为你推荐
   </view>
   <view class="recommend-goods">
-    <view class="recommend-goods-item" v-for="recommendGoods in recommendData" key="recommendGoods" @click="goToGoodsPage(recommendGoods)">
+    <view class="recommend-goods-item" v-for="recommendGoods in recommendData" :key="recommendGoods.item_id" @click="goToGoodsPage(recommendGoods)">
       <image mode="widthFix" :src="recommendGoods.pict_url" class="recommend-goods-item__img"></image>
       <view class="recommend-goods-item__title">
         <image src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAcCAYAAAB/E6/TAAAAAXNSR0IArs4c6QAABL1JREFUSEu1ln1o1WUUxz/nd+9e3FS2lKaVNhSvllpphAiKUr6kJpLiS0UmYtImakRKTdGRKagr0AoNrZwh4oRKEdFWLnsBsyTLHG5oTcu31InOvdzd3d+J83vu2ubmX96efy7395znOef7Pd9zziMAmte/v6JrRBivqpn27W6XiNSqclCQAtlUUSG6YEBE/fh+oC/gA97dOkmcb77rjHihieLnRUpApwNNQDhJTpqvSdwpu0XzI7eSRdedgjQaxc/rp+0MRNp+0lYmttf8P7BrZavGVsfLHNluK2uBeBNoHMQDPw6p6e50PA5+E6RnQNyHphio2Sp4YQingjm3M7eFehsiizYOnbrAhHzI6gEHN0PVbzBvI2T3hAOb4MhnkJkN2TmQkQVeCOpvwrXzLshOnVtQJxy2dWQH6m7AhAXI9GXO5JcD6O7VyNtlQdR6vBSunEUiwyAtA1LSEyh89PoFOLwDju6FcEobTG0dGVWxehgwAjEEXbuhO1dAz37I6BddtLYaatHy7+DUD3ChEhpuQf/hyORXITMLLVkFpVsgNQMSebvNUSI/xnOPvhAKQ6+ByEtroa4GvX4JuT+CniiD1ZMdZWZjvzXXYP77yNN56JVz8NYEaIq6PJsIWlRnelCXyHkbgqgpXgKLtiODR6Ob82HETGTQKLTyKJQfdrSFUiC1E/xdHqCRaW9CYwO6fDTc+Mfto60cGQpTUVYOLNiK9B6I/v4N7FwJaZkwZFxAjf76FdJnCHTphlo+K350uTpzDGJRZOpSiMfQ1VOc85S0QBjt68ikmt4ZJi1ExsxFy7bDR4th5Zdw6QzseQdZ+DE8ONhRuHUxpKRCTTU8NReZsTxgRdfPhNM/udLo0JERagk0zl/fhXTvjb77PPLKZhe55SQn19EWrYXLVRAKwemf0eqLyLNLgvNa9BxUHnG0qt8BIqtdO2gRLilBvBC6ZSGMmQv1tXDjMvLMIrg3F/3zOBwqhsfGwolDARMyqzAoal03A/445gLqEJFFfKsaRs1G5qxDi5e6C2auQK0+PsxHCvZC36Hokc9hTxGy5nu0bBucK0fmrA/UpqsmOaqtW7RzZFKsvQ5DJwaCINYAS4fB2HlOCFfOwo7lyLQC6PUQevE0ROuQ3Efg6l/oyW+RUS8EotCCkY5+a03tVBeLwuMTkdlrgzakpVthxzKIDIfXPkXSu7T0MaM0Wgf7NkBOHzBnN68iD49EDYnVmak40aDbqs5qaOobyLiXg96lRbPg3EmXs9xHYdCTEPKgoQ7OVwStiO69nEC6PYCMmw/ZPdAvimDfRiee9p3BCtYPqOCJKa4z7H/P1YEtQ9vY4IraLo41BuhZXIzYXkoaWl8DX3/iGq+hsQATI6X9mDCo5swq2gybJ4jlr/Wcsgvsf0ZXuOc+59i6d221E4C1pZY5ph0PPs9zRq0HXkfzzPaN7mD+CITDCRQGvO08TcIol5axeYfAglEez4/sEtUZiceJcZXMZVDDKlLS/Nw6COT+T8+tKvFC44O3gr3t/Lhf6HmMVdWMZEASkTrfp9QLeYXywanK/x4lpiHm5KaR2picB2Rjqs+2qqi9QoLBFyAqxKMQbf6YDETBvXZ/ISKF+P8C090U4g30714AAAAASUVORK5CYII="></image>
@@ -113,13 +115,18 @@
     </view>
     <view class="bottomMenu__getCoupon">
       <view class="bottomMenu__getCoupon__first">口令购买</view>
-      <view class="bottomMenu__price">
+      <uni-link :href="couponLike"
+                class="bottomMenu__price"
+                color="#ffffff" font-size="24rpx"
+                showUnderLine="false"
+                copyTips="已自动复制网址，请在手机浏览器里粘贴该网址	"
+      >
         <view>
           ¥ {{ (goodsData.zk_final_price - goodsData.coupon_amount).toFixed(2) }}
           <view class="bottomMenu__price__through">¥ {{ goodsData.zk_final_price }}</view>
         </view>
         领券购买
-      </view>
+      </uni-link>
     </view>
   </view>
 </template>
@@ -128,11 +135,12 @@
 import { getCurrentInstance,  ref } from "vue";
 import ScrollTop from "../basic/scrollTop";
 import { getShopInfo, getGoodsData, getGoodsList } from "../../network/requests";
-import { goToGoodsPage } from "../../static/common";
+import { goToGoodsPage, transformTime } from "../../static/common";
+import UniLink from "../../uni_modules/uni-like/components/uni-link/uni-link";
 
 export default {
   name: "goods",
-  components: { ScrollTop },
+  components: {UniLink, ScrollTop },
   data() {
     return {
       changeTopMenuCss: false,
@@ -146,19 +154,20 @@ export default {
           coupon_end_time: ''
         }
       },
-      recommendData: []
+      recommendData: [],
+      couponLike: ''
     }
   },
   onLoad(option) {
     console.log(option);
-
+    this.couponLike = option.coupon_like
     getGoodsData(option.id).then((r,e) => {
       this.goodsData = r.data.tbk_item_info_get_response.results.n_tbk_item[0]
       if (!this.goodsData.coupon_amount) {
         this.goodsData.coupon_amount = option.coupon_amount
       }
-      this.goodsData.coupon_start_time = option.start_time.substring(0, 10)
-      this.goodsData.coupon_end_time = option.end_time.substring(0, 10)
+      this.goodsData.coupon_start_time = option.start_time
+      this.goodsData.coupon_end_time = option.end_time
     })
 
     getShopInfo("好味屋旗舰店").then((e,r) => {
@@ -168,7 +177,12 @@ export default {
 
     getGoodsList({ material_id: 13256, item_id: option.id }).then((r,e) => {
       this.recommendData = r.data.tbk_dg_optimus_material_response.result_list.map_data
+      console.log(r);
     })
+    // getGoodsList({ material_id: 13256, content_id: option.id }).then((r,e) => {
+    //   // this.recommendData = r.data.tbk_dg_optimus_material_response.result_list.map_data
+    //   console.log(r);
+    // })
   },
   mounted() {
     uni.getSystemInfo({
@@ -211,13 +225,27 @@ export default {
         duration: 300
       })
     },
-    goToGoodsPage
+    goToGoodsPage,
+    handleTime (time) {
+      if (time && (time.indexOf('-') === -1)) {
+        return transformTime(parseInt(time))
+      } else {
+        return time
+      }
+    },
+
   },
-
+  computed: {
+    handelCouponTimeLimit() {
+      if (this.goodsData.coupon_start_time && this.goodsData.coupon_end_time) {
+        return (this.handleTime(this.goodsData.coupon_start_time).substring(0,10)
+            + '到' + this.handleTime(this.goodsData.coupon_end_time).substring(0,10))
+      }
+    }
+  },
   setup(props, context) {
-    const internalInstance = getCurrentInstance()
-    console.log(internalInstance);
-
+    // const internalInstance = getCurrentInstance()
+    // console.log(internalInstance);
     const showChildMenu = ref(false)
     const changeShowChildMenu = function () {
       showChildMenu.value = !showChildMenu.value
