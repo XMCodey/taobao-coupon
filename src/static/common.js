@@ -1,4 +1,8 @@
-// import uni from "@dcloudio/vite-plugin-uni";
+// #ifdef H5
+import { onMounted, onUpdated, reactive, ref, watch } from 'vue'
+import { useRoute } from 'vue-router'
+// #endif
+
 // console.log(uni);
 // 遇到的一个兼容问题如果不传uni进去的话在微信里面会是uni undefined,或者使用箭头函数，或者在函数外使用下uni
 // 好像又可以了不需要箭头函数了
@@ -40,5 +44,105 @@ function transformTime (timestamp) {
 }
 
 
+function debounce (callback, time) {
+    let timer = null
+    return function () {
+        clearTimeout(timer)
+        timer = setTimeout(() => {
+            callback()
+        }, time)
+    }
+}
 
-export { goToGoodsPage, transformTime }
+function throttle (callback, delay) {
+    let previous = 0
+    return function () {
+        const now = new Date()
+        if ((now - previous) > delay) {
+            callback()
+            previous = now
+        }
+    }
+}
+
+
+// 图片懒加载
+
+function lazyLodImg(dom, data= ref(0)) {
+    // 获取图片容器dom节点 里面是图片或者图片列表
+    const imagesWrapper = dom
+    let scrollEvent = reactive({target:{}})
+    window.onscroll =  function (event) {
+        if (document.body.scrollTop > 0)
+        {
+            scrollEvent.target.scrollTop = document.body.scrollTop
+            scrollEvent.target.offsetHeight = document.body.offsetHeight
+        }
+        else if (document.documentElement.scrollTop > 0)
+        {
+            scrollEvent.target.scrollTop = document.documentElement.scrollTop
+            scrollEvent.target.offsetHeight = document.documentElement.offsetHeight
+        }
+    }
+    // 定义懒加载图片函数
+    const imgLoadLazy = function (imgIndex = 0) {
+
+        // 查找图片元素，并更改src属性
+        const getTagNameIsImg = function (Dom) {
+            if (Dom.tagName === 'IMG') {
+                if (Dom.dataset.src) {
+                    Dom.src = Dom.dataset.src
+                }
+            } else {
+                const childrenDom = Dom.children
+                for (let i = 0; i < childrenDom.length; i++) {
+                    getTagNameIsImg(childrenDom[i])
+                }
+            }
+        }
+        // 判断滚动的位置及元素的位置，执行加载函数
+        const loadImg = function (event, imagesDom) {
+            const imgLength = imagesDom.length
+            const imgDom = imagesDom[imgIndex]
+            if ((imgIndex < imgLength) &&
+                ((event.target.scrollTop + event.target.offsetHeight) >= imgDom.offsetTop)) {
+                getTagNameIsImg(imgDom)
+                imgIndex += 1
+                return true
+            } else {
+                return false
+            }
+        }
+        return function (event, imagesDom) {
+
+            // 加载首屏图片逻辑
+            if (imgIndex !== 0) {
+                loadImg(event, imagesDom)
+            } else {
+                let load = true
+                while (load) {
+                    load = loadImg(event, imagesDom)
+                }
+            }
+        }
+    }
+    const updateInstance = debounce(() => { instance = imgLoadLazy() }, 10)
+    let instance = imgLoadLazy()
+    onMounted(() => {
+        watch(() => scrollEvent.target.scrollTop, () => {
+            instance(scrollEvent, imagesWrapper.value.children)
+        })
+    })
+
+    onUpdated(() => {
+        scrollEvent && instance(scrollEvent, imagesWrapper.value.children)
+        updateInstance()
+    })
+    const route = useRoute()
+    // 检测传入数据的变化，更新实例
+    watch([() => data, () => route.params], () => {
+        updateInstance()
+    })
+}
+
+export { goToGoodsPage, transformTime, debounce, throttle, lazyLodImg }
