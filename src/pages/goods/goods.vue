@@ -54,9 +54,14 @@
         <view>优惠券使用期限</view>
         {{ handelCouponTimeLimit }}
       </view>
-      <navigator url="/" class="couponInfoContainer__get">
+      <uni-link :href="couponLike"
+                showUnderLine="false"
+                color="#ff313e"
+                font-size="28"
+                copyTips="已自动复制网址，请在手机浏览器里粘贴该网址	"
+                class="couponInfoContainer__get">
         立即领券
-      </navigator>
+      </uni-link>
     </view>
   </view>
   <view class="recommendContainer">
