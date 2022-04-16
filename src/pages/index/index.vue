@@ -69,14 +69,43 @@
       </view>
     </view>
   </view>
+  <view class="category_container">
+    <view class="category">
+      <view class="category__item"  :class="{active: currentCategoryIndex === index }"
+            v-for="(item, index) in category" :key="item.name"
+            @click="handelCategoryClick(index)">
+        <view class="category__title">{{ item.name }}</view>
+        <view class="category__desc">{{ item.description }}</view>
+      </view>
+    </view>
+  </view>
 </template>
 
 <script>
 import { getGoodsList } from '../../network/requests'
-import {getHeadCategory, getHotSell} from './index'
+import { getHeadCategory, getHotSell } from './index'
+import { ref } from "vue";
+
 export default {
   data() {
     return {
+      category: [
+        { name: "精选", description: "精选好物" },
+        { name: "女装", description: "潮流穿搭" },
+        { name: "母婴", description: "宝妈精选" },
+        { name: "美妆", description: "达人推荐" },
+        { name: "居家日用", description: "实惠百货" },
+        { name: "鞋品", description: "潮牌特价" },
+        { name: "美食", description: "吃货福利" },
+        { name: "文娱车品", description: "超低折扣" },
+        { name: "数码家电", description: "全网矩惠" },
+        { name: "男装", description: "品质优选" },
+        { name: "内衣", description: "亲肤舒适" },
+        { name: "箱包", description: "潮流出街" },
+        { name: "配饰", description: "搭配精品" },
+        { name: "户外运动", description: "健康生活" },
+        { name: "家装家纺", description: "品质家居" },
+      ]
     }
   },
   onLoad() {
@@ -97,10 +126,17 @@ export default {
     const { hotSellData, ddqData } = getHotSell()
     console.log(hotSellData);
     console.log(ddqData);
+
+    const currentCategoryIndex = ref(0)
+    const handelCategoryClick = function (index) {
+      currentCategoryIndex.value = index
+    }
     return {
       headCategoryData,
       hotSellData,
-      ddqData
+      ddqData,
+      currentCategoryIndex,
+      handelCategoryClick
     }
   }
 }

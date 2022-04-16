@@ -177,4 +177,54 @@ $bgc-content: #ffffff;
     padding-left: 0;
     text-align: center;
   }
+  .hot_sell__desc {
+    background-color: rgba(255, 245, 218, 1.000);
+    color: rgba(255, 108, 31, 1.000);
+  }
+  .hot__sell__time {
+    padding: 0 10rpx;
+  }
+}
+
+.category_container {
+  background-color: $bgc-basic;
+  padding-top: $spacing-basic;
+  height: 88rpx;
+}
+
+.active {
+  .category__title{
+    color: rgb(242, 23, 36);
+  }
+  .category__desc {
+    background: linear-gradient(90deg, rgb(255, 74, 95), rgb(242, 23, 36));
+    color: #ffffff;
+  }
+}
+
+.category {
+  margin: 0 $spacing-basic;
+  background-color: #ffffff;
+  white-space: nowrap;
+  overflow-x: scroll;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  &__item {
+    display: inline-block;
+    padding: 0 24rpx;
+    text-align: center;
+  }
+  &__title {
+    font-size: 33rpx;
+    //color: rgb(242, 23, 36);
+  }
+  &__desc {
+    font-size: 24rpx;
+    line-height: 28rpx;
+    padding: 5rpx 16rpx;
+    border-radius: 90px;
+    font-weight: bold;
+    color: rgb(153, 153, 153);
+  }
 }

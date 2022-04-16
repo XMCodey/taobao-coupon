@@ -139,7 +139,7 @@
 				immediate: true,
 				handler(newVal) {
 					if (newVal) {
-						this.show = true;
+          this.show = true;
 						this.$nextTick(() => {
 							this.showSync = true
 						})
