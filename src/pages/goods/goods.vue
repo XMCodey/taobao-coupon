@@ -88,42 +88,8 @@
     <image style="width: 32rpx; height: 30rpx;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAcCAYAAAAAwr0iAAAAAXNSR0IArs4c6QAABFlJREFUSEutVk1oXFUU/r77RtqJprOxS3dCUdQqWUi1i2IV7A/5IU4MJFCSRVujKVpcFIR0UiMRQqSVSOwsmmIbiDNgWxu6aBSCXbkQqaVFFFHESnChGEtkknn3yHnv3clM5udNW2eVl3vvOd/5vu+ce4noJ5mMwfHjQlLkypVNsPYJGPMogK0ACvD9JXjeLe7d+5Mecfvd+eDcpUut8LynQT4C4GGQd2DtbZDXuW/fkogQo6NkJmNL54JgugAgCDI/n0axOATgGRiT0kVdgIhu/A3AVwDeZ2fnDcnlPPb0+AHgtbXXAfQBeBzAZg2rISFSBPkzrL0MYybZ0fG7gncg6D7k/PktSCZPQ6Q3OgxY64MBNkVnAJjg29oCjHmH3d2TksttAzkLsq3OOS+qVsEsATjAdPqqAx9El5mZzUgmL0PkRYj4wQFjDJQZTajVh1QpdRZkAqAFJAtjnoe1TwbnSGVLE4aMlfSNYoZr/8L3e9jfPx+ACOKeO/cBRN4CUASQiJKtBwgZKP+WSBplZf3v8qSV+10RWoCyuATf38GBgV8oZ848C5EvADxU0q0ydb0vLdGVqUCa/YVFkqc5OHiYks1OwNq3ASj1Tq/qYLUrajZp+T7HghrzBcrU1HWIPBXop9qt6xbSrrSW+6DUPxWSVAMpP1cN3hXbQTl5chkirRWmqdb8Xiqtf0ZbU2VIJA5TJibuAHiwCsD/m3JjNJ0NCRgzRBkfvwVrH6tpwEYSxAFsfDaUQKSTcuLERxDRydfYhHEJy1uwsYShCYHbMGY3ZWRkN6xdKIsf4644JLHrbtZ8yrGx3nAQHTv2GUS6Kli4H/odA9UdFHYaqdP0OY6Pfx0COHp0O4BrAForvBDXho1brRYVbgid4uTkm8E9JOm0x3zelyNHhiHy4X17ob4CzmPfoFh8idPTf0UTJrzb9XqUoaGPYe2hewLR2ITOeH+A1OTfuZyhBG7WDQ9vwspKDkB7xcVUy9XNuD6UyEJEXf8PPO8VZrNXHetB2NLkdSwcPJhCoTAHkZdBFiGiF8f6lXx3o9iHiAdyBWQfz569KJlMgpmMeiH4bbhjo1R9fVsAfAKRjiomYrustMFp/jfIfs7OzpdXXhNAIIdjIp1OgpyCtYORJxRss9dumJz8FZ7Xz7m5a7JrV4KLi6XK6wJwIAJ61JhdXaMQGYkeINrHcSBC2YBvYUwvL1z4oVblDQE4YyKTCV6w0t5+AL5/CkAqYqPyuRZet+FLVw1Hfo6WlgHm8382Sl7lgY3yqoeRTptgTuzfvwNrazOwdlvkC6U4fPuRajZNrEjGkEq9y3x+tfz1W886Tc390rDas2crVlen4fvdwQPGWoEx+ibUm017/BAXFy/qfuTzVnsnzrNNAQiYdROzre0BtLS8AZH3IKJG1eUvkUy+xoWFH+8meawEDSXZuXM7CoVXkUh8j+XlOd68uRqndy02mmagNLDUF5E5G/0vjnq3/h/gPz3gXRJEVAAAAABJRU5ErkJggg=="></image>
     &nbsp;为你推荐
   </view>
-  <view class="recommend-goods">
 
-    // #ifdef H5
-    <div ref="imgContainerDom">
-    // #endif
-    <view class="recommend-goods-item" v-for="recommendGoods in recommendData" :key="recommendGoods.item_id" @click="goToGoodsPage(recommendGoods)">
-      // #ifdef H5
-      <img src="http://cmsstatic.ffquan.cn//web/images/rolling.gif" :data-src="recommendGoods.pict_url" alt="" class="recommend-goods-item__img">
-      // #endif
-      // #ifndef H5
-      <image mode="widthFix" :src="recommendGoods.pict_url" data-src="3232" lazy-load="true" class="recommend-goods-item__img"></image>
-      // #endif
-      <view class="recommend-goods-item__title">
-        <image src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAcCAYAAAB/E6/TAAAAAXNSR0IArs4c6QAABL1JREFUSEu1ln1o1WUUxz/nd+9e3FS2lKaVNhSvllpphAiKUr6kJpLiS0UmYtImakRKTdGRKagr0AoNrZwh4oRKEdFWLnsBsyTLHG5oTcu31InOvdzd3d+J83vu2ubmX96efy7395znOef7Pd9zziMAmte/v6JrRBivqpn27W6XiNSqclCQAtlUUSG6YEBE/fh+oC/gA97dOkmcb77rjHihieLnRUpApwNNQDhJTpqvSdwpu0XzI7eSRdedgjQaxc/rp+0MRNp+0lYmttf8P7BrZavGVsfLHNluK2uBeBNoHMQDPw6p6e50PA5+E6RnQNyHphio2Sp4YQingjm3M7eFehsiizYOnbrAhHzI6gEHN0PVbzBvI2T3hAOb4MhnkJkN2TmQkQVeCOpvwrXzLshOnVtQJxy2dWQH6m7AhAXI9GXO5JcD6O7VyNtlQdR6vBSunEUiwyAtA1LSEyh89PoFOLwDju6FcEobTG0dGVWxehgwAjEEXbuhO1dAz37I6BddtLYaatHy7+DUD3ChEhpuQf/hyORXITMLLVkFpVsgNQMSebvNUSI/xnOPvhAKQ6+ByEtroa4GvX4JuT+CniiD1ZMdZWZjvzXXYP77yNN56JVz8NYEaIq6PJsIWlRnelCXyHkbgqgpXgKLtiODR6Ob82HETGTQKLTyKJQfdrSFUiC1E/xdHqCRaW9CYwO6fDTc+Mfto60cGQpTUVYOLNiK9B6I/v4N7FwJaZkwZFxAjf76FdJnCHTphlo+K350uTpzDGJRZOpSiMfQ1VOc85S0QBjt68ikmt4ZJi1ExsxFy7bDR4th5Zdw6QzseQdZ+DE8ONhRuHUxpKRCTTU8NReZsTxgRdfPhNM/udLo0JERagk0zl/fhXTvjb77PPLKZhe55SQn19EWrYXLVRAKwemf0eqLyLNLgvNa9BxUHnG0qt8BIqtdO2gRLilBvBC6ZSGMmQv1tXDjMvLMIrg3F/3zOBwqhsfGwolDARMyqzAoal03A/445gLqEJFFfKsaRs1G5qxDi5e6C2auQK0+PsxHCvZC36Hokc9hTxGy5nu0bBucK0fmrA/UpqsmOaqtW7RzZFKsvQ5DJwaCINYAS4fB2HlOCFfOwo7lyLQC6PUQevE0ROuQ3Efg6l/oyW+RUS8EotCCkY5+a03tVBeLwuMTkdlrgzakpVthxzKIDIfXPkXSu7T0MaM0Wgf7NkBOHzBnN68iD49EDYnVmak40aDbqs5qaOobyLiXg96lRbPg3EmXs9xHYdCTEPKgoQ7OVwStiO69nEC6PYCMmw/ZPdAvimDfRiee9p3BCtYPqOCJKa4z7H/P1YEtQ9vY4IraLo41BuhZXIzYXkoaWl8DX3/iGq+hsQATI6X9mDCo5swq2gybJ4jlr/Wcsgvsf0ZXuOc+59i6d221E4C1pZY5ph0PPs9zRq0HXkfzzPaN7mD+CITDCRQGvO08TcIol5axeYfAglEez4/sEtUZiceJcZXMZVDDKlLS/Nw6COT+T8+tKvFC44O3gr3t/Lhf6HmMVdWMZEASkTrfp9QLeYXywanK/x4lpiHm5KaR2picB2Rjqs+2qqi9QoLBFyAqxKMQbf6YDETBvXZ/ISKF+P8C090U4g30714AAAAASUVORK5CYII="></image>
-        {{ recommendGoods.title }}
-      </view>
-      <view class="recommend-goods-item__price">
-        券后&nbsp;
-        <view class="recommend-goods-item__price__red">
-          ¥
-          <text>{{ (recommendGoods.zk_final_price - recommendGoods.coupon_amount).toFixed(2) }}</text>
-        </view>
-      </view>
-      <view class="recommend-goods-item__coupon">
-        <text>券</text>
-        {{ recommendGoods.coupon_amount }} 元
-      </view>
-      <view class="recommend-goods-item__volume">
-        已售{{ recommendGoods.volume }}
-      </view>
-    </view>
-      // #ifdef H5
-    </div>
-    // #endif
-  </view>
-
+  <goods-item :data="recommendData"></goods-item>
   <scroll-top />
   <view class="bottomMenu">
     <view class="bottomMenu__share">
@@ -188,14 +154,15 @@
 </template>
 
 <script>
-  import { getCurrentInstance,  ref } from "vue";
+  import { ref } from "vue";
   import ScrollTop from "../basic/scrollTop";
   import { getShopInfo, getGoodsData, getGoodsList } from "../../network/requests";
-  import { goToGoodsPage, transformTime, lazyLodImg } from "../../static/common";
+  import { goToGoodsPage, transformTime } from "../../static/common";
   import UniLink from "../../uni_modules/uni-like/components/uni-link/uni-link";
+  import goodsItem from "../common/goodsItem";
   export default {
     name: "goods",
-    components: { UniLink, ScrollTop },
+    components: { UniLink, ScrollTop, goodsItem },
     data() {
       return {
         changeTopMenuCss: false,
@@ -292,15 +259,10 @@
       const changeShowChildMenu = function () {
         showChildMenu.value = !showChildMenu.value
       }
-      const imgContainerDom = ref(null)
-      // #ifdef H5
-        lazyLodImg(imgContainerDom)
-      // #endif
 
       return {
         changeShowChildMenu,
         showChildMenu,
-        imgContainerDom
       }
     }
 }
@@ -620,69 +582,7 @@
     align-items: center;
     justify-content: center;
   }
-  .recommend-goods {
-    @include padding20rpx;
-    padding-top: 0;
-    padding-bottom: 108rpx;
-    background-color: #f4f4f4;
-    .recommend-goods-item {
-      width: calc(50% - 20rpx);
-      //box-sizing: border-box;
-      margin: 0 10rpx 20rpx 10rpx;
-      display: inline-block;
-      background-color: #ffffff;
-      &__img {
-        width: 100%;
-      }
-      &__title {
-        :last-child {
-          width: 26rpx;
-          height: 26rpx;
-        }
-        padding: 10rpx 20rpx;
-        font-size: 26rpx;
-        font-weight: 400;
-        color: #333333;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-      }
-      &__price {
-        padding-left: 20rpx;
-        color: rgb(102, 102, 102);
-        font-size: 24rpx;
-        display: flex;
-        align-items: baseline;
-        &__red {
-          color: #ff2b22;
-          font-size: 24rpx;
-          font-weight: bold;
-          :last-child {
-            font-size: 38rpx;
-          }
-        }
-      }
-      &__coupon {
-        background-image: linear-gradient(90deg,#ff8873,#ff4f4f);
-        font-size: 24rpx;
-        margin-left: 20rpx;
-        display: inline-block;
-        border-radius: 2px;
-        padding: 2rpx 6rpx 2rpx 2rpx;
-        color: #ffffff;
-        :first-child {
-          background-color: #ffffff;
-          color: #fe3a33;
-          padding: 0 2rpx;
-        }
-      }
-      &__volume {
-        font-size: 24rpx;
-        color: #888;
-        padding: 10rpx 20rpx 20rpx 20rpx;
-      }
-    }
-  }
+
   .bottomMenu {
     padding: 14rpx 20rpx 14rpx 40rpx;
     height: 80rpx;

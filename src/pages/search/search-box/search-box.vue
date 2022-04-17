@@ -1,7 +1,7 @@
 <template >
   <view :class="{changeHeight: pullDownData, overflow: 'hidden'}" @click="clearPullDownData">
     <view class="search">
-      <navigator open-type="navigateBack">
+      <navigator open-type="navigateBack" hover-class="none">
         <uni-icons type="left" size="20" class="search__back" @click=""></uni-icons>
       </navigator>
       <uni-search-bar class="search__input" placeholder="支持搜索淘宝优惠" cancelButton="none"

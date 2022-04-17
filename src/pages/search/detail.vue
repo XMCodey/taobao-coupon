@@ -224,6 +224,7 @@ export default {
       &__img {
         border-radius: 10px;
         width: 244rpx;
+        height: 244rpx;
       }
       &__contentContainer {
         display: flex;

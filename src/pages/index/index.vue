@@ -79,12 +79,21 @@
       </view>
     </view>
   </view>
+<!--  <view class="goods">-->
+<!--    <view class="goods__item" v-for="i in goodsData">-->
+<!--      <image src="https://img.alicdn.com/imgextra/i4/3528106876/O1CN013TCKO620fG5e0D0yi_!!3528106876.jpg_310x310.jpg" class="goods__image"></image>-->
+<!--      <view class="goods__title"> 【快鱼】2022夏帅气百搭圆领短袖T恤男 </view>-->
+<!--      <view class="goods__price">券后<view class="goods__rmb">¥</view><view class="goods__price__value">28.8</view></view>-->
+<!--      <view class="goods__coupon"></view>-->
+<!--      <view class="goods__volume"></view>-->
+<!--    </view>-->
+<!--  </view>-->
 </template>
 
 <script>
 import { getGoodsList } from '../../network/requests'
 import { getHeadCategory, getHotSell } from './index'
-import { ref } from "vue";
+import {reactive, ref} from "vue";
 
 export default {
   data() {
@@ -107,6 +116,8 @@ export default {
         { name: "家装家纺", description: "品质家居" },
       ]
     }
+  },
+  components: {
   },
   onLoad() {
     // uni.preloadPage({url: '/pages/search/index'})
@@ -131,12 +142,16 @@ export default {
     const handelCategoryClick = function (index) {
       currentCategoryIndex.value = index
     }
+
+    const goodsData = []
+    goodsData.length = 30
     return {
       headCategoryData,
       hotSellData,
       ddqData,
       currentCategoryIndex,
-      handelCategoryClick
+      handelCategoryClick,
+      goodsData
     }
   }
 }
