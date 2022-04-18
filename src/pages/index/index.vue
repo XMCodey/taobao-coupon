@@ -1,7 +1,7 @@
 <template>
   <view class="head">
-    <view @click="goSearchPage()">
-      <uni-search-bar></uni-search-bar>
+    <view @click="goSearchPage">
+      <uni-search-bar cancelButton="none"></uni-search-bar>
     </view>
     <view class="search_help">
       <text class="search_help__left">三步查券</text>
