@@ -144,4 +144,4 @@ function lazyLodImg(dom, data = ref(0)) {
   })
 }
 
-export {goToGoodsPage, transformTime, debounce, throttle, lazyLodImg}
+export { goToGoodsPage, transformTime, debounce, throttle, lazyLodImg }
