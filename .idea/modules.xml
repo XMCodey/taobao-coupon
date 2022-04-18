@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/my-vue3-project.iml" filepath="$PROJECT_DIR$/.idea/my-vue3-project.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/taobao-coupon.iml" filepath="$PROJECT_DIR$/.idea/taobao-coupon.iml" />
     </modules>
   </component>
 </project>

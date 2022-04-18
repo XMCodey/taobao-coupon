@@ -79,21 +79,14 @@
       </view>
     </view>
   </view>
-<!--  <view class="goods">-->
-<!--    <view class="goods__item" v-for="i in goodsData">-->
-<!--      <image src="https://img.alicdn.com/imgextra/i4/3528106876/O1CN013TCKO620fG5e0D0yi_!!3528106876.jpg_310x310.jpg" class="goods__image"></image>-->
-<!--      <view class="goods__title"> 【快鱼】2022夏帅气百搭圆领短袖T恤男 </view>-->
-<!--      <view class="goods__price">券后<view class="goods__rmb">¥</view><view class="goods__price__value">28.8</view></view>-->
-<!--      <view class="goods__coupon"></view>-->
-<!--      <view class="goods__volume"></view>-->
-<!--    </view>-->
-<!--  </view>-->
+  <goods-item :data="goodsData"></goods-item>
 </template>
 
 <script>
 import { getGoodsList } from '../../network/requests'
 import { getHeadCategory, getHotSell } from './index'
 import {reactive, ref} from "vue";
+import GoodsItem from '../common/goodsItem'
 
 export default {
   data() {
@@ -118,6 +111,7 @@ export default {
     }
   },
   components: {
+    GoodsItem
   },
   onLoad() {
     // uni.preloadPage({url: '/pages/search/index'})
@@ -143,8 +137,13 @@ export default {
       currentCategoryIndex.value = index
     }
 
-    const goodsData = []
-    goodsData.length = 30
+    const goodsData = ref([])
+
+    let response =  getGoodsList( {material_id: 27160})
+    response.then(value => {
+      goodsData.value = value.data.tbk_dg_optimus_material_response.result_list.map_data
+      console.log()
+    })
     return {
       headCategoryData,
       hotSellData,
