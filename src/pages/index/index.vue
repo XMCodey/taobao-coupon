@@ -80,7 +80,8 @@
     </view>
   </view>
   <goods-item :data="goodsData" class="goods"></goods-item>
-  <foot-menu></foot-menu>
+  <foot-menu checked="1"></foot-menu>
+  <scroll-top></scroll-top>
 </template>
 
 <script>
@@ -88,13 +89,16 @@ import { getGoodsList } from '../../network/requests'
 import { getHeadCategory, getHotSell } from './index'
 import { ref } from "vue";
 import GoodsItem from '../common/goodsItem'
-import FootMenu from  '../basic/FootMenu'
+import FootMenu from '../basic/footMenu'
+import ScrollTop from '../basic/scrollTop'
 
 export default {
   components: {
+    ScrollTop,
     GoodsItem,
     FootMenu
   },
+  onPageScroll() {},
   onLoad() {
     // uni.preloadPage({url: '/pages/search/index'})
     // let response =  getGoodsList( {material_id: 27160})
