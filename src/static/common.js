@@ -1,6 +1,6 @@
 // #ifdef H5
-import {onMounted, onUpdated, reactive, ref, watch} from 'vue'
-import {useRoute} from 'vue-router'
+  import {onMounted, onUpdated, reactive, ref, watch} from 'vue'
+  import {useRoute} from 'vue-router'
 // #endif
 
 // console.log(uni);

@@ -1,6 +1,6 @@
 <template>
   <view class="head">
-    <view @click="goSearchPage">
+    <view @click="goSearchPage" class="search">
       <uni-search-bar cancelButton="none"></uni-search-bar>
     </view>
     <view class="search_help">
@@ -79,39 +79,21 @@
       </view>
     </view>
   </view>
-  <goods-item :data="goodsData"></goods-item>
+  <goods-item :data="goodsData" class="goods"></goods-item>
+  <foot-menu></foot-menu>
 </template>
 
 <script>
 import { getGoodsList } from '../../network/requests'
 import { getHeadCategory, getHotSell } from './index'
-import {reactive, ref} from "vue";
+import { ref } from "vue";
 import GoodsItem from '../common/goodsItem'
+import FootMenu from  '../basic/FootMenu'
 
 export default {
-  data() {
-    return {
-      category: [
-        { name: "精选", description: "精选好物" },
-        { name: "女装", description: "潮流穿搭" },
-        { name: "母婴", description: "宝妈精选" },
-        { name: "美妆", description: "达人推荐" },
-        { name: "居家日用", description: "实惠百货" },
-        { name: "鞋品", description: "潮牌特价" },
-        { name: "美食", description: "吃货福利" },
-        { name: "文娱车品", description: "超低折扣" },
-        { name: "数码家电", description: "全网矩惠" },
-        { name: "男装", description: "品质优选" },
-        { name: "内衣", description: "亲肤舒适" },
-        { name: "箱包", description: "潮流出街" },
-        { name: "配饰", description: "搭配精品" },
-        { name: "户外运动", description: "健康生活" },
-        { name: "家装家纺", description: "品质家居" },
-      ]
-    }
-  },
   components: {
-    GoodsItem
+    GoodsItem,
+    FootMenu
   },
   onLoad() {
     // uni.preloadPage({url: '/pages/search/index'})
@@ -125,29 +107,61 @@ export default {
     }
   },
   setup(props, context) {
-    console.log(props);
-    console.log(context);
     const { headCategoryData } = getHeadCategory()
     const { hotSellData, ddqData } = getHotSell()
-    console.log(hotSellData);
-    console.log(ddqData);
-
-    const currentCategoryIndex = ref(0)
-    const handelCategoryClick = function (index) {
-      currentCategoryIndex.value = index
-    }
 
     const goodsData = ref([])
+    let currentCategoryId = 4092
+    const category = [
+      { name: "精选", description: "精选好物", id: currentCategoryId },
+      { name: "女装", description: "潮流穿搭", id: 3767 },
+      { name: "母婴", description: "宝妈精选", id: 3760 },
+      { name: "美妆", description: "达人推荐", id: 3763 },
+      // { name: "居家日用", description: "实惠百货", id: 0 },
+      { name: "鞋包配饰", description: "潮牌特价", id: 3762 },
+      { name: "美食", description: "吃货福利", id: 3761 },
+      { name: "文娱车品", description: "超低折扣", id: 0 },
+      { name: "数码家电", description: "全网矩惠", id: 3759 },
+      { name: "男装", description: "品质优选", id: 3764 },
+      { name: "内衣", description: "亲肤舒适", id: 3765 },
+      // { name: "箱包", description: "潮流出街", id: 0 },
+      // { name: "配饰", description: "搭配精品", id: 0 },
+      { name: "户外运动", description: "健康生活", id: 3766 },
+      { name: "家装家纺", description: "品质家居", id: 3758 },
+    ]
+    const currentCategoryIndex = ref(0)
+    const errorInfo = ref(false)
+    const getGoods = function () {
+      getGoodsList({material_id: currentCategoryId}).then(value => {
 
-    let response =  getGoodsList( {material_id: 27160})
-    response.then(value => {
-      goodsData.value = value.data.tbk_dg_optimus_material_response.result_list.map_data
-      console.log()
-    })
+        // 错误处理 start
+        if (value.data === 'request:fail timeout') {
+          console.log(value.data)
+          errorInfo.value = value.data
+        } else if (value.errMsg === 'request:ok' && value.data.error_response) {
+          console.log(value.data.error_response.sub_msg)
+          errorInfo.value = value.data.error_response.sub_msg
+        }
+
+        if (errorInfo.value) {
+          return
+        }
+        // 错误处理end
+        goodsData.value = value.data.tbk_dg_optimus_material_response.result_list.map_data
+        console.log(goodsData.value)
+      })
+    }
+    getGoods()
+    const handelCategoryClick = function (index) {
+      currentCategoryIndex.value = index
+      currentCategoryId = category[index].id
+      getGoods()
+    }
     return {
       headCategoryData,
       hotSellData,
       ddqData,
+      category,
       currentCategoryIndex,
       handelCategoryClick,
       goodsData

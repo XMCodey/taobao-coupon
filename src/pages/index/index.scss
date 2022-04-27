@@ -1,6 +1,13 @@
 $spacing-basic: 20rpx;
 $bgc-basic: rgb(246, 246, 246);
 $bgc-content: #ffffff;
+.search {
+  position: fixed;
+  width: 100%;
+  background: rgb(242, 23, 36);
+  z-index: 1001;
+}
+
 .head {
   background-color: rgb(242, 23, 36);
   padding-bottom: 20rpx;
@@ -12,6 +19,7 @@ $bgc-content: #ffffff;
     width: 95vw;
     margin: 0 auto;
     border-radius: 20px;
+    padding-top: 112rpx;
 
     &__left {
       font-weight: bold;
@@ -228,3 +236,9 @@ $bgc-content: #ffffff;
     color: rgb(153, 153, 153);
   }
 }
+
+.goods {
+  margin-top: 20rpx;
+}
+
+
