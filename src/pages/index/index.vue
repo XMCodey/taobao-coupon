@@ -85,6 +85,7 @@
   <goods-item :data="category[currentCategoryIndex].data" class="goods"></goods-item>
   <foot-menu checked="0"></foot-menu>
   <scroll-top></scroll-top>
+
 </template>
 
 <script>
