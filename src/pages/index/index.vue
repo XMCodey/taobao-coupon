@@ -3,6 +3,9 @@
     <view @click="goSearchPage" class="search">
       <uni-search-bar cancelButton="none"></uni-search-bar>
     </view>
+    <view @click="goSearchPage" class="" style="opacity: 0;">
+      <uni-search-bar cancelButton="none"></uni-search-bar>
+    </view>
     <view class="search_help">
       <text class="search_help__left">三步查券</text>
       <text class="search_help__number">1</text>进入淘宝<text class="search_help__number">2</text>复制商品标题<text class="search_help__number">3</text>粘贴搜索<navigator url="/" class="search_help__right">攻略</navigator>
@@ -79,15 +82,13 @@
       </view>
     </view>
   </view>
-  <goods-item :data="goodsData" class="goods"></goods-item>
-  <foot-menu checked="1"></foot-menu>
+  <goods-item :data="category[currentCategoryIndex].data" class="goods"></goods-item>
+  <foot-menu checked="0"></foot-menu>
   <scroll-top></scroll-top>
 </template>
 
 <script>
-import { getGoodsList } from '../../network/requests'
-import { getHeadCategory, getHotSell } from './index'
-import { ref } from "vue";
+import { getHeadCategory, getHotSell, getCategoryGoodsData } from './index';
 import GoodsItem from '../common/goodsItem'
 import FootMenu from '../basic/footMenu'
 import ScrollTop from '../basic/scrollTop'
@@ -113,62 +114,14 @@ export default {
   setup(props, context) {
     const { headCategoryData } = getHeadCategory()
     const { hotSellData, ddqData } = getHotSell()
-
-    const goodsData = ref([])
-    let currentCategoryId = 4092
-    const category = [
-      { name: "精选", description: "精选好物", id: currentCategoryId },
-      { name: "女装", description: "潮流穿搭", id: 3767 },
-      { name: "母婴", description: "宝妈精选", id: 3760 },
-      { name: "美妆", description: "达人推荐", id: 3763 },
-      // { name: "居家日用", description: "实惠百货", id: 0 },
-      { name: "鞋包配饰", description: "潮牌特价", id: 3762 },
-      { name: "美食", description: "吃货福利", id: 3761 },
-      { name: "文娱车品", description: "超低折扣", id: 0 },
-      { name: "数码家电", description: "全网矩惠", id: 3759 },
-      { name: "男装", description: "品质优选", id: 3764 },
-      { name: "内衣", description: "亲肤舒适", id: 3765 },
-      // { name: "箱包", description: "潮流出街", id: 0 },
-      // { name: "配饰", description: "搭配精品", id: 0 },
-      { name: "户外运动", description: "健康生活", id: 3766 },
-      { name: "家装家纺", description: "品质家居", id: 3758 },
-    ]
-    const currentCategoryIndex = ref(0)
-    const errorInfo = ref(false)
-    const getGoods = function () {
-      getGoodsList({material_id: currentCategoryId}).then(value => {
-
-        // 错误处理 start
-        if (value.data === 'request:fail timeout') {
-          console.log(value.data)
-          errorInfo.value = value.data
-        } else if (value.errMsg === 'request:ok' && value.data.error_response) {
-          console.log(value.data.error_response.sub_msg)
-          errorInfo.value = value.data.error_response.sub_msg
-        }
-
-        if (errorInfo.value) {
-          return
-        }
-        // 错误处理end
-        goodsData.value = value.data.tbk_dg_optimus_material_response.result_list.map_data
-        console.log(goodsData.value)
-      })
-    }
-    getGoods()
-    const handelCategoryClick = function (index) {
-      currentCategoryIndex.value = index
-      currentCategoryId = category[index].id
-      getGoods()
-    }
+    const { category, currentCategoryIndex, handelCategoryClick } = getCategoryGoodsData()
     return {
       headCategoryData,
       hotSellData,
       ddqData,
       category,
       currentCategoryIndex,
-      handelCategoryClick,
-      goodsData
+      handelCategoryClick
     }
   }
 }

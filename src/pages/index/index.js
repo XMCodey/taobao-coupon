@@ -1,6 +1,9 @@
-
-
 // 顶部分类信息获取
+import {reactive, onUpdated, ref, onMounted} from "vue";
+import { getGoodsList } from '../../network/requests'
+import { onPageScroll } from '@dcloudio/uni-app'
+import { throttle } from '../../static/common'
+
 function getHeadCategory() {
     let headCategoryData = {"code":1,"msg":"成功","data":{"icons":[{"title":"9块9包邮","img":"https://img.alicdn.com/imgextra/i2/2053469401/O1CN01xWCtV62JJi9b21iQp_!!2053469401.png","c_type":"8","url":"/npoint9","in":1},{"title":"大额优惠券","img":"https://img.alicdn.com/imgextra/i2/2053469401/O1CN01ZiytSl2JJi9mY2paN_!!2053469401.png","c_type":"10","url":"/activitydemo&id=411","in":1},{"title":"爆款验货","img":"https://img.alicdn.com/imgextra/i3/2053469401/O1CN01FqA1ff2JJi9Jb6VCV_!!2053469401.gif","c_type":"10","url":"/activitydemo&id=318","in":1},{"title":"捡漏清单","img":"https://img.alicdn.com/imgextra/i1/2053469401/O1CN01Rk1Oh32JJi9UywkKD_!!2053469401.gif","c_type":"10","url":"/activitydemo&id=319","in":1},{"title":"品牌特卖","img":"https://img.alicdn.com/imgextra/i2/2053469401/O1CN01PsPvlP2JJi9mY3ZL8_!!2053469401.png","c_type":"8","url":"/brandsales","in":1}],"h_banners":[{"title":"专题-春夏潮童穿搭","img":"https://img.alicdn.com/imgextra/i1/2053469401/O1CN01W1FSMR2JJiA7h0Hj7_!!2053469401.png","c_type":"10","url":"/activitydemo&id=565","in":1},{"title":"专题-鲜果来袭","img":"https://img.alicdn.com/imgextra/i2/2053469401/O1CN01dX0ALv2JJiA4ldwK8_!!2053469401.png","c_type":"10","url":"/activitydemo&id=563","in":1},{"title":"专题-米粉节狂欢购","img":"https://img.alicdn.com/imgextra/i1/2053469401/O1CN01or0VSx2JJiA0OTFrn_!!2053469401.png","c_type":"10","url":"/activitydemo&id=566","in":1},{"title":"专题-吃喝玩乐","img":"https://img.alicdn.com/imgextra/i2/2053469401/O1CN01taULD22JJi9zPUrCT_!!2053469401.png","c_type":"10","url":"/activitydemo&id=560","in":1},{"title":"专题-天天一元购","img":"https://img.alicdn.com/imgextra/i1/2053469401/O1CN01EQdQzz2JJiA9pSFab_!!2053469401.png","c_type":"10","url":"/activitydemo&id=556","in":1},{"title":"【日常专题】猫超单件包邮","img":"https://img.alicdn.com/imgextra/i3/2053469401/O1CN01hfzxUG2JJi8aE2xbA_!!2053469401.jpg","c_type":"10","url":"/activitydemo&id=557","in":1}],"small_icons":[{"title":"抖音热销榜","img":"https://sr.ffquan.cn/cms_pic/20220309/c8k95qi3fg9k53m0g0600.gif","c_type":"8","url":"/dyhotsale","in":1},{"title":"猫超包邮","img":"https://img.alicdn.com/imgextra/i4/2053469401/O1CN01mV438Z2JJi9Xt6i4R_!!2053469401.gif","c_type":"10","url":"/activitydemo&id=557","in":1},{"title":"百亿补贴","img":"https://img.alicdn.com/imgextra/i3/2053469401/O1CN01HCSZ3h2JJi9Jb8NeX_!!2053469401.png","c_type":"10","url":"/activitydemo&id=300","in":1},{"title":"外卖优惠","img":"https://img.alicdn.com/imgextra/i3/2053469401/O1CN0108xZQZ2JJi9OQDR5V_!!2053469401.png","c_type":"4","url":"","in":0},{"title":"萌宠生活馆","img":"https://img.alicdn.com/imgextra/i2/2053469401/O1CN01Pqrdsz2JJi9rQ8bGC_!!2053469401.png","c_type":"10","url":"/activitydemo&id=533","in":1},{"title":"天天1元购","img":"https://img.alicdn.com/imgextra/i3/2053469401/O1CN01xl2N3m2JJi9zo6F31_!!2053469401.png","c_type":"10","url":"/activitydemo&id=556","in":1},{"title":"全网热卖榜","img":"https://img.alicdn.com/imgextra/i1/2053469401/O1CN01g59ZH52JJi9SxWxdF_!!2053469401.gif","c_type":"8","url":"/crazyrobbery","in":1},{"title":"优惠情报","img":"https://img.alicdn.com/imgextra/i4/2053469401/O1CN01nRbhOE2JJi9XBvekK_!!2053469401.gif","c_type":"8","url":"/tipoff","in":1},{"title":"整点秒杀","img":"https://img.alicdn.com/imgextra/i1/2053469401/O1CN01jFhUBl2JJi9OQBQHL_!!2053469401.gif","c_type":"8","url":"/flashsale","in":1},{"title":"淘宝特价","img":"https://img.alicdn.com/imgextra/i3/2053469401/O1CN01iHTDwy2JJi9Zn7pQs_!!2053469401.png","c_type":"4","url":"","in":0},{"title":"进口好物","img":"https://img.alicdn.com/imgextra/i1/2053469401/O1CN01AUvxM92JJi9Zn92Ek_!!2053469401.png","c_type":"4","url":"","in":0},{"title":"飞猪","img":"https://img.alicdn.com/imgextra/i2/2053469401/O1CN01mh0jil2JJi9auIJ4T_!!2053469401.png","c_type":"4","url":"","in":0},{"title":"阿里健康","img":"https://img.alicdn.com/imgextra/i2/2053469401/O1CN01fAEJSz2JJi9auIEuH_!!2053469401.png","c_type":"5","url":"https://s.click.taobao.com/2iFEHZu","in":0},{"title":"限时爆品","img":"https://img.alicdn.com/imgextra/i2/2053469401/O1CN01Wz4TJa2JJi9bgEDXv_!!2053469401.png","c_type":"5","url":"https://mo.m.taobao.com/union/juxianshiqiang2b_2C?pid=mm_379330064_434650088_108458050343","in":0}],"w_banners":[],"nav_ads":[],"floating_ads":[],"popup_ads":[],"top":[],"top_back":[],"jd_banner":[],"jd_icons":[],"pdd_banner":[],"pdd_icons":[],"main_showcase":[],"child_showcase":[],"bottom_navigation":[],"bottom_navigation_ads":[],"activity_main_showcase":[],"activity_child_showcase":[],"navigation_activity":[],"top_entrance":[],"search_entrance":[],"xb":[],"version":1,"styles":{"top":{"bg_url":"","bg_color":""},"top_entrance":{"bg_url":"","bg_color":"rgba(242,23,36,1)"},"navigation_activity":{"bg_url":"","bg_color":"","font_color_choose":"","font_color":"","font_underline":""},"w_banners":{"bg_url":"","bg_color":""},"main_showcase":{"bg_url":"","bg_color":""},"icons":{"bg_url":"","bg_color":"rgba(246,246,246,1)","font_color":"rgba(51,51,51,1)"},"activity_main_showcase":{"bg_url":"","bg_color":""},"bottom_navigation":{"bg_url":"","bg_color":"rgba(255,255,255,1)","font_color_choose":"rgba(242,16,31,0.77)","font_color":"rgba(51,51,51,1)"},"search_entrance":{"bg_url":"","bg_color":"rgba(242,23,36,1)"},"xb":{"bg_url":"","bg_color":"rgba(246,246,246,1)"}}}};
 
@@ -22,4 +25,79 @@ function handelDdqTime(time="2022-04-07 00:00:00") {
 
 }
 
-export { getHeadCategory, getHotSell }
+
+function getCategoryGoodsData() {
+    let currentCategoryId = 4092
+    const category = reactive([
+        { name: "精选", description: "精选好物", params: { material_id: currentCategoryId, page_no: 1 }, data: [] },
+        { name: "女装", description: "潮流穿搭", params: { material_id: 3767, page_no: 1 }, data: [] },
+        { name: "母婴", description: "宝妈精选", params: { material_id: 3760, page_no: 1 }, data: [] },
+        { name: "美妆", description: "达人推荐", params: { material_id: 3763, page_no: 1 }, data: [] },
+        // { name: "居家日用", description: "实惠百货", id: 0 },
+        { name: "鞋包配饰", description: "潮牌特价", params: { material_id: 3762, page_no: 1 }, data: [] },
+        { name: "美食", description: "吃货福利", params: { material_id: 3761, page_no: 1 }, data: [] },
+        // { name: "文娱车品", description: "超低折扣", params: { material_id: currentCategoryId, page_no: 1 }, data: [] },
+        { name: "数码家电", description: "全网矩惠", params: { material_id: 3759, page_no: 1 }, data: [] },
+        { name: "男装", description: "品质优选", params: { material_id: 3764, page_no: 1 }, data: [] },
+        { name: "内衣", description: "亲肤舒适", params: { material_id: 3765, page_no: 1 }, data: [] },
+        // { name: "箱包", description: "潮流出街", id: 0 },
+        // { name: "配饰", description: "搭配精品", id: 0 },
+        { name: "户外运动", description: "健康生活", params: { material_id: 3766, page_no: 1 }, data: [] },
+        { name: "家装家纺", description: "品质家居", params: { material_id: 3758, page_no: 1 }, data: [] },
+    ])
+    const currentCategoryIndex = ref(0)
+    const errorInfo = ref(false)
+    const getGoods = function () {
+        getGoodsList(category[currentCategoryIndex.value].params).then(value => {
+            // 错误处理 start
+            if (value.data === 'request:fail timeout') {
+                console.log(value.data)
+                errorInfo.value = value.data
+            } else if (value.errMsg === 'request:ok' && value.data.error_response) {
+                console.log(value.data.error_response.sub_msg)
+                errorInfo.value = value.data.error_response.sub_msg
+            }
+            if (errorInfo.value) {
+                return
+            }
+            // 错误处理end
+            const data = value.data.tbk_dg_optimus_material_response.result_list.map_data
+            category[currentCategoryIndex.value].data.push(...data)
+            category[currentCategoryIndex.value].params.page_no += 1
+        })
+    }
+    getGoods()
+    const handelCategoryClick = function (index) {
+        currentCategoryIndex.value = index
+        currentCategoryId = category[index].id
+        getGoods()
+    }
+
+    // 下拉刷新
+    let pageHeight = 0
+
+    let throttleInstance = throttle(getGoods, 1000)
+
+    const getPageHeight = function () {
+        const query = uni.createSelectorQuery().in(this).select('.goods')
+        query.boundingClientRect((data) => {
+            pageHeight = data.height
+        }).exec()
+    }
+
+    let getPageHeightThrottleInstance = throttle(getPageHeight, 1000)
+    onPageScroll((e) => {
+        getPageHeightThrottleInstance()
+        if ((e.scrollTop + 450) > pageHeight) {
+            throttleInstance()
+        }
+    })
+
+    return {
+        category,
+        currentCategoryIndex,
+        handelCategoryClick
+    }
+}
+
+export { getHeadCategory, getHotSell, getCategoryGoodsData }

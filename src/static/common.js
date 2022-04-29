@@ -81,9 +81,9 @@ function lazyLodImg(dom, data = ref(0)) {
       scrollEvent.target.offsetHeight = document.documentElement.offsetHeight
     }
   }
+
   // 定义懒加载图片函数
   const imgLoadLazy = function (imgIndex = 0) {
-
     // 查找图片元素，并更改src属性
     const getTagNameIsImg = function (Dom) {
       if (Dom.tagName === 'IMG') {
@@ -99,10 +99,14 @@ function lazyLodImg(dom, data = ref(0)) {
     }
     // 判断滚动的位置及元素的位置，执行加载函数
     const loadImg = function (event, imagesDom) {
+      console.log(event)
+      console.log(imagesDom)
       const imgLength = imagesDom.length
       const imgDom = imagesDom[imgIndex]
+
       if ((imgIndex < imgLength) &&
           ((event.target.scrollTop + event.target.offsetHeight) >= imgDom.offsetTop)) {
+        console.log(3232)
         getTagNameIsImg(imgDom)
         imgIndex += 1
         return true
@@ -111,23 +115,39 @@ function lazyLodImg(dom, data = ref(0)) {
       }
     }
     return function (event, imagesDom) {
-
       // 加载首屏图片逻辑
       if (imgIndex !== 0) {
         loadImg(event, imagesDom)
       } else {
         let load = true
         while (load) {
-          load = loadImg(event, imagesDom)
+          if (event.target.scrollTop) {
+            load = loadImg(event, imagesDom)
+          } else {
+            let height = null
+            if (!height) {
+              uni.getSystemInfo({ success: function (res) {
+                  height = res.windowHeight
+                }})
+            }
+            load = loadImg({ target: {
+                scrollTop: 1,
+                offsetHeight: height
+              } }, imagesDom)
+          }
         }
       }
     }
   }
+
   const updateInstance = debounce(() => {
     instance = imgLoadLazy()
   }, 10)
+
   let instance = imgLoadLazy()
+
   onMounted(() => {
+    instance(scrollEvent, imagesWrapper.value.children)
     watch(() => scrollEvent.target.scrollTop, () => {
       instance(scrollEvent, imagesWrapper.value.children)
     })
@@ -137,7 +157,9 @@ function lazyLodImg(dom, data = ref(0)) {
     scrollEvent && instance(scrollEvent, imagesWrapper.value.children)
     updateInstance()
   })
+
   const route = useRoute()
+  console.log(route)
   // 检测传入数据的变化，更新实例
   watch([() => data, () => route.params], () => {
     updateInstance()
