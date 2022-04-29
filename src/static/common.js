@@ -99,8 +99,8 @@ function lazyLodImg(dom, data = ref(0)) {
     }
     // 判断滚动的位置及元素的位置，执行加载函数
     const loadImg = function (event, imagesDom) {
-      console.log(event)
-      console.log(imagesDom)
+      // console.log(event)
+      // console.log(imagesDom)
       const imgLength = imagesDom.length
       const imgDom = imagesDom[imgIndex]
 
