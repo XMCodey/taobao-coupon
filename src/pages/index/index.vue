@@ -130,5 +130,5 @@ export default {
 </script>
 
 <style scoped lang="scss">
-  @import "index";
+@import "index";
 </style>
