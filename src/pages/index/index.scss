@@ -200,6 +200,18 @@ $bgc-content: #ffffff;
   height: 88rpx;
 }
 
+.fixed {
+  .category {
+    position: fixed;
+    left: 0;
+    width: 100%;
+    margin: 0;
+    padding: 0 $spacing-basic;
+    box-sizing: border-box;
+    z-index: 1000;
+  }
+}
+
 .active {
   .category__title{
     color: rgb(242, 23, 36);

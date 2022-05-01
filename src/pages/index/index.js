@@ -100,4 +100,24 @@ function getCategoryGoodsData() {
     }
 }
 
-export { getHeadCategory, getHotSell, getCategoryGoodsData }
+
+function getCategoryFixedState () {
+    const fixed = ref({ fixedState: false, fixedTop: 0, top: 0 })
+    onMounted(() => {
+        const category = uni.createSelectorQuery().in(this).select(".category")
+        category.boundingClientRect((data) => {
+            fixed.value.fixedTop += data.top
+        }).exec()
+        const search = uni.createSelectorQuery().in(this).select(".search")
+        search.boundingClientRect((data) => {
+            fixed.value.fixedTop -= data.height
+            fixed.value.top = data.height
+        }).exec()
+    })
+    onPageScroll((e) => {
+        fixed.value.fixedState = e.scrollTop >= fixed.value.fixedTop;
+    })
+    return fixed
+}
+
+export { getHeadCategory, getHotSell, getCategoryGoodsData, getCategoryFixedState }

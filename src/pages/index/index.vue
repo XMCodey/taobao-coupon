@@ -72,9 +72,9 @@
       </view>
     </view>
   </view>
-  <view class="category_container">
-    <view class="category">
-      <view class="category__item"  :class="{active: currentCategoryIndex === index }"
+  <view class="category_container" :class="{ fixed: fixed.fixedState }">
+    <view class="category" :style="{ top : fixed.top + 'px'}">
+      <view class="category__item" :class="{active: currentCategoryIndex === index }"
             v-for="(item, index) in category" :key="item.name"
             @click="handelCategoryClick(index)">
         <view class="category__title">{{ item.name }}</view>
@@ -85,11 +85,10 @@
   <goods-item :data="category[currentCategoryIndex].data" class="goods"></goods-item>
   <foot-menu checked="0"></foot-menu>
   <scroll-top></scroll-top>
-
 </template>
 
 <script>
-import { getHeadCategory, getHotSell, getCategoryGoodsData } from './index';
+import { getHeadCategory, getHotSell, getCategoryGoodsData, getCategoryFixedState } from './index';
 import GoodsItem from '../common/goodsItem'
 import FootMenu from '../basic/footMenu'
 import ScrollTop from '../basic/scrollTop'
@@ -116,13 +115,15 @@ export default {
     const { headCategoryData } = getHeadCategory()
     const { hotSellData, ddqData } = getHotSell()
     const { category, currentCategoryIndex, handelCategoryClick } = getCategoryGoodsData()
+    const fixed = getCategoryFixedState()
     return {
       headCategoryData,
       hotSellData,
       ddqData,
       category,
       currentCategoryIndex,
-      handelCategoryClick
+      handelCategoryClick,
+      fixed
     }
   }
 }
