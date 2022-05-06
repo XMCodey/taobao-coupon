@@ -1,0 +1,1 @@
+<template>  <view class="sort1">    <view class="sort1__item">人气</view>    <view class="sort1__item">销量</view>    <view class="sort1__item">价格</view>  </view></template><script>export default {  name: "detailSort"}</script><style scoped></style>

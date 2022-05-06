@@ -1,0 +1,1 @@
+<template><view class="sort">  <view class="sort__item">人气</view>  <view class="sort__item">销量</view>  <view class="sort__item">价格</view></view></template><script>export default {  name: "sort1"}</script><style scoped lang="scss">  .sort {    display: flex;    &__item {    }  }</style>

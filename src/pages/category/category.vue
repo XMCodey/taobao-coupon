@@ -42,7 +42,6 @@ export default {
     }
   },
   setup: function (props, context) {
-    console.log(props, context);
     const handleSearchBoxClick = function () {
       uni.navigateTo({
         url: '/pages/search/index'
@@ -50,8 +49,9 @@ export default {
     }
     const currentCategoryIndex = ref(0)
     const handleClick = function (item) {
-      console.log(item)
-      // { material_id: 17004, q: , cat: , has_coupon: true, sort:  }
+      uni.navigateTo({
+        url: "/pages/category/categoryDetail?cat=" + item.cat + "&title=" + item.name + "&q=" + item.q
+      })
     }
     return {
       handleSearchBoxClick,

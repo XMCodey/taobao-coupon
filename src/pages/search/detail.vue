@@ -1,4 +1,5 @@
 <template>
+
   <search-box :keywords="q">
     <view class="sort">
       <view v-for="item in ['人气', '销量', '价格']" :key="item"
