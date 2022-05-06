@@ -10,10 +10,15 @@
     </view>
   </view>
   <scroll-view scroll-y="true" class="categoryChild">
-    <view class="categoryChild__title" v-for="i in categoryData[currentCategoryIndex].category" :key="i.name">
-      <view class="categoryChild__item" v-for="item in i.item">
-        <image :src="item.img" class="image" lazy-load="true"></image>
-        <view class="title">{{ item.name }}</view>
+    <view v-for="i in categoryData[currentCategoryIndex].category" :key="i.name">
+      <view class="bigTitle">
+        {{ i.name }}
+      </view>
+      <view class="categoryChild__title">
+        <view class="categoryChild__item" v-for="item in i.item" @click="handleClick(item)">
+          <image :src="item.img" class="image" lazy-load="true"></image>
+          <view class="title">{{ item.name }}</view>
+        </view>
       </view>
     </view>
   </scroll-view>
@@ -44,10 +49,15 @@ export default {
       })
     }
     const currentCategoryIndex = ref(0)
+    const handleClick = function (item) {
+      console.log(item)
+      // { material_id: 17004, q: , cat: , has_coupon: true, sort:  }
+    }
     return {
       handleSearchBoxClick,
       categoryData,
-      currentCategoryIndex
+      currentCategoryIndex,
+      handleClick
     }
   }
 }
@@ -80,7 +90,7 @@ export default {
     width: 136rpx;
     background-color: #f7f8fa;
     font-size: 28rpx;
-    //height: 100vh;
+    height: calc(100vh - 213rpx);
     padding-bottom: 101rpx;
     overflow-y: scroll;
     &__item {
@@ -111,12 +121,17 @@ export default {
       width: 33%;
       height: 210rpx;
     }
+    .bigTitle {
+      font-size: 28rpx;
+      padding: 40rpx;
+      font-weight: bold;
+    }
     .image {
-      width: 140rpx;
-      height: 140rpx !important;
+      width: 120rpx;
+      height: 120rpx !important;
     }
     .title {
-      font-size: 28rpx;
+      font-size: 24rpx;
     }
   }
 </style>
