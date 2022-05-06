@@ -9,7 +9,7 @@
       {{ i.name }}
     </view>
   </view>
-  <scroll-view scroll-y="true" class="categoryChild">
+  <view  class="categoryChild">
     <view v-for="i in categoryData[currentCategoryIndex].category" :key="i.name">
       <view class="bigTitle">
         {{ i.name }}
@@ -21,7 +21,7 @@
         </view>
       </view>
     </view>
-  </scroll-view>
+  </view>
   <foot-menu checked="4"></foot-menu>
 </template>
 
@@ -111,6 +111,7 @@ export default {
     right: 0;
     width: calc(100vw - 136rpx);
     height: calc(100vh - 213rpx);
+    overflow: scroll;
     &__title {
       display: flex;
       flex-wrap: wrap;
