@@ -1,20 +1,7 @@
 <template>
 
   <search-box :keywords="q">
-    <view class="sort">
-      <view v-for="item in ['人气', '销量', '价格']" :key="item"
-            @click="changeSort(item)"
-            :class="{ active: currentSort === item, sort__price: item === '价格'}"
-      >
-        {{ item }}
-        <template v-if="item === '价格'">
-          <view class="sort__price__container" :class="presentPriceClass">
-            <view class="sort__price__upIcon"></view>
-            <view class="sort__price__downIcon"></view>
-          </view>
-        </template>
-      </view>
-    </view>
+    <sort @sortClick="handleSort"></sort>
     <view style="height: 80rpx;"></view>
     <scroll-view scroll-y="true" show-scrollbar="true" class="goods" lower-threshold="150" @scrolltolower="scrollToLower">
       <view style="height: 16rpx;background-color: rgb(246, 246, 246);"></view>
@@ -60,12 +47,14 @@
 <script>
 import { getCurrentInstance, onMounted, ref } from "vue";
 import { getSearchItem } from "../../network/requests";
-import { goToGoodsPage } from "../../static/common";
+import {goToGoodsPage, handleRequests} from "../../static/common";
 import searchBox from "./search-box/search-box.vue";
+import Sort from '../common/sort'
 
 export default {
   name: "index",
   components: {
+    Sort,
     searchBox
   },
   data () {
@@ -86,61 +75,25 @@ export default {
     // tk_rate_des	排序_des（降序），排序_asc（升序）
     // 销量（total_sales），淘客佣金比率（tk_rate）， 累计推广量（tk_total_sales），总支出佣金（tk_total_commi），价格（price），匹配分（match）
     // https://open.taobao.com/api.htm?docId=35896&docType=2#apiTool
-    let params = { material_id: 17004, q: '', has_coupon: true, sort: 'tk_total_sales', page_no: 1 }
+    let params = { material_id: 17004, q: '', has_coupon: true, sort: 'tk_total_sales_des', page_no: 1 }
     // 获取当前实例，实例可以读到data里到数据
     const internalInstance = getCurrentInstance()
     const itemData = ref([])
     const noMore = ref(false)
     const getItemData = function () {
-      getSearchItem(params).then((r,e) => {
-        console.log(r);
-        console.log(e);
-        if (r.data && r.data.error_response && r.data.error_response.code === 15) {
-          noMore.value = true
-          return
-        }
-        itemData.value = itemData.value.concat(r.data.tbk_dg_material_optional_response.result_list.map_data)
-        console.log(itemData.value);
-      })
+      handleRequests(getSearchItem, params, noMore, itemData)
     }
     onMounted(() => {
       q = internalInstance.data.q
       params.q = q
       getItemData()
+      console.log("onmounted")
     })
-
-
-    const currentSort = ref("人气")
-    const presentPriceClass = ref(null)
-    // 又要改样式，又要改排序的方式，还要重置页码，乱乱乱1
-    const changeSort = function (sortStr) {
-      if (sortStr === '价格') {
-        if (presentPriceClass.value === null) {
-          currentSort.value = sortStr
-          params.sort = 'price_asc'
-          presentPriceClass.value = 'sort__price__up'
-        } else if (presentPriceClass.value === 'sort__price__down') {
-          presentPriceClass.value = 'sort__price__up'
-          params.sort = 'price_asc'
-        } else if (presentPriceClass.value === 'sort__price__up') {
-          presentPriceClass.value = 'sort__price__down'
-          params.sort = 'price_des'
-        }
-        params.page_no = 1
-        itemData.value = []
-      } else if (currentSort.value === sortStr) {
-          return;
-      } else {
-        currentSort.value = sortStr
-        presentPriceClass.value = null
-        params.page_no = 1
-        itemData.value = []
-        if (sortStr === "销量") {
-          params.sort = 'total_sales'
-        } else if (sortStr === "人气") {
-          params.sort = 'tk_total_sales'
-        }
-      }
+    const handleSort = function (str) {
+      params.sort = str
+      // 更改params参数
+      params.page_no = 1
+      itemData.value = []
       getItemData()
     }
 
@@ -151,13 +104,11 @@ export default {
     }
 
     return {
-      changeSort,
-      currentSort,
-      presentPriceClass,
       scrollToLower,
       itemData,
       noMore,
-      goToGoodsPage
+      goToGoodsPage,
+      handleSort
     }
   }
 }
