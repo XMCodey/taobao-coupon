@@ -164,4 +164,15 @@ function lazyLodImg(dom, data = ref(0)) {
   })
 }
 
-export { goToGoodsPage, transformTime, debounce, throttle, lazyLodImg }
+
+const handelRequestsError = function (r,e) {
+  let error = false
+  if (r.data && r.data.error_response && r.data.error_response.code === 15) {
+    error = true
+    return error
+  }
+  itemData.value = itemData.value.concat(r.data.tbk_dg_material_optional_response.result_list.map_data)
+  console.log(itemData.value);
+}
+
+export { goToGoodsPage, transformTime, debounce, throttle, lazyLodImg, handelRequestsError }
