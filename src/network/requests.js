@@ -102,7 +102,7 @@ export async function getActivityInfo (activityId) {
 export function getGoodsData (goodsId) {
   return topClient(
       'taobao.tbk.item.info.get',
-      { num_iids: goodsId }
+      { num_iids: goodsId, platform: 2 }
   )
 }
 
