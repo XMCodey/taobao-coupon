@@ -49,7 +49,7 @@ import { getCurrentInstance, onMounted, ref } from "vue";
 import { getSearchItem } from "../../network/requests";
 import {goToGoodsPage, handleRequests} from "../../static/common";
 import searchBox from "./search-box/search-box.vue";
-import Sort from '../common/sort'
+import Sort from '../common/sort';
 
 export default {
   name: "index",

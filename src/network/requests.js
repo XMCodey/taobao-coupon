@@ -1,4 +1,19 @@
-import { apiUrl } from './taobaoApi'
+import { apiUrl } from './taobaoApi/index';
+import { handleRequests } from '../static/common'
+
+// 编辑推荐接口
+const recommendApiUrl = 'https://cmscg.dataoke.com/cms-v2/articles';
+export function getRecommendData() {
+    console.log(handleRequests);
+    return uni.request({
+        url: recommendApiUrl,
+        data: {
+            category_id: 0,
+            page: 1,
+            page_size: 10
+        }
+    })
+}
 
 
 // 下拉搜索数据接口

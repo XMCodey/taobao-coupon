@@ -1,4 +1,4 @@
-// 'use strict';
+'use strict';
 //
 // var apiClient = require('./lib/api/topClient.js').TopClient;
 // // var dingtalkClient = require('./lib/api/dingtalkClient.js').DingTalkClient;
@@ -10,8 +10,9 @@
 // 	// DingTalkClient: dingtalkClient
 // };
 
-const apiUrl = 'https://api.maim.shop/taobao/'
+const apiUrl = 'https://api.maim.shop/taobao/';
 export { apiUrl }
+
 import { TopClient } from "./lib/api/topClient.js";
 const client = new TopClient({
     appkey: '26001843',
