@@ -3,15 +3,14 @@ import { handleRequests } from '../static/common'
 
 // 编辑推荐接口
 const recommendApiUrl = 'https://cmscg.dataoke.com/cms-v2/articles';
-export function getRecommendData() {
-    console.log(handleRequests);
+export function getRecommendData(data= {
+    category_id: 0,
+    page: 1,
+    page_size: 10
+}) {
     return uni.request({
         url: recommendApiUrl,
-        data: {
-            category_id: 0,
-            page: 1,
-            page_size: 10
-        }
+        data
     })
 }
 
@@ -117,7 +116,7 @@ export async function getActivityInfo (activityId) {
 export function getGoodsData (goodsId) {
   return topClient(
       'taobao.tbk.item.info.get',
-      { num_iids: goodsId, platform: 2 }
+      { num_iids: goodsId, platform: 1 }
   )
 }
 
@@ -125,9 +124,34 @@ export async function getShopInfo (q) {
   return await topClient(
       'taobao.tbk.shop.get',
       {
-        fields: 'user_id,shop_title,shop_type,seller_nick,pict_url,shop_url',
+        fields: 'num_iid,click_url,coupon_amount,user_id,shop_title,shop_type,seller_nick,pict_url,shop_url',
         q: q,
         count: '20',
         platform: '1'
       })
 }
+
+export function getCouponLink() {
+    return topClient(
+        'taobao.tbk.item.converttaobao.tbk.item.convert',
+        {
+            fields: 'num_iid,click_url',
+        })
+}
+
+const a = function () {
+    topClient('taobao.tbk.itemid.coupon.get',
+        {
+            num_iids: '614189681721',
+            pid: 'mm_379330064_434650088_108458050343'
+        })
+    topClient(
+        'taobao.tbk.dg.material.optional',
+        {
+            adzone_id: '108980000351',
+            item_id: '633987062575',
+            cat: 17004
+        }
+    )
+}
+a()

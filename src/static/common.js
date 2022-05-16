@@ -164,7 +164,7 @@ function lazyLodImg(dom, data = ref(0)) {
   })
 }
 
-
+// 处理请求错误
 const handleRequests = function (
     Promise, params,
     error=ref(),
@@ -179,6 +179,32 @@ const handleRequests = function (
     // console.log(data.value);
   })
 }
+
+const handleDataCache = function(data=ref(), category, callback, pageObj={page: 1}, defaultPage = 1) {
+  const dataset = []
+  return function (str) {
+    // 保存数据到dataset
+    if (!dataset[category]) {
+      dataset[category] = {}
+    }
+    dataset[category].data = data.value
+    dataset[category].page = pageObj.page
+    category = str
+    // 重置data数据
+    data.value = []
+    // 加setTimeout 是为了切换数据的时候，自动回到顶部
+    setTimeout(() => {
+      // 读取数据
+      if (dataset[str]) {
+        data.value = dataset[str].data
+        pageObj.page = dataset[str].page
+        return
+      }
+      // 更改params参数
+      pageObj.page = defaultPage
+      callback()
+    })
+}}
 
 // 下拉刷新
 const scrollToLowerLoad = function (selector, callback, distance) {
@@ -208,24 +234,23 @@ const scrollToLowerLoad = function (selector, callback, distance) {
       query.boundingClientRect((data) => {
       }).exec()
     // })()
+    console.log('onUpdated');
   })
 
-  // const getPageHeight = function () {
-  //   const query = uni.createSelectorQuery().in(this).select(selector)
-  //   query.boundingClientRect((data) => {
-  //     pageHeight = data.height
-  //     console.log(pageHeight)
-  //   }).exec()
-  // }
-  //
-  // let getPageHeightThrottleInstance = throttle(getPageHeight, 1000)
+  const getPageHeight = function () {
+    query.boundingClientRect((data) => {
+      // pageHeight = data.height
+      // console.log(pageHeight)
+    }).exec()
+  }
+
+  let getPageHeightThrottleInstance = throttle(getPageHeight, 1000)
   onPageScroll((e) => {
-    // getPageHeightThrottleInstance()
-    // console.log((e.scrollTop + windowHeight - toTopDistance + distance) > pageHeight)
+    getPageHeightThrottleInstance()
     if ((e.scrollTop + windowHeight - toTopDistance + distance) > nodeInfo.height) {
       throttleInstance()
     }
   })
 }
 
-export { goToGoodsPage, transformTime, debounce, throttle, lazyLodImg, handleRequests, scrollToLowerLoad }
+export { goToGoodsPage, transformTime, debounce, throttle, lazyLodImg, handleRequests, scrollToLowerLoad, handleDataCache }

@@ -190,6 +190,7 @@
         }
         this.goodsData.coupon_start_time = option.start_time
         this.goodsData.coupon_end_time = option.end_time
+        console.log(r);
       })
       getShopInfo("好味屋旗舰店").then((e,r) => {
         console.log(e);
