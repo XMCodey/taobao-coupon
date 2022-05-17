@@ -234,7 +234,7 @@ const scrollToLowerLoad = function (selector, callback, distance) {
     }).exec()
     setTimeout(() => {
       toTopDistance = nodeInfo.top
-    }, 100)
+    }, 1000)
   })
 
   onUpdated(() => {
