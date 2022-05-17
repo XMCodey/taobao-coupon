@@ -1,8 +1,11 @@
 // #ifdef H5
-  import {nextTick, onMounted, onUpdated, reactive, ref, watch} from 'vue'
-  import {useRoute} from 'vue-router'
+import {useRoute} from 'vue-router';
 // #endif
-import { onPageScroll } from '@dcloudio/uni-app'
+
+import { nextTick, onMounted, onUpdated, reactive, ref, watch } from 'vue'
+import { onPageScroll } from '@dcloudio/uni-app';
+
+
 // console.log(uni);
 // 遇到的一个兼容问题如果不传uni进去的话在微信里面会是uni undefined,或者使用箭头函数，或者在函数外使用下uni
 // 好像又可以了不需要箭头函数了
@@ -223,13 +226,15 @@ const scrollToLowerLoad = function (selector, callback, distance) {
       windowHeight = result.windowHeight
     }
   })
-  const query = uni.createSelectorQuery().in(this).select(selector)
+  const query = uni.createSelectorQuery().select(selector)
 
   onMounted(() => {
     query.boundingClientRect((data) => {
       nodeInfo = data
     }).exec()
-    toTopDistance = nodeInfo.top
+    setTimeout(() => {
+      toTopDistance = nodeInfo.top
+    }, 100)
   })
 
   onUpdated(() => {

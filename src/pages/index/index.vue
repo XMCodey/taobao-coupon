@@ -89,9 +89,9 @@
 
 <script>
 import { getHeadCategory, getHotSell, getCategoryGoodsData, getCategoryFixedState } from './index';
-import GoodsItem from '../common/goodsItem'
-import FootMenu from '../basic/footMenu'
-import ScrollTop from '../basic/scrollTop'
+import GoodsItem from '../common/goodsItem';
+import FootMenu from '../basic/footMenu';
+import ScrollTop from '../basic/scrollTop';
 
 export default {
   components: {

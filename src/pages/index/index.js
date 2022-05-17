@@ -87,11 +87,11 @@ function getCategoryGoodsData() {
 function getCategoryFixedState () {
     const fixed = ref({ fixedState: false, fixedTop: 0, top: 0 })
     onMounted(() => {
-        const category = uni.createSelectorQuery().in(this).select(".category")
+        const category = uni.createSelectorQuery().select(".category")
         category.boundingClientRect((data) => {
             fixed.value.fixedTop += data.top
         }).exec()
-        const search = uni.createSelectorQuery().in(this).select(".search")
+        const search = uni.createSelectorQuery().select(".search")
         search.boundingClientRect((data) => {
             fixed.value.fixedTop -= data.height
             fixed.value.top = data.height
