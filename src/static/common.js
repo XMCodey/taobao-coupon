@@ -159,7 +159,6 @@ function lazyLodImg(dom, delay = 0, data = ref(0)) {
       scrollEvent && instance(scrollEvent, imagesWrapper.value.children)
     }, delay)
     updateInstance()
-    console.log('updated');
   })
 
   const route = useRoute()
