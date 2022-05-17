@@ -82,7 +82,7 @@
       </view>
     </view>
   </view>
-  <goods-item :data="category[currentCategoryIndex].data" class="goods"></goods-item>
+  <goods-item :data="data" class="goods"></goods-item>
   <foot-menu checked="0"></foot-menu>
   <scroll-top></scroll-top>
 </template>
@@ -114,7 +114,7 @@ export default {
   setup(props, context) {
     const { headCategoryData } = getHeadCategory()
     const { hotSellData, ddqData } = getHotSell()
-    const { category, currentCategoryIndex, handelCategoryClick } = getCategoryGoodsData()
+    const { category, currentCategoryIndex, handelCategoryClick, data } = getCategoryGoodsData()
     const fixed = getCategoryFixedState()
     return {
       headCategoryData,
@@ -123,7 +123,8 @@ export default {
       category,
       currentCategoryIndex,
       handelCategoryClick,
-      fixed
+      fixed,
+      data
     }
   }
 }

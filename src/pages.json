@@ -1,21 +1,33 @@
 {
 	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
 		{
+			"path": "pages/index/index",
+			"style": {
+				"navigationBarTitleText": "首页"
+			}
+		},
+		{
+			"path": "pages/99/99",
+			"style": {
+				"navigationBarTitleText": "9块九包邮"
+			}
+		},
+		{
+			"path": "pages/infocenter/infocenter",
+			"style": {
+				"navigationBarTitleText": "优惠线报"
+			}
+		},
+		{
 			"path": "pages/recommend/recommend",
 			"style": {
-				"navigationBarTitleText": "分类"
+				"navigationBarTitleText": "编辑推荐"
 			}
 		},
 		{
 			"path": "pages/category/category",
 			"style": {
 				"navigationBarTitleText": "分类"
-			}
-		},
-		{
-			"path": "pages/index/index",
-			"style": {
-				"navigationBarTitleText": "首页"
 			}
 		},
 		{
@@ -30,8 +42,6 @@
 				"navigationBarTitleText": "搜索"
 			}
 		},
-
-
 		{
 			"path": "pages/search/detail",
 			"style": {

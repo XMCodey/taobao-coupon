@@ -139,19 +139,19 @@ export function getCouponLink() {
         })
 }
 
-const a = function () {
-    topClient('taobao.tbk.itemid.coupon.get',
-        {
-            num_iids: '614189681721',
-            pid: 'mm_379330064_434650088_108458050343'
-        })
-    topClient(
-        'taobao.tbk.dg.material.optional',
-        {
-            adzone_id: '108980000351',
-            item_id: '633987062575',
-            cat: 17004
-        }
-    )
-}
-a()
+// const a = function () {
+//     topClient('taobao.tbk.itemid.coupon.get',
+//         {
+//             num_iids: '614189681721',
+//             pid: 'mm_379330064_434650088_108458050343'
+//         })
+//     topClient(
+//         'taobao.tbk.dg.material.optional',
+//         {
+//             adzone_id: '108980000351',
+//             item_id: '633987062575',
+//             cat: 17004
+//         }
+//     )
+// }
+// a()

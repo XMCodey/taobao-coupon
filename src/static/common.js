@@ -66,9 +66,9 @@ function throttle(callback, delay) {
 }
 
 
-// 图片懒加载
+// 图片懒加载,传入的dom必须是图片列表的包裹，不能嵌套,不能是子组件
 
-function lazyLodImg(dom, data = ref(0)) {
+function lazyLodImg(dom, delay = 0, data = ref(0)) {
   // 获取图片容器dom节点 里面是图片或者图片列表
   const imagesWrapper = dom
   let scrollEvent = reactive({target: {}})
@@ -99,11 +99,9 @@ function lazyLodImg(dom, data = ref(0)) {
     }
     // 判断滚动的位置及元素的位置，执行加载函数
     const loadImg = function (event, imagesDom) {
-      // console.log(event)
-      // console.log(imagesDom)
+
       const imgLength = imagesDom.length
       const imgDom = imagesDom[imgIndex]
-
       if ((imgIndex < imgLength) &&
           ((event.target.scrollTop + event.target.offsetHeight) >= imgDom.offsetTop)) {
         getTagNameIsImg(imgDom)
@@ -113,6 +111,7 @@ function lazyLodImg(dom, data = ref(0)) {
         return false
       }
     }
+
     return function (event, imagesDom) {
       // 加载首屏图片逻辑
       if (imgIndex !== 0) {
@@ -146,20 +145,26 @@ function lazyLodImg(dom, data = ref(0)) {
   let instance = imgLoadLazy()
 
   onMounted(() => {
-    instance(scrollEvent, imagesWrapper.value.children)
+    setTimeout(() => {
+      instance(scrollEvent, imagesWrapper.value.children)
+    }, delay)
     watch(() => scrollEvent.target.scrollTop, () => {
       instance(scrollEvent, imagesWrapper.value.children)
     })
   })
 
   onUpdated(() => {
-    scrollEvent && instance(scrollEvent, imagesWrapper.value.children)
+    // console.log('onUpdated');
+    setTimeout(() => {
+      scrollEvent && instance(scrollEvent, imagesWrapper.value.children)
+    }, delay)
     updateInstance()
+    console.log('updated');
   })
 
   const route = useRoute()
-  // 检测传入数据的变化，更新实例
-  watch([() => data, () => route.params], () => {
+  // 检测传入数据的变化，更新实例,但只有滚动才会触发加载图片
+  watch([data, () => route.params], () => {
     updateInstance()
   })
 }
@@ -180,30 +185,31 @@ const handleRequests = function (
   })
 }
 
-const handleDataCache = function(data=ref(), category, callback, pageObj={page: 1}, defaultPage = 1) {
-  const dataset = []
-  return function (str) {
+const handleDataCache = function(data=ref(), prevId, callback, pageObj={}, pageObjId= 'page', defaultPage = 1) {
+  const dataset = {}
+  return function (id) {
     // 保存数据到dataset
-    if (!dataset[category]) {
-      dataset[category] = {}
+    if (!dataset[prevId]) {
+      dataset[prevId] = {}
     }
-    dataset[category].data = data.value
-    dataset[category].page = pageObj.page
-    category = str
+    dataset[prevId].data = data.value
+    dataset[prevId].page = pageObj[pageObjId]
+    prevId = id
     // 重置data数据
     data.value = []
     // 加setTimeout 是为了切换数据的时候，自动回到顶部
     setTimeout(() => {
       // 读取数据
-      if (dataset[str]) {
-        data.value = dataset[str].data
-        pageObj.page = dataset[str].page
+      if (dataset[id]) {
+        data.value = dataset[id].data
+        pageObj[pageObjId] = dataset[id].page
         return
       }
       // 更改params参数
-      pageObj.page = defaultPage
+      pageObj[pageObjId] = defaultPage
       callback()
     })
+
 }}
 
 // 下拉刷新
@@ -234,7 +240,6 @@ const scrollToLowerLoad = function (selector, callback, distance) {
       query.boundingClientRect((data) => {
       }).exec()
     // })()
-    console.log('onUpdated');
   })
 
   const getPageHeight = function () {
@@ -247,7 +252,7 @@ const scrollToLowerLoad = function (selector, callback, distance) {
   let getPageHeightThrottleInstance = throttle(getPageHeight, 1000)
   onPageScroll((e) => {
     getPageHeightThrottleInstance()
-    if ((e.scrollTop + windowHeight - toTopDistance + distance) > nodeInfo.height) {
+    if (e.scrollTop > 0 && (e.scrollTop + windowHeight - toTopDistance + distance) > nodeInfo.height) {
       throttleInstance()
     }
   })
