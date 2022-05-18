@@ -15,7 +15,7 @@
         {{ i.name }}
       </view>
       <view class="categoryChild__title">
-        <view class="categoryChild__item" v-for="item in i.item" @click="handleClick(item)">
+        <view class="categoryChild__item" v-for="item in i.item" @click="handleClick(item)" :key="item.img">
           <image :src="item.img" class="image" lazy-load="true"></image>
           <view class="title">{{ item.name }}</view>
         </view>

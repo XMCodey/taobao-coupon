@@ -1,9 +1,11 @@
 <template>
-  <search-box :keywords="keywords">
-    <sort @sortClick="handleSort"></sort>
-    <view style="height: 80rpx;"></view>
+  <view class="head">
+    <search-box :keywords="keywords">
+      <sort @sortClick="handleSort"></sort>
+    </search-box>
+  </view>
+  <view style="height: 192rpx;"></view>
 
-  </search-box>
   // #ifndef H5
   <view class="goods">
     <view style="height: 16rpx;background-color: rgb(246, 246, 246);"></view>
@@ -67,7 +69,7 @@ import { lazyLodImg } from "../../static/common";
 // #endif
 import searchBox from "./search-box/search-box.vue";
 import Sort from '../common/sort';
-import { onLoad } from '@dcloudio/uni-app';
+import { onLoad, onPageScroll } from '@dcloudio/uni-app';
 
 export default {
   name: "index",
@@ -82,7 +84,7 @@ export default {
       params.q = option.q
       keywords.value = option.q
       getItemData()
-      console.log(params);
+      console.log(option);
     })
     const itemData = ref([])
     const noMore = ref(false)
@@ -119,6 +121,11 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.head {
+  position: fixed;
+  z-index: 300;
+  width: 100%;
+}
   .sort {
     display: flex;
     flex-wrap: nowrap;

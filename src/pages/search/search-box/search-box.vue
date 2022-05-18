@@ -34,6 +34,7 @@
 
 <script>
 import { setSearchBox, setPullDown } from "./search-box";
+import {onMounted} from 'vue';
 
 export default {
   name: "SearchBox",
@@ -52,9 +53,11 @@ export default {
     const { search, searchValue, focusInput } = setSearchBox()
 
     const { pullDownData, input, clearPullDownData } = setPullDown()
-    if (props.keywords) {
+
+    onMounted(() => {
       searchValue.value = props.keywords
-    }
+    })
+
     return {
       searchValue,
       search,

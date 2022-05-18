@@ -1,5 +1,5 @@
 // #ifdef H5
-import {useRoute} from 'vue-router';
+import { useRoute } from 'vue-router';
 // #endif
 
 import { nextTick, onMounted, onUpdated, reactive, ref, watch } from 'vue'
