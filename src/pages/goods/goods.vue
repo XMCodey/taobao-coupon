@@ -1,163 +1,198 @@
 <template>
-  <view class="topMenuContainer" :class="{ 'topMenuColor': changeTopMenuCss }" style="position: fixed">
-    <navigator hover-class="none" open-type="navigateBack" class="menu__back icon_bgc">
-      <uni-icons class="menu__back__icon" type="back" size="20"></uni-icons>
-    </navigator>
-    <view class="menu__text">
-      <view class="menu__text__item" :class="{ active: menuTopActive }" @click="handleGoodsMenuClick">商品</view>
-      <view class="menu__text__item" :class="{ active: !menuTopActive }" @click="handleRecommendMenuClick">推荐</view>
-    </view>
-    <view class="menu__childMenu  icon_bgc">
-      <uni-icons class="menu__childMenu__icon" @click="changeShowChildMenu" type="more-filled" size="20"></uni-icons>
-      <view v-show="showChildMenu" class="menu__popups">
-        <navigator class="menu__popups__item"
-                   v-for="i in [['首页', 'home'], ['搜索', 'search'], ['客服', 'chatbubble']]"
-                   :key="i" hover-class="none">
-          <uni-icons :type="i[1]" class="menu__popups__item__icon"></uni-icons>
-          <text class="menu__popups__item__text">{{ i[0] }}</text>
-        </navigator>
+  <view>
+    <view class="topMenuContainer" :class="{ 'topMenuColor': changeTopMenuCss }" style="position: fixed">
+      <view @click="back" class="menu__back icon_bgc">
+        <uni-icons class="menu__back__icon" type="back" size="20"></uni-icons>
       </view>
-    </view>
-  </view>
-
-  <swiper class="swiper" indicator-dots="true">
-    <swiper-item v-for="img in goodsData.small_images.string" class="swiper__item" :key='img'>
-      <image mode="widthFix" lazy-load="true" class="swiper__image" :src="img"></image>
-    </swiper-item>
-  </swiper>
-  <view class="container">
-    <view class="price">
-      <view class="price__left">
-        <view class="price__left__red">
-          <view>¥</view>
-          <view>{{ (goodsData.zk_final_price - goodsData.coupon_amount).toFixed(2) }}</view>
-        </view>
-        <view class="price__left__underlined">
-          原价 ¥{{ goodsData.zk_final_price }}
+      <view class="menu__text">
+        <view class="menu__text__item" :class="{ active: menuTopActive }" @click="handleGoodsMenuClick">商品</view>
+        <view class="menu__text__item" :class="{ active: !menuTopActive }" @click="handleRecommendMenuClick">推荐</view>
+      </view>
+      <view class="menu__childMenu  icon_bgc">
+        <uni-icons class="menu__childMenu__icon" @click="changeShowChildMenu" type="more-filled" size="20"></uni-icons>
+        <view v-show="showChildMenu" class="menu__popups">
+          <navigator class="menu__popups__item"
+                     v-for="i in [['首页', 'home', '/'], ['搜索', 'search', '/pages/search/index']
+                     // , ['客服', 'chatbubble']
+                     ]"
+                     :key="i" :url="i[2]" hover-class="none">
+            <uni-icons :type="i[1]" class="menu__popups__item__icon"></uni-icons>
+            <text class="menu__popups__item__text">{{ i[0] }}</text>
+          </navigator>
         </view>
       </view>
-      <view class="price__right">
-        已售
-        <text>{{ goodsData.volume }}</text>
-        件
+    </view>
+
+    <swiper class="swiper" indicator-dots="true">
+      <swiper-item v-for="img in goodsData.small_images.string" class="swiper__item" :key='img'>
+        <image mode="widthFix" lazy-load="true" class="swiper__image" :src="img"></image>
+      </swiper-item>
+    </swiper>
+    <view class="container">
+      <view class="price">
+        <view class="price__left">
+          <view class="price__left__red">
+            <view>¥</view>
+            <view>{{ (goodsData.zk_final_price - goodsData.coupon_amount).toFixed(2) }}</view>
+          </view>
+          <view class="price__left__underlined">
+            原价 ¥{{ goodsData.zk_final_price }}
+          </view>
+        </view>
+        <view class="price__right">
+          已售
+          <text>{{ goodsData.volume }}</text>
+          件
+        </view>
+      </view>
+      <view class="title">
+        <image mode="widthFix" src="data:image/png;base64,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" lazy-load="true" class="title__icon"></image>
+        {{ goodsData.title }}
+      </view>
+      <view class="couponInfoContainer">
+        <view class="couponInfoContainer__price">
+          ¥<text>{{ goodsData.coupon_amount }}</text>
+        </view>
+        <view class="couponInfoContainer__des">
+          <view>优惠券使用期限</view>
+          {{ handelCouponTimeLimit }}
+        </view>
+        <uni-link :href="couponLink"
+                  showUnderLine="false"
+                  color="#ff313e"
+                  font-size="28"
+                  copyTips="已自动复制网址，请在手机浏览器里粘贴该网址	"
+                  class="couponInfoContainer__get">
+          立即领券
+        </uni-link>
       </view>
     </view>
-    <view class="title">
-      <image mode="widthFix" src="data:image/png;base64,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" lazy-load="true" class="title__icon"></image>
-      {{ goodsData.title }}
-    </view>
-    <view class="couponInfoContainer">
-      <view class="couponInfoContainer__price">
-        ¥<text>{{ goodsData.coupon_amount }}</text>
+    <view v-show="desc" class="recommendContainer">
+      <view class="recommendContainer__title">
+        <uni-icons type="contact-filled" size="30" color="#ff7777"></uni-icons>
+        达人推荐
       </view>
-      <view class="couponInfoContainer__des">
-        <view>优惠券使用期限</view>
-        {{ handelCouponTimeLimit }}
-      </view>
-      <uni-link :href="couponLike"
-                showUnderLine="false"
-                color="#ff313e"
-                font-size="28"
-                copyTips="已自动复制网址，请在手机浏览器里粘贴该网址	"
-                class="couponInfoContainer__get">
-        立即领券
-      </uni-link>
-    </view>
-  </view>
-  <view class="recommendContainer">
-    <view class="recommendContainer__title">
-      <uni-icons type="contact-filled" size="30" color="#ff7777"></uni-icons>
-      达人推荐
-    </view>
-    <view class="recommendContainer__des">
-      给你今日份的温暖+光芒，精美礼品盒更贴心更体面，送礼就送有感觉的，款式多多，可爱温暖，ins风满满，还不费电，满足你所有要求，怕黑的小姑凉更需要一盏小上夜灯哦，萌宠系3D氛围小夜灯，照明装饰统统搞定。
-    </view>
-  </view>
-  <view class="shopContainer">
-    <image lazy-load="true" class="shopImage" src="https://img.alicdn.com/bao/uploaded//e1/a9/TB1wXHZczMZ7e4jSZFOSut7epXa.jpg_310x310.jpg"></image>
-    <view class="shopTitle">
-      <text>{{ goodsData.nick }}</text>
-      <view class="shopScore">
-        <text>描述：4.9</text>
-        <text>描述：4.9</text>
-        <text>描述：4.9</text>
+      <view class="recommendContainer__des">
+        {{ desc }}
+  <!--      给你今日份的温暖+光芒，精美礼品盒更贴心更体面，送礼就送有感觉的，款式多多，可爱温暖，ins风满满，还不费电，满足你所有要求，怕黑的小姑凉更需要一盏小上夜灯哦，萌宠系3D氛围小夜灯，照明装饰统统搞定。-->
       </view>
     </view>
-  </view>
-  <view class="recommend-goods-title">
-    <image style="width: 32rpx; height: 30rpx;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAcCAYAAAAAwr0iAAAAAXNSR0IArs4c6QAABFlJREFUSEutVk1oXFUU/r77RtqJprOxS3dCUdQqWUi1i2IV7A/5IU4MJFCSRVujKVpcFIR0UiMRQqSVSOwsmmIbiDNgWxu6aBSCXbkQqaVFFFHESnChGEtkknn3yHnv3clM5udNW2eVl3vvOd/5vu+ce4noJ5mMwfHjQlLkypVNsPYJGPMogK0ACvD9JXjeLe7d+5Mecfvd+eDcpUut8LynQT4C4GGQd2DtbZDXuW/fkogQo6NkJmNL54JgugAgCDI/n0axOATgGRiT0kVdgIhu/A3AVwDeZ2fnDcnlPPb0+AHgtbXXAfQBeBzAZg2rISFSBPkzrL0MYybZ0fG7gncg6D7k/PktSCZPQ6Q3OgxY64MBNkVnAJjg29oCjHmH3d2TksttAzkLsq3OOS+qVsEsATjAdPqqAx9El5mZzUgmL0PkRYj4wQFjDJQZTajVh1QpdRZkAqAFJAtjnoe1TwbnSGVLE4aMlfSNYoZr/8L3e9jfPx+ACOKeO/cBRN4CUASQiJKtBwgZKP+WSBplZf3v8qSV+10RWoCyuATf38GBgV8oZ848C5EvADxU0q0ydb0vLdGVqUCa/YVFkqc5OHiYks1OwNq3ASj1Tq/qYLUrajZp+T7HghrzBcrU1HWIPBXop9qt6xbSrrSW+6DUPxWSVAMpP1cN3hXbQTl5chkirRWmqdb8Xiqtf0ZbU2VIJA5TJibuAHiwCsD/m3JjNJ0NCRgzRBkfvwVrH6tpwEYSxAFsfDaUQKSTcuLERxDRydfYhHEJy1uwsYShCYHbMGY3ZWRkN6xdKIsf4644JLHrbtZ8yrGx3nAQHTv2GUS6Kli4H/odA9UdFHYaqdP0OY6Pfx0COHp0O4BrAForvBDXho1brRYVbgid4uTkm8E9JOm0x3zelyNHhiHy4X17ob4CzmPfoFh8idPTf0UTJrzb9XqUoaGPYe2hewLR2ITOeH+A1OTfuZyhBG7WDQ9vwspKDkB7xcVUy9XNuD6UyEJEXf8PPO8VZrNXHetB2NLkdSwcPJhCoTAHkZdBFiGiF8f6lXx3o9iHiAdyBWQfz569KJlMgpmMeiH4bbhjo1R9fVsAfAKRjiomYrustMFp/jfIfs7OzpdXXhNAIIdjIp1OgpyCtYORJxRss9dumJz8FZ7Xz7m5a7JrV4KLi6XK6wJwIAJ61JhdXaMQGYkeINrHcSBC2YBvYUwvL1z4oVblDQE4YyKTCV6w0t5+AL5/CkAqYqPyuRZet+FLVw1Hfo6WlgHm8382Sl7lgY3yqoeRTptgTuzfvwNrazOwdlvkC6U4fPuRajZNrEjGkEq9y3x+tfz1W886Tc390rDas2crVlen4fvdwQPGWoEx+ibUm017/BAXFy/qfuTzVnsnzrNNAQiYdROzre0BtLS8AZH3IKJG1eUvkUy+xoWFH+8meawEDSXZuXM7CoVXkUh8j+XlOd68uRqndy02mmagNLDUF5E5G/0vjnq3/h/gPz3gXRJEVAAAAABJRU5ErkJggg=="></image>
-    &nbsp;为你推荐
-  </view>
-
-  <goods-item :data="recommendData"></goods-item>
-  <scroll-top />
-  <view class="bottomMenu">
-    <view class="bottomMenu__share">
-      <uni-icons type="redo" size="20" color="rgb(136, 136, 136)"></uni-icons>
-      分享
+    <view class="shopContainer">
+      <image lazy-load="true" class="shopImage" :src="shopImg"></image>
+      <view class="shopTitle">
+        <text>{{ goodsData.nick }}</text>
+        <view class="shopScore">
+          <text>描述：4.9</text>
+          <text>描述：4.9</text>
+          <text>描述：4.9</text>
+        </view>
+      </view>
     </view>
-    <view class="bottomMenu__getCoupon">
-      <view class="bottomMenu__getCoupon__first">口令购买</view>
-      <view class="bottomMenu__price"  style="position: relative;">
-                <uni-link  :href="couponLike"
-                           color="tranpanet" font-size="24"
-                           showUnderLine="false"
-                           copyTips="已自动复制网址，请在手机浏览器里粘贴该网址	"
-                           style="position: absolute;left: 0;right: 0;bottom: 0;top: 0; color: transparent;overflow: hidden">
+    <view class="recommend-goods-title">
+      <image style="width: 32rpx; height: 30rpx;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAcCAYAAAAAwr0iAAAAAXNSR0IArs4c6QAABFlJREFUSEutVk1oXFUU/r77RtqJprOxS3dCUdQqWUi1i2IV7A/5IU4MJFCSRVujKVpcFIR0UiMRQqSVSOwsmmIbiDNgWxu6aBSCXbkQqaVFFFHESnChGEtkknn3yHnv3clM5udNW2eVl3vvOd/5vu+ce4noJ5mMwfHjQlLkypVNsPYJGPMogK0ACvD9JXjeLe7d+5Mecfvd+eDcpUut8LynQT4C4GGQd2DtbZDXuW/fkogQo6NkJmNL54JgugAgCDI/n0axOATgGRiT0kVdgIhu/A3AVwDeZ2fnDcnlPPb0+AHgtbXXAfQBeBzAZg2rISFSBPkzrL0MYybZ0fG7gncg6D7k/PktSCZPQ6Q3OgxY64MBNkVnAJjg29oCjHmH3d2TksttAzkLsq3OOS+qVsEsATjAdPqqAx9El5mZzUgmL0PkRYj4wQFjDJQZTajVh1QpdRZkAqAFJAtjnoe1TwbnSGVLE4aMlfSNYoZr/8L3e9jfPx+ACOKeO/cBRN4CUASQiJKtBwgZKP+WSBplZf3v8qSV+10RWoCyuATf38GBgV8oZ848C5EvADxU0q0ydb0vLdGVqUCa/YVFkqc5OHiYks1OwNq3ASj1Tq/qYLUrajZp+T7HghrzBcrU1HWIPBXop9qt6xbSrrSW+6DUPxWSVAMpP1cN3hXbQTl5chkirRWmqdb8Xiqtf0ZbU2VIJA5TJibuAHiwCsD/m3JjNJ0NCRgzRBkfvwVrH6tpwEYSxAFsfDaUQKSTcuLERxDRydfYhHEJy1uwsYShCYHbMGY3ZWRkN6xdKIsf4644JLHrbtZ8yrGx3nAQHTv2GUS6Kli4H/odA9UdFHYaqdP0OY6Pfx0COHp0O4BrAForvBDXho1brRYVbgid4uTkm8E9JOm0x3zelyNHhiHy4X17ob4CzmPfoFh8idPTf0UTJrzb9XqUoaGPYe2hewLR2ITOeH+A1OTfuZyhBG7WDQ9vwspKDkB7xcVUy9XNuD6UyEJEXf8PPO8VZrNXHetB2NLkdSwcPJhCoTAHkZdBFiGiF8f6lXx3o9iHiAdyBWQfz569KJlMgpmMeiH4bbhjo1R9fVsAfAKRjiomYrustMFp/jfIfs7OzpdXXhNAIIdjIp1OgpyCtYORJxRss9dumJz8FZ7Xz7m5a7JrV4KLi6XK6wJwIAJ61JhdXaMQGYkeINrHcSBC2YBvYUwvL1z4oVblDQE4YyKTCV6w0t5+AL5/CkAqYqPyuRZet+FLVw1Hfo6WlgHm8382Sl7lgY3yqoeRTptgTuzfvwNrazOwdlvkC6U4fPuRajZNrEjGkEq9y3x+tfz1W886Tc390rDas2crVlen4fvdwQPGWoEx+ibUm017/BAXFy/qfuTzVnsnzrNNAQiYdROzre0BtLS8AZH3IKJG1eUvkUy+xoWFH+8meawEDSXZuXM7CoVXkUh8j+XlOd68uRqndy02mmagNLDUF5E5G/0vjnq3/h/gPz3gXRJEVAAAAABJRU5ErkJggg=="></image>
+      &nbsp;为你推荐
+    </view>
 
-                                                   ::
-                                                  :;J7, :,                        ::;7:
-                                                  ,ivYi, ,                       ;LLLFS:
-                                                  :iv7Yi                       :7ri;j5PL
-                                                 ,:ivYLvr                    ,ivrrirrY2X,
-                                                 :;r@Wwz.7r:                :ivu@kexianli.
-                                                :iL7::,:::iiirii:ii;::::,,irvF7rvvLujL7ur
-                                               ri::,:,::i:iiiiiii:i:irrv177JX7rYXqZEkvv17
-                                            ;i:, , ::::iirrririi:i:::iiir2XXvii;L8OGJr71i
-                                          :,, ,,:   ,::ir@mingyi.irii:i:::j1jri7ZBOS7ivv,
-                                             ,::,    ::rv77iiiriii:iii:i::,rvLq@huhao.Li
-                                         ,,      ,, ,:ir7ir::,:::i;ir:::i:i::rSGGYri712:
-                                       :::  ,v7r:: ::rrv77:, ,, ,:i7rrii:::::, ir7ri7Lri
-                                      ,     2OBBOi,iiir;r::        ,irriiii::,, ,iv7Luur:
-                                    ,,     i78MBBi,:,:::,:,  :7FSL: ,iriii:::i::,,:rLqXv::
-                                    :      iuMMP: :,:::,:ii;2GY7OBB0viiii:i:iii:i:::iJqL;::
-                                   ,     ::::i   ,,,,, ::LuBBu BBBBBErii:i:i:i:i:i:i:r77ii
-                                  ,       :       , ,,:::rruBZ1MBBqi, :,,,:::,::::::iiriri:
-                                 ,               ,,,,::::i:  @arqiao.       ,:,, ,:::ii;i7:
-                                :,       rjujLYLi   ,,:::::,:::::::::,,   ,:i,:,,,,,::i:iii
-                                ::      BBBBBBBBB0,    ,,::: , ,:::::: ,      ,,,, ,,:::::::
-                                i,  ,  ,8BMMBBBBBBi     ,,:,,     ,,, , ,   , , , :,::ii::i::
-                                :      iZMOMOMBBM2::::::::::,,,,     ,,,,,,:,,,::::i:irr:i:::,
-                                i   ,,:;u0MBMOG1L:::i::::::  ,,,::,   ,,, ::::::i:i:iirii:i:i:
-                                :    ,iuUuuXUkFu7i:iii:i:::, :,:,: ::::::::i:i:::::iirr7iiri::
-                                :     :rk@Yizero.i:::::, ,:ii:::::::i:::::i::,::::iirrriiiri::,
-                                 :      5BMBBBBBBSr:,::rv2kuii:::iii::,:i:,, , ,,:,:i@petermu.,
-                                      , :r50EZ8MBBBBGOBBBZP7::::i::,:::::,: :,:,::i;rrririiii::
-                                          :jujYY7LS0ujJL7r::,::i::,::::::::::::::iirirrrrrrr:ii:
-                                       ,:  :@kevensun.:,:,,,::::i:i:::::,,::::::iir;ii;7v77;ii;i,
-                                       ,,,     ,,:,::::::i:iiiii:i::::,, ::::iiiir@xingjief.r;7:i,
-                                    , , ,,,:,,::::::::iiiiiiiiii:,:,:::::::::iiir;ri7vL77rrirri::
-                                     :,, , ::::::::i:::i:::i:i::,,,,,:,::i:i:::iir;@Secbone.ii:::
+    <goods-item :data="recommendData"></goods-item>
+    <scroll-top />
+    <view class="bottomMenu">
+      <view style="position: relative">
+        <uni-link :href="couponLink" showUnderLine="false" style="
+        position:absolute;left:0;right:0;bottom:0;top:0;color:transparent;overflow:hidden;opacity: 0;
+        ">
+          为你推荐为你推荐为你推荐为你推荐为你推荐为你推荐为你推荐为你推荐为你推荐为你推荐为你推荐
+        </uni-link>
+        <view class="bottomMenu__share">
+          <uni-icons type="redo" size="20" color="rgb(136, 136, 136)"></uni-icons>
+          分享
+        </view>
+      </view>
+
+      <view class="bottomMenu__getCoupon">
+        <view @click="changePopupShow" class="bottomMenu__getCoupon__first">口令购买</view>
+        <view class="bottomMenu__price"  style="position: relative;">
+                  <uni-link  :href="couponLink"
+                             color="tranpanet" font-size="24"
+                             showUnderLine="false"
+                             copyTips="已自动复制网址，请在手机浏览器里粘贴该网址	"
+                             style="position: absolute;left: 0;right: 0;bottom: 0;top: 0; color: transparent;overflow: hidden">
+
+                                                     ::
+                                                    :;J7, :,                        ::;7:
+                                                    ,ivYi, ,                       ;LLLFS:
+                                                    :iv7Yi                       :7ri;j5PL
+                                                   ,:ivYLvr                    ,ivrrirrY2X,
+                                                   :;r@Wwz.7r:                :ivu@kexianli.
+                                                  :iL7::,:::iiirii:ii;::::,,irvF7rvvLujL7ur
+                                                 ri::,:,::i:iiiiiii:i:irrv177JX7rYXqZEkvv17
+                                              ;i:, , ::::iirrririi:i:::iiir2XXvii;L8OGJr71i
+                                            :,, ,,:   ,::ir@mingyi.irii:i:::j1jri7ZBOS7ivv,
+                                               ,::,    ::rv77iiiriii:iii:i::,rvLq@huhao.Li
+                                           ,,      ,, ,:ir7ir::,:::i;ir:::i:i::rSGGYri712:
+                                         :::  ,v7r:: ::rrv77:, ,, ,:i7rrii:::::, ir7ri7Lri
+                                        ,     2OBBOi,iiir;r::        ,irriiii::,, ,iv7Luur:
+                                      ,,     i78MBBi,:,:::,:,  :7FSL: ,iriii:::i::,,:rLqXv::
+                                      :      iuMMP: :,:::,:ii;2GY7OBB0viiii:i:iii:i:::iJqL;::
+                                     ,     ::::i   ,,,,, ::LuBBu BBBBBErii:i:i:i:i:i:i:r77ii
+                                    ,       :       , ,,:::rruBZ1MBBqi, :,,,:::,::::::iiriri:
+                                   ,               ,,,,::::i:  @arqiao.       ,:,, ,:::ii;i7:
+                                  :,       rjujLYLi   ,,:::::,:::::::::,,   ,:i,:,,,,,::i:iii
+                                  ::      BBBBBBBBB0,    ,,::: , ,:::::: ,      ,,,, ,,:::::::
+                                  i,  ,  ,8BMMBBBBBBi     ,,:,,     ,,, , ,   , , , :,::ii::i::
+                                  :      iZMOMOMBBM2::::::::::,,,,     ,,,,,,:,,,::::i:irr:i:::,
+                                  i   ,,:;u0MBMOG1L:::i::::::  ,,,::,   ,,, ::::::i:i:iirii:i:i:
+                                  :    ,iuUuuXUkFu7i:iii:i:::, :,:,: ::::::::i:i:::::iirr7iiri::
+                                  :     :rk@Yizero.i:::::, ,:ii:::::::i:::::i::,::::iirrriiiri::,
+                                   :      5BMBBBBBBSr:,::rv2kuii:::iii::,:i:,, , ,,:,:i@petermu.,
+                                        , :r50EZ8MBBBBGOBBBZP7::::i::,:::::,: :,:,::i;rrririiii::
+                                            :jujYY7LS0ujJL7r::,::i::,::::::::::::::iirirrrrrrr:ii:
+                                         ,:  :@kevensun.:,:,,,::::i:i:::::,,::::::iir;ii;7v77;ii;i,
+                                         ,,,     ,,:,::::::i:iiiii:i::::,, ::::iiiir@xingjief.r;7:i,
+                                      , , ,,,:,,::::::::iiiiiiiiii:,:,:::::::::iiir;ri7vL77rrirri::
+                                       :,, , ::::::::i:::i:::i:i::,,,,,:,::i:i:::iir;@Secbone.ii:::
 
 
-                                      为了微信能点击这个区域都能跳转加了这些字，并设置了透明颜色
+                                        为了微信能点击这个区域都能跳转加了这些字，并设置了透明颜色
 
-                                  </uni-link>
-                          <view >
-                            <view style="font-size: 30rpx;display: inline-block;margin-right: 1.5px;">¥ {{ (goodsData.zk_final_price - goodsData.coupon_amount).toFixed(2) }}</view>
-                            <view class="bottomMenu__price__through">¥ {{ goodsData.zk_final_price }}</view>
+                                    </uni-link>
+                            <view >
+                              <view style="font-size: 30rpx;display: inline-block;margin-right: 1.5px;">¥ {{ (goodsData.zk_final_price - goodsData.coupon_amount).toFixed(2) }}</view>
+                              <view class="bottomMenu__price__through">¥ {{ goodsData.zk_final_price }}</view>
+                            </view>
+                              领券购买
                           </view>
-                            领券购买
                         </view>
                       </view>
-                    </view>
+  </view>
+
+  <view v-show="popupShow">
+    <view class="buyTextCover" ></view>
+    <view class="wrapper">
+      <view class="buyTextWrapper">
+        <text class="buyTextWrapper__title flex_center">复制淘口令购买</text>
+        <view class="buyTextWrapper__text flex_center">
+          <text @click="" name="text" id="text">{{ couponTextPassword }}</text>
+        </view>
+        <view class="buyTextWrapper__description flex_center">点两下文字区域手动复制淘口令</view>
+        <button @click="copyCouponTextPassword" hover-class="copyClick" class="buyTextWrapper__copyText flex_center">一键复制</button>
+      </view>
+      <uni-icons @click="changePopupShow" type="closeempty" class="closeWindow" color="#33333"></uni-icons>
+    </view>
+  </view>
+
 </template>
 
 <script>
   import { ref } from "vue";
   import ScrollTop from "../basic/scrollTop";
-  import { getShopInfo, getGoodsData, getGoodsList } from "../../network/requests";
-  import { goToGoodsPage, transformTime } from "../../static/common";
+  import {
+    getShopInfo,
+    getGoodsData,
+    getGoodsList,
+    getDetailDes,
+    getBuyTextPassword
+  } from "../../network/requests";
+  import { goToGoodsPage, transformTime, back } from "../../static/common";
   import UniLink from "../../uni_modules/uni-like/components/uni-link/uni-link";
   import goodsItem from "../common/goodsItem";
   export default {
@@ -177,33 +212,56 @@
           }
         },
         recommendData: [],
-        couponLike: ''
+        couponLink: '',
+        desc: false,
+        shopImg: 'http://cmsstatic.ffquan.cn//web/images/rolling.gif',
+        couponTextPassword: '',
+        popupShow: false
       }
     },
     onLoad(option) {
-      console.log(option);
-      this.couponLike = option.coupon_like
+      this.couponLink = JSON.parse(decodeURIComponent(option.coupon_link)) // 微信小程序？后面带参数会去掉，所以进行了转换
       getGoodsData(option.id).then((r,e) => {
-        this.goodsData = r.data.tbk_item_info_get_response.results.n_tbk_item[0]
+        if (!this.desc && this.couponLink) {
+          this.goodsData = r.data.tbk_item_info_get_response.results.n_tbk_item[0]
+          this.goodsData.coupon_start_time = option.start_time
+          this.goodsData.coupon_end_time = option.end_time
+        } else {
+          this.goodsData.small_images.string = r.data.tbk_item_info_get_response.results.n_tbk_item[0].small_images.string
+          this.goodsData.title = r.data.tbk_item_info_get_response.results.n_tbk_item[0].title
+          this.goodsData.zk_final_price = r.data.tbk_item_info_get_response.results.n_tbk_item[0].zk_final_price
+          this.goodsData.nick = r.data.tbk_item_info_get_response.results.n_tbk_item[0].nick
+        }
         if (!this.goodsData.coupon_amount) {
           this.goodsData.coupon_amount = option.coupon_amount
         }
-        this.goodsData.coupon_start_time = option.start_time
-        this.goodsData.coupon_end_time = option.end_time
-        console.log(r);
+
+        getShopInfo(this.goodsData.nick).then((r,e) => {
+          if (r.data.tbk_shop_get_response.results.n_tbk_shop[0].pict_url !== '') {
+            this.shopImg = r.data.tbk_shop_get_response.results.n_tbk_shop[0].pict_url
+          }
+        })
       })
-      getShopInfo("好味屋旗舰店").then((e,r) => {
-        console.log(e);
-        console.log(r);
-      })
+
       getGoodsList({ material_id: 13256, item_id: option.id }).then((r,e) => {
         this.recommendData = r.data.tbk_dg_optimus_material_response.result_list.map_data
-        console.log(r);
       })
-      // getGoodsList({ material_id: 13256, content_id: option.id }).then((r,e) => {
-      //   // this.recommendData = r.data.tbk_dg_optimus_material_response.result_list.map_data
-      //   console.log(r);
-      // })
+
+      getDetailDes(option.id).then((r,e) => {
+        this.desc = (r.data.data.desc !== '') ? r.data.data.desc : false
+        if (!this.couponLink) {
+          this.goodsData.coupon_start_time = r.data.data.couponStartTime
+          this.goodsData.coupon_end_time = r.data.data.couponEndTime
+          this.goodsData.coupon_amount = r.data.data.couponPrice
+          this.goodsData.volume = r.data.data.monthSales
+          this.couponLink = r.data.data.couponLink
+        }
+
+        getBuyTextPassword(this.couponLink).then((r, e) => {
+          this.couponTextPassword = r.data.tbk_tpwd_create_response.data.model
+        })
+
+      })
     },
     mounted() {
       uni.getSystemInfo({
@@ -244,6 +302,14 @@
           return time
         }
       },
+      copyCouponTextPassword () {
+        uni.setClipboardData({
+          data: this.couponTextPassword
+        });
+      },
+      changePopupShow () {
+        this.popupShow = !this.popupShow
+      }
     },
     computed: {
       handelCouponTimeLimit() {
@@ -254,22 +320,20 @@
       }
     },
     setup(props, context) {
-      // const internalInstance = getCurrentInstance()
-      // console.log(internalInstance);
       const showChildMenu = ref(false)
       const changeShowChildMenu = function () {
         showChildMenu.value = !showChildMenu.value
       }
-
       return {
         changeShowChildMenu,
         showChildMenu,
+        back
       }
     }
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
   @mixin padding20rpx {
     padding: 20rpx;
     border-radius: 12px;
@@ -278,7 +342,7 @@
     background-color: #f4f4f4;
   }
   .topMenuContainer {
-    z-index: 999;
+    z-index: 100;
     background-color: transparent;
     .icon_bgc {
       width: 60rpx;
@@ -412,6 +476,7 @@
   .container {
     @include padding20rpx;
     background-color: #ffffff;
+    padding-bottom: 0;
     .price {
       padding-top: 12rpx;
       display: flex;
@@ -597,8 +662,8 @@
     right: 0;
     background-color: #fff;
     &__share {
-      color: rgb(136, 136, 136);
-      font-size: 24rpx;
+      color: rgb(136, 136, 136) !important;
+      font-size: 24rpx !important;
       display: flex;
       flex-direction: column;
     }
@@ -640,4 +705,97 @@
       //}
     }
   }
+
+  .wrapper {
+    position: fixed;
+    bottom: calc(50% - 1.26rem);
+    z-index: 101;
+    width: 100vw;
+    transform: translateY(25%);
+    text-align: center;
+  }
+  .flex_center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .buyTextCover {
+    position: fixed;
+    background: #333333;
+    opacity: 0.5;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    top: 0;
+    z-index: 100;
+
+  }
+  .buyTextWrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: start;
+    align-content: center;
+    background: #ffffff;
+    width: 80%;
+    height: 504rpx;
+    margin: 0 auto 10px auto;
+    border-radius: 16rpx;
+
+    &__title {
+      font-size: 32rpx;
+      color: #666;
+      padding: 10rpx 0;
+      height: 80rpx;
+    }
+    &__text {
+      color: #333;
+      font-size: 28rpx;
+      background: #FFF4F4;
+      height: 224rpx;
+      border-radius: 4px;
+      border: 1px solid #FF3739;
+      width: 90%;
+      user-select: all;
+      textarea {
+        width: 90%;
+        background: #FFF4F4;
+        border: none;
+        resize: none;
+      }
+      textarea:focus {
+        outline: none;
+      }
+    }
+    &__description {
+      color: #999999;
+      font-size: 24rpx;
+      height: 56rpx;
+      padding-bottom: 20rpx;
+    }
+    .copyClick {
+      color: #3F536E;
+    }
+    &__copyText {
+      height: 80rpx;
+      width: 272rpx;
+      text-align: center;
+      background: linear-gradient(to left,#FE3C35 0,#FF1F4C 100%);
+      color: #ffffff;
+      border-radius: 8rpx;
+      font-size: 32rpx;
+    }
+  }
+
+  .closeWindow,.closeWindow .uni-icons {
+    display: inline-block;
+    width: 80rpx;
+    height: 80rpx;
+    border-radius: 50%;
+    background: #ffffff;
+    font-weight: bold;
+    font-size: 80rpx !important;
+    line-height: 1;
+  }
+
 </style>

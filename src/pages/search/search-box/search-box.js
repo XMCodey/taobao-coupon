@@ -28,6 +28,7 @@ export function setPullDown() {
     const throttle = function (callback) {
         let id
         return function (value) {
+            console.log(value)
             if (typeof value === 'object') {
                 value = value.value
             }

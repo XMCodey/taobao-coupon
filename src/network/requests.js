@@ -15,6 +15,18 @@ export function getRecommendData(data= {
 }
 
 
+// 商品详情页推荐详情接口
+const recommendDesUrl = "https://openapi.dataoke.com/api/goods/get-goods-details?version=v1.2.3&appKey=612bcfe884763&sign=f7d6441d676a1362fa1664855dc62683"
+export function getDetailDes(goodsId) {
+  return uni.request({
+    url: recommendDesUrl,
+    timeout: 5000,
+    data: {
+      goodsId: goodsId
+    }
+  })
+}
+
 // 下拉搜索数据接口
 export function getPullDown(q) {
   return uni.request({
@@ -131,12 +143,22 @@ export async function getShopInfo (q) {
       })
 }
 
-export function getCouponLink() {
+export function getCouponLink(id) {
     return topClient(
-        'taobao.tbk.item.converttaobao.tbk.item.convert',
+        'taobao.tbk.privilege.get',
         {
-            fields: 'num_iid,click_url',
+          item_id: id,
+          site_id: '434650088',
+
         })
+}
+
+export function getBuyTextPassword (couponClickUrl) {
+  couponClickUrl = couponClickUrl.substring(0, 2) === '//' ? "https://" + couponClickUrl.substring(2) : couponClickUrl
+  return topClient(
+      'taobao.tbk.tpwd.create',
+      { url: couponClickUrl }
+  )
 }
 
 // const a = function () {

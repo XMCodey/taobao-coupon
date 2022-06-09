@@ -23,7 +23,8 @@ const client = new TopClient({
 
 export function topClient (apiName = '', params = {}) {
     Object.assign(params, {
-        adzone_id: '108980000351'
+        adzone_id: '108980000351',
+        session: '610241097dc308e64b14a9e9ec1a582f39c661c7dc393f52711491044'
     })
     return new Promise(function (resolve, reject) {
         client.execute(apiName, params, (r, err) => {

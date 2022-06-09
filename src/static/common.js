@@ -2,9 +2,8 @@
 import { useRoute } from 'vue-router';
 // #endif
 
-import { nextTick, onMounted, onUpdated, reactive, ref, watch } from 'vue'
+import { onMounted, onUpdated, reactive, ref, watch } from 'vue'
 import { onPageScroll } from '@dcloudio/uni-app';
-
 
 // console.log(uni);
 // 遇到的一个兼容问题如果不传uni进去的话在微信里面会是uni undefined,或者使用箭头函数，或者在函数外使用下uni
@@ -15,8 +14,9 @@ const goToGoodsPage = function (item) {
         '&coupon_amount=' + item.coupon_amount +
         '&end_time=' + item.coupon_end_time +
         '&start_time=' + item.coupon_start_time +
-        '&coupon_like=' + item.coupon_share_url
+        '&coupon_link=' + encodeURIComponent(JSON.stringify(item.coupon_share_url))
   })
+
 }
 
 // const goToGoodsPage =  (item) => {
@@ -83,6 +83,7 @@ function lazyLodImg(dom, delay = 0, data = ref(0)) {
       scrollEvent.target.scrollTop = document.documentElement.scrollTop
       scrollEvent.target.offsetHeight = document.documentElement.offsetHeight
     }
+    instance(scrollEvent, imagesWrapper.value.children)
   }
 
   // 定义懒加载图片函数
@@ -151,9 +152,6 @@ function lazyLodImg(dom, delay = 0, data = ref(0)) {
     setTimeout(() => {
       instance(scrollEvent, imagesWrapper.value.children)
     }, delay)
-    watch(() => scrollEvent.target.scrollTop, () => {
-      instance(scrollEvent, imagesWrapper.value.children)
-    })
   })
 
   onUpdated(() => {
@@ -212,7 +210,7 @@ const handleDataCache = function(data=ref(), prevId, callback, pageObj={}, pageO
       callback()
     })
 
-}}
+  }}
 
 // 下拉刷新
 const scrollToLowerLoad = function (selector, callback, distance) {
@@ -241,8 +239,8 @@ const scrollToLowerLoad = function (selector, callback, distance) {
     // (async function () {
     //   await nextTick()
     // 不理解只要执行下面代码nodeInfo就会更新数据
-      query.boundingClientRect((data) => {
-      }).exec()
+    query.boundingClientRect((data) => {
+    }).exec()
     // })()
   })
 
@@ -262,4 +260,12 @@ const scrollToLowerLoad = function (selector, callback, distance) {
   })
 }
 
-export { goToGoodsPage, transformTime, debounce, throttle, lazyLodImg, handleRequests, scrollToLowerLoad, handleDataCache }
+const back = function () {
+  (getCurrentPages().length > 1) ? uni.navigateBack({}) : uni.navigateTo({url: '/'})
+}
+
+export {
+  goToGoodsPage, transformTime, debounce, throttle,
+  lazyLodImg, handleRequests, scrollToLowerLoad,
+  handleDataCache, back
+}

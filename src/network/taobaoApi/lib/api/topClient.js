@@ -32,16 +32,16 @@ export function TopClient(options) {
  * @param {Object} defaultResponse
  * @param {Function(err, response)} callback
  */
-TopClient.prototype.invoke = function (type, method, params, reponseNames, httpHeaders, callback) {
+TopClient.prototype.invoke = function (type, method, params, responseNames, httpHeaders, callback) {
     params.method = method;
     this.request(type, params, httpHeaders, function (err, result) {
         if (err) {
             return callback(err);
         }
         var response = result;
-        if (reponseNames && reponseNames.length > 0) {
-            for (var i = 0; i < reponseNames.length; i++) {
-                var name = reponseNames[i];
+        if (responseNames && responseNames.length > 0) {
+            for (var i = 0; i < responseNames.length; i++) {
+                var name = responseNames[i];
                 response = response[name];
                 if (response === undefined) {
                     break;
@@ -96,7 +96,7 @@ TopClient.prototype.request = function (type, params, httpHeaders, callback) {
     args.sign = this.sign(args);
 
     // for (var key in httpHeaders) {
-    //     request.header(key, httpHeaders[key]);
+    //     requeqst.header(key, httpHeaders[key]);
     // }
     //
     // for (var key in args) {

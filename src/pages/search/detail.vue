@@ -61,7 +61,7 @@
 </template>
 
 <script>
-import { ref } from "vue";
+import {onActivated, ref} from "vue";
 import { getSearchItem } from "../../network/requests";
 import {goToGoodsPage, handleDataCache, handleRequests, scrollToLowerLoad} from "../../static/common";
 // #ifdef H5
@@ -105,6 +105,9 @@ export default {
     // 图片懒加载
     const imgDom = ref(null)
     lazyLodImg(imgDom, 400)
+    onActivated(() => {
+      lazyLodImg(imgDom, 400)
+    })
     // #endif
     return {
       itemData,

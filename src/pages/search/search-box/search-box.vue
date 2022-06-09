@@ -58,6 +58,11 @@ export default {
       searchValue.value = props.keywords
     })
 
+    setTimeout(() => {
+      clearPullDownData()
+
+    }, 300)
+
     return {
       searchValue,
       search,
