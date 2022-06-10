@@ -212,7 +212,7 @@
           }
         },
         recommendData: [],
-        couponLink: '',
+        couponLink: false,
         desc: false,
         shopImg: 'http://cmsstatic.ffquan.cn//web/images/rolling.gif',
         couponTextPassword: '',
@@ -220,7 +220,9 @@
       }
     },
     onLoad(option) {
-      this.couponLink = JSON.parse(decodeURIComponent(option.coupon_link)) // 微信小程序？后面带参数会去掉，所以进行了转换
+      if (option.coupon_link) {
+        this.couponLink = JSON.parse(decodeURIComponent(option.coupon_link)) // 微信小程序？后面带参数会去掉，所以进行了转换
+      }
       getGoodsData(option.id).then((r,e) => {
         if (!this.desc && this.couponLink) {
           this.goodsData = r.data.tbk_item_info_get_response.results.n_tbk_item[0]
