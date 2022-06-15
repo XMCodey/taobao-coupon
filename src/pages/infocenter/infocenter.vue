@@ -1,1 +1,1 @@
-<template></template><script>export default {  name: "infocenter"}</script><style scoped></style>
+<template>  <view>    <in-development></in-development>  </view></template><script>import inDevelopment from "../common/inDevelopment";export default {  name: "infocenter",  components: {    inDevelopment  }}</script><style scoped></style>
