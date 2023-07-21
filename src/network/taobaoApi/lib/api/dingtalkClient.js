@@ -132,6 +132,8 @@ DingtalkClient.prototype.sign = function (params) {
         basestring += k + params[k];
     }
     basestring += this.appsecret;
+
+    console.log('basestring', basestring);
     return util.md5(basestring).toUpperCase();
 };
 
